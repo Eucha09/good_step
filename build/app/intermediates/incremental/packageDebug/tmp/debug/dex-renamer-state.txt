@@ -1,4 +1,0 @@
-#Thu Nov 17 16:35:07 KST 2022
-base.0=/Users/joo/Desktop/Real/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
