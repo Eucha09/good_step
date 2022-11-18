@@ -52,10 +52,10 @@ class _TabPageState extends State<TabPage> {
         },
         // items는 하단 메뉴 막대에 시각적 효과를 위해 상징물을 띄우기 위한 용도
         items: [
-          Icon(Icons.home, size: 25,),
-          Icon(Icons.bar_chart, size: 25,),
-          Icon(Icons.volunteer_activism, size: 25,),
-          Icon(Icons.settings, size: 25,),
+          Icon(Icons.home, size: MediaQuery.of(context).size.width * 0.08,),
+          Icon(Icons.bar_chart, size: MediaQuery.of(context).size.width * 0.08,),
+          Icon(Icons.volunteer_activism, size: MediaQuery.of(context).size.width * 0.08,),
+          Icon(Icons.settings, size: MediaQuery.of(context).size.width * 0.08,),
         ],
       ),
     );

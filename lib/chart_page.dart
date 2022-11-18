@@ -4,28 +4,41 @@ import 'dart:math';
 import 'utils.dart';
 
 class _PieChart extends CustomPainter {
+  /*
+  percentage : 원형 도표에서 그려줄 호의 크기를 정해준다
+  barColor : 원형 도표에서 그려지는 호 색깔
+  textScaleFactor : 원형 도표 내부에 들어갈 글자 크기
+  res : 원형 도표 내부에 들어갈 글자
+  strokelen : 선 굵기
+   */
   final int percentage;
-  String res = "";
   final Color barColor;
-  final double textScaleFactor;
+  final int strokelen;
 
-  _PieChart({required this.percentage, required this.barColor, required this.textScaleFactor, required this.res});
+  _PieChart(
+      {required this.percentage,
+      required this.barColor,
+      required this.strokelen});
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint() // 화면에 그릴 때 쓸 paint를 정의
-        ..color = barColor
-        ..strokeWidth = 10.0 // 선의 길이를 정함
-        ..style = PaintingStyle.stroke // 선의 스타일을 정함
-        ..strokeCap = StrokeCap.square; // stroke 스타일을 정함
+      ..color = barColor
+      ..strokeWidth = 5.0 // 선의 길이를 정함
+      ..style = PaintingStyle.stroke // 선의 스타일을 정함
+      ..strokeCap = StrokeCap.square; // stroke 스타일을 정함
 
-    double radius = min(size.width / 2 - paint.strokeWidth / 2,
-        size.height / 2 - paint.strokeWidth / 2); // 원의 반지름을 구함, 선의 굵기에 영향을 받지 않게 보정
-    Offset center = Offset(size.width / 2, size.height / 2); // 원이 위젯 가운데에 그려지게 좌표 정함
+    double radius = min(
+        size.width / 2 - paint.strokeWidth / 2,
+        size.height / 2 -
+            paint.strokeWidth / 2); // 원의 반지름을 구함, 선의 굵기에 영향을 받지 않게 보정
+    Offset center =
+        Offset(size.width / 2, size.height / 2); // 원이 위젯 가운데에 그려지게 좌표 정함
     canvas.drawCircle(center, radius, paint); // 원을 그린다
     double arcAngle = 2 * pi * (percentage / 100); // 호의 각도를 정한다
     paint..color = HexColor('#212B55'); // 호를 그릴 때 색깔을 바꿔줌
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -pi / 2, arcAngle, false, paint); // 호를 그림
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -pi / 2,
+        arcAngle, false, paint); // 호를 그림
     //drawText(canvas, size, res); // 텍스트를 화면에 표시
   }
 
@@ -46,9 +59,9 @@ class _PieChart extends CustomPainter {
   }*/
 
   // 화면 크기에 비례하도록 텍스트 폰트 크기를 정함
-  double getFontSize(Size size, String text) {
+  /*double getFontSize(Size size, String text) {
     return size.width / text.length * textScaleFactor;
-  }
+  }*/
 
   @override
   bool shouldRepaint(_PieChart old) {
@@ -57,6 +70,8 @@ class _PieChart extends CustomPainter {
 }
 
 class _LineChartWeekCC extends StatelessWidget {
+  bool isMonth = false;
+  bool isWeek = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,43 +82,43 @@ class _LineChartWeekCC extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 7,
-    maxY: 100,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 7,
+        maxY: 100,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -136,11 +151,11 @@ class _LineChartWeekCC extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -184,71 +199,70 @@ class _LineChartWeekCC extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: true,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 5),
-      FlSpot(2, 6),
-      FlSpot(3, 9),
-      FlSpot(4, 8),
-      FlSpot(5, 4),
-      FlSpot(6, 6),
-      FlSpot(7, 11),
-    ],
-  );
+        isCurved: true,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 5),
+          FlSpot(2, 6),
+          FlSpot(3, 9),
+          FlSpot(4, 8),
+          FlSpot(5, 4),
+          FlSpot(6, 6),
+          FlSpot(7, 11),
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: true,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 1),
-      FlSpot(2, 7),
-      FlSpot(3, 2.8),
-      FlSpot(4, 6),
-      FlSpot(5, 8),
-      FlSpot(6, 10),
-      FlSpot(7, 1.2),
-    ],
-  );
+        isCurved: true,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 1),
+          FlSpot(2, 7),
+          FlSpot(3, 2.8),
+          FlSpot(4, 6),
+          FlSpot(5, 8),
+          FlSpot(6, 10),
+          FlSpot(7, 1.2),
+        ],
+      );
 }
 
 class _LineChartMonthCC extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return LineChart(
@@ -258,43 +272,43 @@ class _LineChartMonthCC extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 31,
-    maxY: 100,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 31,
+        maxY: 100,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -327,11 +341,11 @@ class _LineChartMonthCC extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -378,119 +392,118 @@ class _LineChartMonthCC extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: true,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 5),
-      FlSpot(2, 6),
-      FlSpot(3, 9),
-      FlSpot(4, 8),
-      FlSpot(5, 4),
-      FlSpot(6, 6),
-      FlSpot(7, 11),
-      FlSpot(8, 13),
-      FlSpot(9, 12),
-      FlSpot(10, 14),
-      FlSpot(11, 15),
-      FlSpot(12, 3),
-      FlSpot(13, 5),
-      FlSpot(14, 7),
-      FlSpot(15, 8),
-      FlSpot(16, 3),
-      FlSpot(17, 2),
-      FlSpot(18, 1),
-      FlSpot(19, 3),
-      FlSpot(20, 2),
-      FlSpot(21, 4),
-      FlSpot(22, 3),
-      FlSpot(23, 5),
-      FlSpot(24, 7),
-      FlSpot(25, 8),
-      FlSpot(26, 9),
-      FlSpot(27, 2),
-      FlSpot(28, 3),
-      FlSpot(29, 6),
-      FlSpot(30, 2),
-      FlSpot(31, 1)
-    ],
-  );
+        isCurved: true,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 5),
+          FlSpot(2, 6),
+          FlSpot(3, 9),
+          FlSpot(4, 8),
+          FlSpot(5, 4),
+          FlSpot(6, 6),
+          FlSpot(7, 11),
+          FlSpot(8, 13),
+          FlSpot(9, 12),
+          FlSpot(10, 14),
+          FlSpot(11, 15),
+          FlSpot(12, 3),
+          FlSpot(13, 5),
+          FlSpot(14, 7),
+          FlSpot(15, 8),
+          FlSpot(16, 3),
+          FlSpot(17, 2),
+          FlSpot(18, 1),
+          FlSpot(19, 3),
+          FlSpot(20, 2),
+          FlSpot(21, 4),
+          FlSpot(22, 3),
+          FlSpot(23, 5),
+          FlSpot(24, 7),
+          FlSpot(25, 8),
+          FlSpot(26, 9),
+          FlSpot(27, 2),
+          FlSpot(28, 3),
+          FlSpot(29, 6),
+          FlSpot(30, 2),
+          FlSpot(31, 1)
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: true,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 1),
-      FlSpot(2, 7),
-      FlSpot(3, 2.8),
-      FlSpot(4, 6),
-      FlSpot(5, 8),
-      FlSpot(6, 10),
-      FlSpot(7, 1.2),
-      FlSpot(8, 3),
-      FlSpot(9, 6),
-      FlSpot(10, 2.8),
-      FlSpot(11, 7),
-      FlSpot(12, 2.6),
-      FlSpot(13, 3.9),
-      FlSpot(14, 5),
-      FlSpot(15, 6),
-      FlSpot(16, 7),
-      FlSpot(17, 9),
-      FlSpot(18, 6),
-      FlSpot(19, 2),
-      FlSpot(20, 3),
-      FlSpot(21, 4),
-      FlSpot(22, 14),
-      FlSpot(23, 8),
-      FlSpot(24, 9),
-      FlSpot(25, 7),
-      FlSpot(26, 9),
-      FlSpot(27, 3),
-      FlSpot(28, 5),
-      FlSpot(29, 4),
-      FlSpot(30, 2),
-      FlSpot(31, 3),
-    ],
-  );
+        isCurved: true,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 1),
+          FlSpot(2, 7),
+          FlSpot(3, 2.8),
+          FlSpot(4, 6),
+          FlSpot(5, 8),
+          FlSpot(6, 10),
+          FlSpot(7, 1.2),
+          FlSpot(8, 3),
+          FlSpot(9, 6),
+          FlSpot(10, 2.8),
+          FlSpot(11, 7),
+          FlSpot(12, 2.6),
+          FlSpot(13, 3.9),
+          FlSpot(14, 5),
+          FlSpot(15, 6),
+          FlSpot(16, 7),
+          FlSpot(17, 9),
+          FlSpot(18, 6),
+          FlSpot(19, 2),
+          FlSpot(20, 3),
+          FlSpot(21, 4),
+          FlSpot(22, 14),
+          FlSpot(23, 8),
+          FlSpot(24, 9),
+          FlSpot(25, 7),
+          FlSpot(26, 9),
+          FlSpot(27, 3),
+          FlSpot(28, 5),
+          FlSpot(29, 4),
+          FlSpot(30, 2),
+          FlSpot(31, 3),
+        ],
+      );
 }
 
 class _LineChartWeek extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return LineChart(
@@ -500,43 +513,43 @@ class _LineChartWeek extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 7,
-    maxY: 15,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 7,
+        maxY: 15,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -569,11 +582,11 @@ class _LineChartWeek extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -617,71 +630,70 @@ class _LineChartWeek extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: true,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 5),
-      FlSpot(2, 6),
-      FlSpot(3, 9),
-      FlSpot(4, 8),
-      FlSpot(5, 4),
-      FlSpot(6, 6),
-      FlSpot(7, 11),
-    ],
-  );
+        isCurved: true,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 5),
+          FlSpot(2, 6),
+          FlSpot(3, 9),
+          FlSpot(4, 8),
+          FlSpot(5, 4),
+          FlSpot(6, 6),
+          FlSpot(7, 11),
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: true,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 1),
-      FlSpot(2, 7),
-      FlSpot(3, 2.8),
-      FlSpot(4, 6),
-      FlSpot(5, 8),
-      FlSpot(6, 10),
-      FlSpot(7, 1.2),
-    ],
-  );
+        isCurved: true,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 1),
+          FlSpot(2, 7),
+          FlSpot(3, 2.8),
+          FlSpot(4, 6),
+          FlSpot(5, 8),
+          FlSpot(6, 10),
+          FlSpot(7, 1.2),
+        ],
+      );
 }
 
 class _LineChartMonth extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return LineChart(
@@ -691,43 +703,43 @@ class _LineChartMonth extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 31,
-    maxY: 15,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 31,
+        maxY: 15,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -760,11 +772,11 @@ class _LineChartMonth extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -811,115 +823,115 @@ class _LineChartMonth extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: true,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 5),
-      FlSpot(2, 6),
-      FlSpot(3, 9),
-      FlSpot(4, 8),
-      FlSpot(5, 4),
-      FlSpot(6, 6),
-      FlSpot(7, 11),
-      FlSpot(8, 13),
-      FlSpot(9, 12),
-      FlSpot(10, 14),
-      FlSpot(11, 15),
-      FlSpot(12, 3),
-      FlSpot(13, 5),
-      FlSpot(14, 7),
-      FlSpot(15, 8),
-      FlSpot(16, 3),
-      FlSpot(17, 2),
-      FlSpot(18, 1),
-      FlSpot(19, 3),
-      FlSpot(20, 2),
-      FlSpot(21, 4),
-      FlSpot(22, 3),
-      FlSpot(23, 5),
-      FlSpot(24, 7),
-      FlSpot(25, 8),
-      FlSpot(26, 9),
-      FlSpot(27, 2),
-      FlSpot(28, 3),
-      FlSpot(29, 6),
-      FlSpot(30, 2),
-      FlSpot(31, 1)
-    ],
-  );
+        isCurved: true,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 5),
+          FlSpot(2, 6),
+          FlSpot(3, 9),
+          FlSpot(4, 8),
+          FlSpot(5, 4),
+          FlSpot(6, 6),
+          FlSpot(7, 11),
+          FlSpot(8, 13),
+          FlSpot(9, 12),
+          FlSpot(10, 14),
+          FlSpot(11, 15),
+          FlSpot(12, 3),
+          FlSpot(13, 5),
+          FlSpot(14, 7),
+          FlSpot(15, 8),
+          FlSpot(16, 3),
+          FlSpot(17, 2),
+          FlSpot(18, 1),
+          FlSpot(19, 3),
+          FlSpot(20, 2),
+          FlSpot(21, 4),
+          FlSpot(22, 3),
+          FlSpot(23, 5),
+          FlSpot(24, 7),
+          FlSpot(25, 8),
+          FlSpot(26, 9),
+          FlSpot(27, 2),
+          FlSpot(28, 3),
+          FlSpot(29, 6),
+          FlSpot(30, 2),
+          FlSpot(31, 1)
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: true,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: const [
-      FlSpot(0, 0),
-      FlSpot(1, 1),
-      FlSpot(2, 7),
-      FlSpot(3, 2.8),
-      FlSpot(4, 6),
-      FlSpot(5, 8),
-      FlSpot(6, 10),
-      FlSpot(7, 1.2),
-      FlSpot(8, 3),
-      FlSpot(9, 6),
-      FlSpot(10, 2.8),
-      FlSpot(11, 7),
-      FlSpot(12, 2.6),
-      FlSpot(13, 3.9),
-      FlSpot(14, 5),
-      FlSpot(15, 6),
-      FlSpot(16, 7),
-      FlSpot(17, 9),
-      FlSpot(18, 6),
-      FlSpot(19, 2),
-      FlSpot(20, 3),
-      FlSpot(21, 4),
-      FlSpot(22, 14),
-      FlSpot(23, 8),
-      FlSpot(24, 9),
-      FlSpot(25, 7),
-      FlSpot(26, 9),
-      FlSpot(27, 3),
-      FlSpot(28, 5),
-      FlSpot(29, 4),
-      FlSpot(30, 2),
-      FlSpot(31, 3),
-    ],
-  );
+        isCurved: true,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: const [
+          FlSpot(0, 0),
+          FlSpot(1, 1),
+          FlSpot(2, 7),
+          FlSpot(3, 2.8),
+          FlSpot(4, 6),
+          FlSpot(5, 8),
+          FlSpot(6, 10),
+          FlSpot(7, 1.2),
+          FlSpot(8, 3),
+          FlSpot(9, 6),
+          FlSpot(10, 2.8),
+          FlSpot(11, 7),
+          FlSpot(12, 2.6),
+          FlSpot(13, 3.9),
+          FlSpot(14, 5),
+          FlSpot(15, 6),
+          FlSpot(16, 7),
+          FlSpot(17, 9),
+          FlSpot(18, 6),
+          FlSpot(19, 2),
+          FlSpot(20, 3),
+          FlSpot(21, 4),
+          FlSpot(22, 14),
+          FlSpot(23, 8),
+          FlSpot(24, 9),
+          FlSpot(25, 7),
+          FlSpot(26, 9),
+          FlSpot(27, 3),
+          FlSpot(28, 5),
+          FlSpot(29, 4),
+          FlSpot(30, 2),
+          FlSpot(31, 3),
+        ],
+      );
 }
 
 class ChartPage extends StatefulWidget {
@@ -932,13 +944,13 @@ class _ChartPageState extends State<ChartPage> {
   List<int> curMonth = [];
   int selectedPeriodCCT = 0;
   int selectedPeriodCC = 0;
-  int selectedTabWeeksCCT = 0;
-  int selectedTabMonthsCCT = 0;
-  int selectedTabWeeksCC = 0;
-  int selectedTabMonthsCC = 0;
-  int limitedCCT = 162000;
+  int selectedTabWeeks = 0;
+  int selectedTabMonths = 0;
+  int limitedCCT = 1620000;
+  int limitedCCTW = 405000;
   int limitedCC = 100;
-  int totalCCT = 80000;
+  int totalCCT = 1000000;
+  int totalCCTW = 15000;
   int last_totalCCT = 60000;
   int totalCC = 50;
   int last_totalCC = 40;
@@ -960,16 +972,19 @@ class _ChartPageState extends State<ChartPage> {
     _LineChartWeekCC(),
   ];
 
+  List _changePeriods = [
+    '주',
+    '달',
+  ];
+
   @override
   void initState() {
     super.initState();
     selectedPeriodCCT = 0;
     selectedPeriodCC = 0;
-    selectedTabMonthsCCT = 0;
-    selectedTabWeeksCCT = 1;
-    selectedTabMonthsCC = 0;
-    selectedTabWeeksCC = 1;
-    totalCCTS = (totalCCT/3600).toInt().toString();
+    selectedTabMonths = 0;
+    selectedTabWeeks = 1;
+    totalCCTS = (totalCCT / 3600).toInt().toString();
     totalCCS = totalCC.toString();
   }
 
@@ -977,10 +992,335 @@ class _ChartPageState extends State<ChartPage> {
   Widget build(BuildContext context) {
     return Container(
       color: HexColor('#24202E'),
-        child: Column(
-      children: <Widget>[
+      child: Column(children: <Widget>[
         SizedBox(
-          height: 25,
+          height: MediaQuery.of(context).size.height * 0.04,
+        ),
+        AspectRatio(
+            aspectRatio: 1.9,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(18)),
+                gradient: LinearGradient(
+                  colors: [
+                    HexColor('#212B55'),
+                    HexColor('#212B55'),
+                  ],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                ),
+              ),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '  종합',
+                          style: TextStyle(
+                            color: HexColor('#FFFFFF'),
+                            fontFamily: 'Cafe24',
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.025,
+                          ),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.55
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  height: 2,
+                                  width: 15,
+                                  color: Colors.amberAccent,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '집중시간',
+                                  style: TextStyle(
+                                    color: HexColor('#FFFFFF'),
+                                    fontSize: 6,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                    height: 2,
+                                    width: 15,
+                                    color: Colors.lightGreen,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '집중도',
+                                  style: TextStyle(
+                                    color: HexColor('#FFFFFF'),
+                                    fontSize: 6,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedPeriodCCT = 1;
+                              selectedPeriodCC = 1;
+                              selectedTabWeeks = 0;
+                              selectedTabMonths = 1;
+                            });
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: _TabColor[selectedTabWeeks],
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                width: 1,
+                                color: HexColor('#FFFFFF'),
+                              ),
+                            ),
+                            child: Text(
+                              '주',
+                              style: TextStyle(
+                                fontSize: 8,
+                                color: HexColor('#FFFFFF'),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              selectedPeriodCCT = 0;
+                              selectedPeriodCC = 0;
+                              selectedTabWeeks = 1;
+                              selectedTabMonths = 0;
+                            });
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: _TabColor[selectedTabMonths],
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                width: 1,
+                                color: HexColor('#FFFFFF'),
+                              ),
+                            ),
+                            child: Text(
+                              '달',
+                              style: TextStyle(
+                                fontSize: 8,
+                                color: HexColor('#FFFFFF'),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.height * 0.025,
+                        ),
+                        Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: CustomPaint(
+                                size: Size(
+                                  MediaQuery.of(context).size.height * 0.15,
+                                  MediaQuery.of(context).size.height * 0.15,
+                                ),
+                                painter: _PieChart(
+                                  percentage:
+                                      (((limitedCCT - totalCCT) / limitedCCT) * 100).toInt(),
+                                  barColor: Colors.amberAccent,
+                                  strokelen:
+                                      (MediaQuery.of(context).size.width * 0.2)
+                                          .toInt(),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: CustomPaint(
+                                size: Size(
+                                  MediaQuery.of(context).size.height * 0.13,
+                                  MediaQuery.of(context).size.height * 0.13,
+                                ),
+                                painter: _PieChart(
+                                  percentage:
+                                      (((limitedCC - totalCC) / limitedCC) * 100).toInt(),
+                                  barColor: Colors.lightGreen,
+                                  strokelen:
+                                      (MediaQuery.of(context).size.width * 0.2)
+                                          .toInt(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.02,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.timer,
+                                  size: 45,
+                                  color: HexColor('#FFFFFF'),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '지난달',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            color: HexColor('#D3D3D3'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                            '${(last_totalCCT / 3600).toInt().toString()}시간',
+                                            style: TextStyle(
+                                                fontFamily: 'Cafe24',
+                                                fontSize: 13,
+                                                color: HexColor('#FFFFFF'))),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '이번달',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            color: HexColor('#D3D3D3'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                            '${(totalCCT / 3600).toInt().toString()}시간',
+                                            style: TextStyle(
+                                                fontFamily: 'Cafe24',
+                                                fontSize: 13,
+                                                color: HexColor('#FFFFFF'))),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.lightbulb,
+                                  size: 45,
+                                  color: HexColor('#FFFFFF'),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '지난달',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            color: HexColor('#D3D3D3'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text('${last_totalCC.toString()}%',
+                                            style: TextStyle(
+                                                fontFamily: 'Cafe24',
+                                                fontSize: 13,
+                                                color: HexColor('#FFFFFF'))),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '이번달',
+                                          style: TextStyle(
+                                            fontSize: 8,
+                                            color: HexColor('#D3D3D3'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text('${totalCC.toString()}%',
+                                            style: TextStyle(
+                                                fontFamily: 'Cafe24',
+                                                fontSize: 13,
+                                                color: HexColor('#FFFFFF'))),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )),
+        SizedBox(
+          height: 15,
         ),
         AspectRatio(
           aspectRatio: 1.9,
@@ -996,363 +1336,91 @@ class _ChartPageState extends State<ChartPage> {
                 end: Alignment.topCenter,
               ),
             ),
-            child: Container(
-              child: Column(
+            child: Stack(
+              children: <Widget>[
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     SizedBox(
                       height: 12,
                     ),
-                      Text(
-                        '  종합',
-                      style: TextStyle(
-                        color: HexColor('#FFFFFF'),
-                        fontFamily: 'Cafe24',
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Stack(
-                              alignment: Alignment.center,
-                          children: <Widget>[
-                            Container(
-                            child: CustomPaint(
-                              size: Size(110, 110),
-                              painter: _PieChart(
-                                percentage: ((totalCCT / limitedCCT) * 100).toInt(),
-                                textScaleFactor: 0.5,
-                                barColor: Colors.amberAccent,
-                                res: "",
-                              ),
-                            ),
-                            ),
-                            Container(
-                              child: CustomPaint(
-                              size: Size(85, 85),
-                              painter: _PieChart(
-                                percentage: ((totalCC / limitedCC) * 100).toInt(),
-                                textScaleFactor: 0.5,
-                                barColor: Colors.lightGreen,
-                                res: "",
-                              ),
-                            ),
-                            ),
-                          ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '  집중시간',
+                          style: TextStyle(
+                            color: HexColor('#FFFFFF'),
+                            fontSize: 20,
+                            fontFamily: 'Cafe24',
+                            letterSpacing: 2,
+                          ),
+                          textAlign: TextAlign.left,
                         ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Column(
+                        SizedBox(
+                          width: 150,
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Row(
                               children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Icon(
-                                        Icons.timer,
-                                    size: 45,
-                                      color: HexColor('#FFFFFF'),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                    Column(
-                                      children: <Widget>[
-                                        Text(
-                                          '지난달',
-                                          style: TextStyle(
-                                            fontSize: 8,
-                                            color: HexColor('#D3D3D3'),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          '${(last_totalCCT/3600).toInt().toString()}시간',
-                                          style: TextStyle(
-                                            fontFamily: 'Cafe24',
-                                            fontSize: 13,
-                                            color: HexColor('#FFFFFF')
-                                          )
-                                        ),
-                                      ],
-                                    ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Column(
-                                          children: <Widget>[
-                                            Text(
-                                              '이번달',
-                                              style: TextStyle(
-                                                fontSize: 8,
-                                                color: HexColor('#D3D3D3'),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                                '${(totalCCT/3600).toInt().toString()}시간',
-                                                style: TextStyle(
-                                                    fontFamily: 'Cafe24',
-                                                    fontSize: 13,
-                                                    color: HexColor('#FFFFFF')
-                                                )
-                                            ),
-                                          ],
-                                        ),
-              ],
-                                    ),
-                                  ],
+                                Container(
+                                  height: 2,
+                                  width: 15,
+                                  color: Color(0xFFAA4CFC),
                                 ),
                                 SizedBox(
-                                  height: 25,
+                                  width: 5,
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.lightbulb,
-                                      size: 45,
-                                      color: HexColor('#FFFFFF'),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Column(
-                                          children: <Widget>[
-                                            Text(
-                                              '지난달',
-                                              style: TextStyle(
-                                                fontSize: 8,
-                                                color: HexColor('#D3D3D3'),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                                '${last_totalCC.toString()}시간',
-                                                style: TextStyle(
-                                                    fontFamily: 'Cafe24',
-                                                    fontSize: 13,
-                                                    color: HexColor('#FFFFFF')
-                                                )
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Column(
-                                          children: <Widget>[
-                                            Text(
-                                              '이번달',
-                                              style: TextStyle(
-                                                fontSize: 8,
-                                                color: HexColor('#D3D3D3'),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                                '${totalCC.toString()}시간',
-                                                style: TextStyle(
-                                                    fontFamily: 'Cafe24',
-                                                    fontSize: 13,
-                                                    color: HexColor('#FFFFFF')
-                                                )
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                Text(
+                                  '저번',
+                                  style: TextStyle(
+                                    color: HexColor('#FFFFFF'),
+                                    fontSize: 6,
+                                  ),
                                 ),
                               ],
                             ),
-          ],
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                    height: 2,
+                                    width: 15,
+                                    color: Color(0xFF4AF699)),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '이번',
+                                  style: TextStyle(
+                                    color: HexColor('#FFFFFF'),
+                                    fontSize: 6,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16, left: 6),
+                        child: _periodsCCT[selectedPeriodCCT],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                   ],
-                ),
-            ),
-          )
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        AspectRatio(
-      aspectRatio: 1.9,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(18)),
-          gradient: LinearGradient(
-            colors: [
-              HexColor('#212B55'),
-              HexColor('#212B55'),
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-        child: Stack(
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                  '  집중시간',
-                  style: TextStyle(
-                    color: HexColor('#FFFFFF'),
-                    fontSize: 20,
-                    fontFamily: 'Cafe24',
-                    letterSpacing: 2,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                  SizedBox(
-                    width: 150,
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            height: 2,
-                            width: 15,
-                            color: Color(0xFFAA4CFC),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                              '저번',
-                            style: TextStyle(
-                              color: HexColor('#FFFFFF'),
-                              fontSize: 6,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            height: 2,
-                            width: 15,
-                            color: Color(0xFF4AF699)
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '이번',
-                            style: TextStyle(
-                              color: HexColor('#FFFFFF'),
-                              fontSize: 6,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        selectedPeriodCCT = 1;
-                        selectedTabWeeksCCT = 0;
-                        selectedTabMonthsCCT = 1;
-                      });
-                  },
-                    child: Container(
-                      width: 30,
-                      height: 15,
-                      decoration: BoxDecoration(
-                        color: _TabColor[selectedTabWeeksCCT],
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          width: 1,
-                          color: HexColor('#FFFFFF'),
-                        ),
-                      ),
-                      child: Text(
-                        '주',
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: HexColor('#FFFFFF'),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: (){
-                      setState(() {
-                        selectedPeriodCCT = 0;
-                        selectedTabWeeksCCT = 1;
-                        selectedTabMonthsCCT = 0;
-                      });
-                    },
-                    child: Container(
-                      width: 30,
-                      height: 15,
-                      decoration: BoxDecoration(
-                        color: _TabColor[selectedTabMonthsCCT],
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          width: 1,
-                          color: HexColor('#FFFFFF'),
-                        ),
-                      ),
-                      child: Text(
-                          '달',
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: HexColor('#FFFFFF'),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-        ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16, left: 6),
-                    child: _periodsCCT[selectedPeriodCCT],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
                 ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
-    ),
         SizedBox(
           height: 15,
         ),
@@ -1420,8 +1488,7 @@ class _ChartPageState extends State<ChartPage> {
                                 Container(
                                     height: 2,
                                     width: 15,
-                                    color: Color(0xFF4AF699)
-                                ),
+                                    color: Color(0xFF4AF699)),
                                 SizedBox(
                                   width: 5,
                                 ),
@@ -1435,67 +1502,6 @@ class _ChartPageState extends State<ChartPage> {
                               ],
                             ),
                           ],
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              selectedPeriodCC = 1;
-                              selectedTabWeeksCC = 0;
-                              selectedTabMonthsCC = 1;
-                            });
-                          },
-                          child: Container(
-                            width: 30,
-                            height: 15,
-                            decoration: BoxDecoration(
-                              color: _TabColor[selectedTabWeeksCC],
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                width: 1,
-                                color: HexColor('#FFFFFF'),
-                              ),
-                            ),
-                            child: Text(
-                              '주',
-                              style: TextStyle(
-                                fontSize: 8,
-                                color: HexColor('#FFFFFF'),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              selectedPeriodCC = 0;
-                              selectedTabWeeksCC = 1;
-                              selectedTabMonthsCC = 0;
-                            });
-                          },
-                          child: Container(
-                            width: 30,
-                            height: 15,
-                            decoration: BoxDecoration(
-                              color: _TabColor[selectedTabMonthsCC],
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                width: 1,
-                                color: HexColor('#FFFFFF'),
-                              ),
-                            ),
-                            child: Text(
-                             '달',
-                              style: TextStyle(
-                                fontSize: 8,
-                                color: HexColor('#FFFFFF'),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
                         ),
                       ],
                     ),
@@ -1517,8 +1523,7 @@ class _ChartPageState extends State<ChartPage> {
             ),
           ),
         ),
-      ]
-    ),
+      ]),
     );
   }
 }

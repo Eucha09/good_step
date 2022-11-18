@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'utils.dart';
-import 'dart:async';
+import 'dark_page.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 // 실제로 앱 실행 시 전면부에 나올 홈페이지 및 집중시간 적용 시 이어지는 DarkPage 화면을 위한 다트 파일
@@ -28,9 +28,15 @@ class _HomePageState extends State<HomePage> {
   /* myValue : 원형 슬라이드로 적용한 시간을 저장하기 위한 용도. DarkPage에 시간을 전달하기 위한 변수이기도 함
      loLoo : 정수로 된 시간 변수 내용물을 문자열로 저장하기 위한 용도
      List<Color> pageColors = 홈페이지의 전체 화면 색상 정하는 용도
+     cctTimeDay = 오늘의 집중시간
+     cctScoreDay = 오늘의 집중도
+     isUpdate = 집중시간 화면 전환 후, 집중시간 및 집중도 최신화 여부 확인
   */
   double myValue = 0;
   String? loLoo;
+  int cctTimeDay = 0;
+  int cctScoreDay = 0;
+  bool isUpdate = false;
   final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
 
   @override
@@ -86,9 +92,9 @@ class _HomePageState extends State<HomePage> {
         appearance: CircularSliderAppearance(
           // customWidths : 슬라이더가 돌아가는 구간(track), 슬라이더(progressBar), 궤적에 보이는 그림자(shadow) 크기 적용
           customWidths: CustomSliderWidths(
-              trackWidth: 15,
-              progressBarWidth: 8,
-              shadowWidth: 15
+              trackWidth: MediaQuery.of(context).size.width * 0.04,
+              progressBarWidth: MediaQuery.of(context).size.width * 0.03,
+              shadowWidth: MediaQuery.of(context).size.width * 0.04
           ),
           // curstomColors : 슬라이더 색깔을 정한다
           customColors: CustomSliderColors(
@@ -116,21 +122,38 @@ class _HomePageState extends State<HomePage> {
           // Center : 정중앙에 위젯 설치, SizedBox : 위젯 크기 설정, FittedBox : 위젯을 설정한 크기에 딱 맞춘다
           return Center(
               child : SizedBox(
-                width: 200,
-                height: 200,
+                width: MediaQuery.of(context).size.width * 0.5,
+                height: MediaQuery.of(context).size.height * 0.3,
                 child: FittedBox(
                   child: FloatingActionButton(
                     backgroundColor: HexColor("#222331"),
-                    onPressed: () {
+                    onPressed: () async {
                       // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
-                      Navigator.push(
+                      isUpdate = await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => DarkPage(myValue)),
                       );
+                      /*if (isUpdate) {
+                        // setState를 통해 DB에 누적된 값을 다시 받아온다
+                        setState(() {
+                          if (isUpdate) {
+                            cctTimeDay = ;
+                            cctScoreDay = ;
+                            isUpdate = false;
+                          }
+                        }),
+                      }*/
                     },
                     // 버튼에 들어가는 상징물
-                    child: Icon(Icons.nights_stay, size: 40, color: HexColor("#FFFDD0")),
-                  )
+                    child: Container(
+                      height: MediaQuery.of(context).size.width * 0.11,
+                      width: MediaQuery.of(context).size.width * 0.11,
+                      child: Image.asset(
+                        'assets/footsteps.png',
+                        color: HexColor('#FFFFFF'),
+                      ),
+          ),
+                    ),
                 )
               )
           );
@@ -193,12 +216,15 @@ class _HomePageState extends State<HomePage> {
             ),
             // 원형 슬라이더와 일정 거리를 두고 디지털 시계용으로 만들어 놓은 문자열 loLoo를 출력
             Padding(
-              padding: EdgeInsets.only(top: 40, bottom: 90),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  bottom: MediaQuery.of(context).size.height * 0.1
+              ),
               child: Text(
                   '$loLoo',
                   style: TextStyle(
                     color: HexColor("#FFFFFF"),
-                    fontSize: 70.0,
+                    fontSize: MediaQuery.of(context).size.height * 0.09,
                     fontWeight: FontWeight.w600,
                   )
               )
@@ -209,18 +235,22 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Icon(Icons.timer, size: 35, color: HexColor("#FFFFFF")),
+                    Icon(
+                        Icons.timer,
+                        size: MediaQuery.of(context).size.width * 0.1,
+                        color: HexColor("#FFFFFF")
+                    ),
                     Text(
                         '집중시간',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
                           color: HexColor("#FFFFFF"),
                         ),
                     ),
                     Text(
-                      '0.0',
+                      '${cctTimeDay.toString()}',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: MediaQuery.of(context).size.width * 0.03,
                         color: HexColor("#FFFFFF"),
                       ),
                     )
@@ -228,18 +258,22 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Column(
                   children: <Widget>[
-                    Icon(Icons.lightbulb, size: 35, color: HexColor("#FFFFFF")),
+                    Icon(
+                        Icons.lightbulb,
+                        size: MediaQuery.of(context).size.width * 0.1,
+                        color: HexColor("#FFFFFF")
+                    ),
                     Text(
                       '집중도',
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: MediaQuery.of(context).size.width * 0.025,
                         color: HexColor("#FFFFFF"),
                       )
                     ),
                     Text(
-                      '0.0',
+                      '${cctScoreDay.toString()}',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: MediaQuery.of(context).size.width * 0.03,
                         color: HexColor("#FFFFFF"),
                       )
                     )
@@ -253,156 +287,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// 원형 슬라이더 내부 버튼을 누르고 튀어 나올 검은 화면을 정의할 클래스
-class DarkPage extends StatefulWidget {
-  // HomePageState에서 DarkPage로 넘겨준 myValue를 불러온다
-  final double myValue;
-  const DarkPage(this.myValue);
-
-  @override
-  DarkPageState createState() => DarkPageState();
-}
-
-class DarkPageState extends State<DarkPage> {
-  /* _timer : 실제 시간과 같은 흐름을 적용하기 위한 객체
-     loLoo : 디지털 시계 출력용 문자열
-     trigger : 위 _timer를 적용하기 위한 스위치
-     countTime : 시간이 지나가는 걸 세어줄 변수
-     total : myValue 값을 저장하기 위한 변수
-  */
-  Timer? _timer;
-  String? loLoo;
-  bool trigger = true;
-  double countTime = 0;
-  double total = 0;
-
-  @override
-  void dispose() {
-    // 본 클래스가 앱 상태에서 벗어날 시, timer도 종료
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    /* 본 클래스가 상태로 올라갈 때, total에 myValue 값을 적용,
-       loLoo는 myValue를 디지털 시계로 변환한 값 저장, countTime은 시간을 세어주기 위해 0으로 초기화 */
-    super.initState();
-    total = widget.myValue;
-    countTime = 0;
-    loLoo = printDuration(Duration(seconds: total.toInt()));
-  }
-
-  // _start : timer 실행, 디지털 시계 출력, 사전에 설정한 집중시간을 넘겼을 시(countTime < total) 화면 빠져나오기를 적용하는 함수
-  void _start() {
-    const oneSec = const Duration(seconds: 1);
-
-    var callback = (timer) => {
-      setState(() {
-        if (countTime < total) {
-          countTime++;
-          loLoo = printDuration(Duration(seconds: (total - countTime).toInt()));
-        } else {
-          Navigator.pop(context);
-        }
-      })
-    };
-
-    _timer = Timer.periodic(oneSec, callback);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // _start() 함수를 한 번 실행하고 난 뒤, 추가 실행하지 않는다. 안 그러면 위젯 내부에서 여러번 _start가 중복됨
-    if (trigger) {
-        _start();
-        trigger = false;
-      }
-    return Scaffold(
-      // 화면 전체에 터치 이벤트를 넣기 위해 body 부분을 GestureDetector로 감싼다
-      backgroundColor: HexColor("#000000"),
-      body: GestureDetector(
-        // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
-        behavior: HitTestBehavior.translucent,
-        onTap: () {
-          // tab하고 팝업창을 띄우기 위한 설정
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return Center(
-                  child: Container(
-                    // 팝업창 크기 적용
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    // 팝업창 모양, 들어갈 문장 등 적용
-                    child: AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))
-                  ),
-                  contentPadding: EdgeInsets.only(top: 0),
-                  content: Center(
-                      child: Text(
-                          '포기하시겠습니까?',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                        )
-                      )),
-                  // 팝업창에서 실제 이벤트가 벌어지는 부분
-                  actions: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: HexColor('#64B5F6'),
-                          foregroundColor: HexColor('#FFFFFF'),
-                        ),
-                        child: Text('예'),
-                        onPressed: () {
-                          // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-                          countTime = total;
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: HexColor('#64B5F6'),
-                          foregroundColor: HexColor('#FFFFFF'),
-                        ),
-                          child: Text('아니오'),
-                          onPressed: () {
-                          // 아니오를 누르면 팝업창만 탈출
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                  ),
-                );
-              }
-          );
-        },
-          // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Center(
-              // 디지털 시계를 출력하는 부분
-              child: Text('$loLoo',
-                style: TextStyle(
-                  color: HexColor("#FFFFFF"),
-                  fontSize: 70.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ]
-        )
-      ),
-    );
-  }
-}
-
