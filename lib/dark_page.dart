@@ -22,11 +22,13 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
      total : myValue 값을 저장하기 위한 변수
      cctTime : DB에 넘겨주기 위한 집중시간 최종값
      ccTScore : DB에 넘겨주기 위한 집중도 최종값
+     isRestart : 시간을 새는 행위가 정지된 경우를 판별
   */
   Timer? _timer;
   String? loLoo;
   bool trigger = true;
   bool giveUp = false;
+  bool isRestart = false;
   double countTime = 0;
   double total = 0;
   int cctTime = 0;
@@ -43,7 +45,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   @override
   void initState() {
     /* 본 클래스가 상태로 올라갈 때, total에 myValue 값을 적용,
-       loLoo는 myValue를 디지털 시계로 변환한 값 저장, countTime은 시간을 세어주기 위해 0으로 초기화 */
+       loLoo는 myValue를 디지털 시계로 변환한 값 저장, countTime은 시간을 세어주기 위해 0으로 초기화
+       또한, 앱 상태 전환을 인지하기 위한 WidgetBinding 추가 */
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     initNotification();
@@ -52,11 +55,21 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     loLoo = printDuration(Duration(seconds: total.toInt()));
   }
 
+  /*
+  앱이 비활성화 되었을 때, 경고 알림창을 띄운다
+   */
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive) {
+    //앱 기능이 정지했을 시, 집중도를 -10점하고 알림창 띄우기, 시간 새는 것 정지 순으로 이어진다
+    if (state == AppLifecycleState.paused) {
+      cctScore -= 10;
       showNotification();
+      _pause();
     }
+  }
+  void _pause() {
+    _timer?.cancel();
+    isRestart = true;
   }
 
   // _start : timer 실행, 디지털 시계 출력, 사전에 설정한 집중시간을 넘겼을 시(countTime < total) 화면 빠져나오기를 적용하는 함수
@@ -118,7 +131,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                         contentPadding: EdgeInsets.only(top: 0),
                         content: Center(
                             child: Text(
-                                '포기하시겠습니까?',
+                                isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                 )
@@ -136,10 +149,15 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                 child: Text('예'),
                                 onPressed: () {
                                   // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-                                  cctTime = (total - countTime).toInt();
-                                  cctScore -= 50;
-                                  countTime = total;
-                                  giveUp = true;
+                                  if (isRestart) {
+                                    isRestart = false;
+                                    _start();
+                                  } else {
+                                    cctTime = (total - countTime).toInt();
+                                    cctScore -= 50;
+                                    countTime = total;
+                                    giveUp = true;
+                                  }
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -151,7 +169,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                 child: Text('아니오'),
                                 onPressed: () {
                                   // 아니오를 누르면 팝업창만 탈출
-                                  cctScore -= 5;
+                                  if (!isRestart) {
+                                    cctScore -= 5;
+                                  }
                                   Navigator.of(context).pop();
                                 },
                               )
