@@ -75,6 +75,11 @@ flutter:
     - assets/donation.jpeg
     - assets/donation_brand.jpeg
     - assets/footsteps.png
+    - assets/logo.png
+    - assets/Instagram_logo.png
+    - assets/Facebook_logo.png
+    - assets/Notion_logo.png
+    - assets/M&&B_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

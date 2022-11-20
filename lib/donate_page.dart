@@ -118,7 +118,7 @@ class _AwesomeCarouselState extends State<DonatePage> {
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                    final Uri url = Uri.parse("https://www.instagram.com/make_better_123/");
+                    final Uri url = Uri.parse("https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
                     launchUrl(url);
                   },
                   child: Text(
@@ -130,7 +130,7 @@ class _AwesomeCarouselState extends State<DonatePage> {
                   ),
                 ),
               ),
-            ),//지난 기부내역 (인스타 말고 웹페이지로 변경예정)
+            ),//지난 기부내역(Notion)
           ],
         ),
       ),

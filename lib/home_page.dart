@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'utils.dart';
 import 'dark_page.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // 실제로 앱 실행 시 전면부에 나올 홈페이지 및 집중시간 적용 시 이어지는 DarkPage 화면을 위한 다트 파일
 // printDuration : 디지털 시계화면 출력 용도
@@ -60,21 +61,102 @@ class _HomePageState extends State<HomePage> {
             //Dialog Main Title
             title: Column(
               children: <Widget>[
-                new Text("We r.."),
+                Image.asset(
+                  'assets/M&&B_logo.png',
+                  width: 110,
+                  height: 110,
+                  fit: BoxFit.cover,
+                ),
               ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Text("   to Make the world, Better.\n",
+                  style: TextStyle(fontWeight:
+                  FontWeight.bold,
+                      color: Colors.green,
+                      fontSize: 20),
+                ),//to Make the world, Better
                 Text(
                   "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
                       "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
-                      "we R 대신 예쁘게 다시 그린 로고를 넣을 예정.\n"
-                      "소개글 하단부에 인스타, 페이스북, 트위터 로고 && 링크 넣을 예정\n"
+                      "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
                       "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
                       "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n",
-                ),
+                ),//본문
+                Row(
+                  children: [
+                    Container(
+                      height: 30,
+                      width: 30,
+                      // padding: const EdgeInsets.all(0.0),
+                      // margin: const EdgeInsets.all(0.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            final Uri url = Uri.parse("https://www.instagram.com/make_better_123/");
+                            launchUrl(url);
+                          },
+                          child: Image.asset(
+                            'assets/Instagram_logo.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),//instagram
+                    SizedBox(
+                      height: 87,
+                      width: 87,
+                    ),
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            final Uri url = Uri.parse("https://www.instagram.com/make_better_123/");
+                            launchUrl(url);
+                          },
+                          child: Image.asset(
+                            'assets/Facebook_logo.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),//facebook
+                    SizedBox(
+                      height: 87,
+                      width: 87,
+                    ),
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            final Uri url = Uri.parse("https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
+                            launchUrl(url);
+                          },
+                          child: Image.asset(
+                            'assets/Notion_logo.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ),//notion
+                  ],
+                ),//notion
               ],
             ),
           );
@@ -179,24 +261,17 @@ class _HomePageState extends State<HomePage> {
         //     color: Colors.lightGreenAccent,
         //   ),),
         actions: <Widget>[
-          TextButton.icon(
+          IconButton(
             onPressed: () => FlutterDialog(),
-            icon: Icon(
-              Icons.add,
-              size: 0.0,
-              color: Colors.green,
-            ),
-            label: Text('we R..',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: Colors.green,
-              ),
+            icon: Image.asset(
+              'assets/logo.png',
+              fit: BoxFit.fill,
             ),
           )
         ],
         backgroundColor: HexColor("#24202E"),
       ),
+      // onPressed: () => FlutterDialog(),
       body: Container(
         // decoration : Container로 둘러싼 화면을 어떻게 꾸밀지 정하는 분야
         decoration: BoxDecoration(
