@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'chart_page.dart';
 import 'utils.dart';
 import 'home_page.dart';
+import 'package:sqflite/sqflite.dart';
 import 'donate_page.dart';
 
 // 실제로 우리가 원하는 홈화면을 보여주기 위해 TapPageState를 상태로 올린다
 class TabPage extends StatefulWidget{
+  final Future<Database> db;
+  TabPage(this.db);
+
   @override
   _TabPageState createState() => _TabPageState();
 }
@@ -17,9 +21,9 @@ class _TabPageState extends State<TabPage> {
      pages : 스위치 전환 시, 해당 스위치에 해당하는 내용물을 보여주기 위한 리스트*/
   int _selectedPageIndex = 0;
 
-  List _pages = [
-    HomePage(),
-    ChartPage(),
+  late List _pages = [
+    HomePage(widget.db),
+    ChartPage(widget.db),
     DonatePage(),
   ];
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:sqflite/sqflite.dart';
+import 'concentration.dart';
 import 'dart:math';
 import 'utils.dart';
 
@@ -952,47 +954,52 @@ class _LineChartMonth extends StatelessWidget {
 }
 
 class ChartPage extends StatefulWidget {
+  final Future<Database> db;
+  ChartPage(this.db);
+
   @override
   _ChartPageState createState() => _ChartPageState();
 }
 
 class _ChartPageState extends State<ChartPage> {
+  Future<List<Concentration>>? cctList;
+
   // DB에서 자료를 긁어와 만들 리스트
   List<int> lastMonthCC = [
-    15, 30, 25, 30, 25, 15, 30, 20, 30, 35,
-    25, 30, 15, 25, 15, 30, 35, 45, 50, 25,
-    60, 35, 20, 35, 49, 50, 24, 13, 14, 46,
-    13,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,
   ];
   List<int> curMonthCC = [
-    25, 30, 15, 13, 14, 59, 49, 23, 5, 13,
-    34, 23, 14, 5, 36, 23, 12, 56, 34, 12,
-    19, 23, 14, 23, 12, 14, 43, 34, 23, 14,
-    78,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,
   ];
   List<int> lastMonthCCT = [
-    13, 10, 2, 3, 5, 2, 1, 3, 5, 9,
-    1, 14, 12, 11, 13, 4, 5, 2, 1, 5,
-    2, 3, 7, 9, 5, 11, 10, 3, 4, 2,
-    5,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,
   ];
   List<int> curMonthCCT = [
-    12, 2, 3, 5, 13, 2, 4, 5, 6, 1,
-    13, 1, 2, 5, 3, 7, 8, 3, 1, 3,
-    5, 3, 8, 4, 1, 3, 5, 2, 8, 11,
-    10,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,
   ];
   List<int> lastWeekCC = [
-    34, 13, 24, 15, 34, 24, 5,
+    0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> curWeekCC = [
-    23, 13, 5, 23, 13, 23, 1,
+    0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> lastWeekCCT = [
-    10, 4, 6, 9, 12, 1, 3,
+    0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> curWeekCCT = [
-    5, 8, 11, 9, 3, 2, 5,
+    0, 0, 0, 0, 0, 0, 0,
   ];
   // 탭 변경에 따라 화면 전환할 스위치
   int selectedTabWeeks = 0;
@@ -1039,6 +1046,35 @@ class _ChartPageState extends State<ChartPage> {
     '주',
   ];
 
+  void initList(List<Concentration> list) {
+   for(int i = 0; i < list.length; i++) {
+     // 2022-10-02
+     int day = int.parse(list[i].date!.substring(8, 10));
+     curMonthCCT[day] = (list[i].cctTime!/3600).toInt();
+     curMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
+   }
+  }
+
+  Future<int> getDataMonth() async {
+    final Database database = await widget.db;
+    List<Map<String, dynamic>> maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+
+    List<Concentration> list = List.generate(maps.length, (i) {
+      return Concentration(
+          date: maps[i]['date'].toString(),
+          cctTime: maps[i]['cctTime'],
+          cctScore: maps[i]['cctScore']);
+    });
+    initList(list);
+    return 1;
+  }
+
   void _insertDB() {
     /*
     들어가야 하는 내용
@@ -1046,6 +1082,7 @@ class _ChartPageState extends State<ChartPage> {
     2. 일자 확인 : 현재 일자(Datetime) 기준, 속하는 달을 이번달 리스트, 과거는 저번달 리스트
     3. DB 없을 때 처리 : 원하는 일자에 DB가 존재하지 않으면 해당 배열값은 0.
      */
+    getDataMonth();
   }
 
   void _initTotal() {

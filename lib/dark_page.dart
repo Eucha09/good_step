@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'utils.dart';
 import 'notification.dart';
+import 'package:intl/intl.dart';
+import 'package:sqflite/sqflite.dart';
+//import 'package:path/path.dart';
+import 'concentration.dart';
 import 'dart:async';
 
 // 원형 슬라이더 내부 버튼을 누르고 튀어 나올 검은 화면을 정의할 클래스
 class DarkPage extends StatefulWidget {
   // HomePageState에서 DarkPage로 넘겨준 myValue를 불러온다
+  final Future<Database> db;
   final double myValue;
-  const DarkPage(this.myValue);
+  const DarkPage(this.myValue, this.db);
 
   @override
   DarkPageState createState() => DarkPageState();
@@ -72,6 +77,12 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     isRestart = true;
   }
 
+  void _insertData(Concentration data) async {
+    final Database database = await widget.db;
+    await database.insert('concentration', data.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
   // _start : timer 실행, 디지털 시계 출력, 사전에 설정한 집중시간을 넘겼을 시(countTime < total) 화면 빠져나오기를 적용하는 함수
   void _start() {
     const oneSec = const Duration(seconds: 1);
@@ -92,6 +103,19 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
           }
           cctScore *= cctTime;
           // DB 리스트 전달 관련 내용 들어갈 예정
+          var now = new DateTime.now();
+          String date;
+          String time;
+
+          date = DateFormat('yyyy-MM-dd').format(now);
+          time = DateFormat('HH:mm').format(now);
+          Concentration data = Concentration(
+            date: date,
+            time: time,
+            cctTime: cctTime,
+            cctScore: cctScore,
+          );
+          _insertData(data);
           Navigator.pop(context, true);
         }
       })
@@ -99,6 +123,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
 
     _timer = Timer.periodic(oneSec, callback);
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +179,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                     isRestart = false;
                                     _start();
                                   } else {
-                                    cctTime = (total - countTime).toInt();
+                                    cctTime = (countTime).toInt();
                                     cctScore -= 50;
                                     countTime = total;
                                     giveUp = true;

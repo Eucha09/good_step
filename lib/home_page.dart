@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'utils.dart';
 import 'dark_page.dart';
+import 'concentration.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,6 +22,8 @@ String printDuration(Duration duration) {
 
 // 홈페이지 적용을 위한 위젯
 class HomePage extends StatefulWidget {
+  final Future<Database> db;
+  HomePage(this.db);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   String? loLoo;
   int cctTimeDay = 0;
   int cctScoreDay = 0;
+  Future<Concentration>? todayCCT;
   bool isUpdate = false;
   final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
 
@@ -44,7 +49,25 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     myValue = 0;
+    todayCCT = getTotalDay();
     loLoo = "00:00";
+  }
+
+  Future<Concentration> getTotalDay() async {
+    final Database database = await widget.db;
+    List<Map<String, dynamic>> maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m-%d', date) = strftime('%Y-%m-%d', 'now', 'localtime') "
+            "GROUP BY date"
+    );
+    Concentration data = Concentration(
+        date: maps[0]['date'].toString(),
+        cctTime: maps[0]['cctTime'],
+        cctScore: maps[0]['cctScore']
+    );
+    print('debug: ${data.cctTime}');
+    return data;
   }
 
   //FlutterDialog는 우상단 소개 페이지 보여주는 버튼 && 소개 페이지
@@ -144,6 +167,60 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
+  Widget totalCctTimeBuilder(BuildContext context, AsyncSnapshot<Concentration> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Text('0');
+      case ConnectionState.waiting:
+        return Text('0');
+      case ConnectionState.active:
+        return Text('0');
+      case ConnectionState.done:
+        if (snapshot.hasData) {
+          Concentration today = (snapshot.data as Concentration);
+          int? totalCctTime = today.cctTime;
+          return Text(
+            '${(totalCctTime!/3600).toInt().toString()}',
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.03,
+              color: HexColor("#FFFFFF"),
+            ),
+          );
+        } else {
+          return Text('0');
+        }
+    }
+  }
+
+  Widget totalCctScoreBuilder(BuildContext context, AsyncSnapshot<Concentration> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Text('0');
+      case ConnectionState.waiting:
+        return Text('0');
+      case ConnectionState.active:
+        return Text('0');
+      case ConnectionState.done:
+        if (snapshot.hasData) {
+          Concentration today = (snapshot.data as Concentration);
+          int? totalCctScore = 0;
+          if (today.cctTime! > 0)
+            totalCctScore = (today.cctScore! / today.cctTime!).toInt();
+          return Text(
+            '${totalCctScore!.toString()}',
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.03,
+              color: HexColor("#FFFFFF"),
+            ),
+          );
+        } else {
+          return Text('0');
+        }
+    }
+  }
+
   // 원형 슬라이더, 슬라이더 내부 버튼, 하단부 상징물을 화면에 띄우는 위젯
   @override
   Widget build(BuildContext context) {
@@ -194,18 +271,17 @@ class _HomePageState extends State<HomePage> {
                       // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
                       isUpdate = await Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DarkPage(myValue)),
+                        MaterialPageRoute(builder: (context) => DarkPage(myValue, widget.db)),
                       );
-                      /*if (isUpdate) {
+                      if (isUpdate) {
                         // setState를 통해 DB에 누적된 값을 다시 받아온다
                         setState(() {
                           if (isUpdate) {
-                            cctTimeDay = ;
-                            cctScoreDay = ;
+                            todayCCT = getTotalDay();
                             isUpdate = false;
                           }
-                        }),
-                      }*/
+                        });
+                      }
                     },
                     // 버튼에 들어가는 상징물
                     child: Container(
@@ -233,6 +309,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        title : Text(
+            'Good Step',
+            style: TextStyle(
+              fontFamily: 'Harsh',
+              fontSize: 22,
+          ),
+        ),
         toolbarHeight: 50,
         // title: Text(
         //   'Thanks, Your \'GoodStep\'',
@@ -303,13 +386,10 @@ class _HomePageState extends State<HomePage> {
                           color: HexColor("#FFFFFF"),
                         ),
                     ),
-                    Text(
-                      '${cctTimeDay.toString()}',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
-                        color: HexColor("#FFFFFF"),
-                      ),
-                    )
+                    FutureBuilder(
+                      builder: totalCctTimeBuilder,
+                      future: todayCCT,
+                    ),
                   ]
                 ),
                 Column(
@@ -326,13 +406,10 @@ class _HomePageState extends State<HomePage> {
                         color: HexColor("#FFFFFF"),
                       )
                     ),
-                    Text(
-                      '${cctScoreDay.toString()}',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.03,
-                        color: HexColor("#FFFFFF"),
-                      )
-                    )
+                    FutureBuilder(
+                      builder: totalCctScoreBuilder,
+                      future: todayCCT,
+                    ),
                   ]
                 ),
               ]
