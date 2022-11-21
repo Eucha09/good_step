@@ -185,11 +185,11 @@ class _HomePageState extends State<HomePage> {
           // Center : 정중앙에 위젯 설치, SizedBox : 위젯 크기 설정, FittedBox : 위젯을 설정한 크기에 딱 맞춘다
           return Center(
               child : SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery.of(context).size.width * 0.47,
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: FittedBox(
                   child: FloatingActionButton(
-                    backgroundColor: HexColor("#222331"),
+                    backgroundColor: HexColor("#3b444b"),
                     onPressed: () async {
                       // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
                       isUpdate = await Navigator.push(

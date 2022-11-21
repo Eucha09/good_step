@@ -21,11 +21,9 @@ class _TabPageState extends State<TabPage> {
     HomePage(),
     ChartPage(),
     DonatePage(),
-    Text('page4'),
   ];
 
   List _color = [
-    HexColor('#24202E'),
     HexColor('#24202E'),
     HexColor('#24202E'),
     HexColor('#24202E'),
@@ -55,7 +53,6 @@ class _TabPageState extends State<TabPage> {
           Icon(Icons.home, size: MediaQuery.of(context).size.width * 0.08,),
           Icon(Icons.bar_chart, size: MediaQuery.of(context).size.width * 0.08,),
           Icon(Icons.volunteer_activism, size: MediaQuery.of(context).size.width * 0.08,),
-          Icon(Icons.settings, size: MediaQuery.of(context).size.width * 0.08,),
         ],
       ),
     );
