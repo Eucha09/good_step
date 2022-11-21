@@ -88,6 +88,10 @@ class _HomePageState extends State<HomePage> {
                 ),//본문
                 Row(
                   children: [
+                    SizedBox(
+                      height: 75,
+                      width: 75,
+                    ),
                     Container(
                       height: 30,
                       width: 30,
@@ -110,31 +114,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),//instagram
                     SizedBox(
-                      height: 87,
-                      width: 87,
-                    ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            final Uri url = Uri.parse("https://www.instagram.com/make_better_123/");
-                            launchUrl(url);
-                          },
-                          child: Image.asset(
-                            'assets/Facebook_logo.png',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                    ),//facebook
-                    SizedBox(
-                      height: 87,
-                      width: 87,
+                      height: 40,
+                      width: 40,
                     ),
                     Container(
                       height: 30,
@@ -231,8 +212,8 @@ class _HomePageState extends State<HomePage> {
                       height: MediaQuery.of(context).size.width * 0.11,
                       width: MediaQuery.of(context).size.width * 0.11,
                       child: Image.asset(
-                        'assets/footsteps.png',
-                        color: HexColor('#FFFFFF'),
+                        'assets/start_icon.png',
+                        // color: HexColor('#FFFFFF'),
                       ),
           ),
                     ),
