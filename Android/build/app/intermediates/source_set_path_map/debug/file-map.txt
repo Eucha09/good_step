@@ -1,0 +1,15 @@
+com.example.example.app-core-1.6.0-0 /Users/joo/.gradle/caches/transforms-3/3d943b8a8d6718874a3fad89ac634056/transformed/core-1.6.0/res
+com.example.example.app-jetified-window-1.0.0-beta04-1 /Users/joo/.gradle/caches/transforms-3/3e94d6806eb4169e793b1c4cddcd808d/transformed/jetified-window-1.0.0-beta04/res
+com.example.example.app-media-1.1.0-2 /Users/joo/.gradle/caches/transforms-3/9a7486592c46e256dc2869a5e96a5f65/transformed/media-1.1.0/res
+com.example.example.app-jetified-annotation-experimental-1.1.0-3 /Users/joo/.gradle/caches/transforms-3/ac057a03636e6585c83693bfe2e3e310/transformed/jetified-annotation-experimental-1.1.0/res
+com.example.example.app-jetified-window-java-1.0.0-beta04-4 /Users/joo/.gradle/caches/transforms-3/cd26984222cc0fa5df3c795677803a3d/transformed/jetified-window-java-1.0.0-beta04/res
+com.example.example.app-debug-5 /Users/joo/Desktop/cur/android/app/src/debug/res
+com.example.example.app-main-6 /Users/joo/Desktop/cur/android/app/src/main/res
+com.example.example.app-pngs-7 /Users/joo/Desktop/cur/build/app/generated/res/pngs/debug
+com.example.example.app-resValues-8 /Users/joo/Desktop/cur/build/app/generated/res/resValues/debug
+com.example.example.app-rs-9 /Users/joo/Desktop/cur/build/app/generated/res/rs/debug
+com.example.example.app-mergeDebugResources-10 /Users/joo/Desktop/cur/build/app/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.example.example.app-mergeDebugResources-11 /Users/joo/Desktop/cur/build/app/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.example.example.app-merged_res-12 /Users/joo/Desktop/cur/build/app/intermediates/merged_res/debug
+com.example.example.app-packaged_res-13 /Users/joo/Desktop/cur/build/flutter_local_notifications/intermediates/packaged_res/debug
+com.example.example.app-packaged_res-14 /Users/joo/Desktop/cur/build/url_launcher_android/intermediates/packaged_res/debug
