@@ -2,6 +2,9 @@ import 'dart:ui';
 import 'utils.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart';
+import 'ad_banner.dart';
+import 'ad_helper.dart';
 
 class DonatePage extends StatefulWidget {
   @override
@@ -21,7 +24,7 @@ class _AwesomeCarouselState extends State<DonatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor("#161A24"),
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         toolbarHeight: 50,
@@ -33,6 +36,10 @@ class _AwesomeCarouselState extends State<DonatePage> {
             color: Colors.lightGreenAccent,
           ),),
         backgroundColor: HexColor("#161A24"),
+      ),
+      bottomNavigationBar: Container(
+        height: 60,
+        child: AdBanner(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -88,7 +95,7 @@ class _AwesomeCarouselState extends State<DonatePage> {
                 ),
               ],
               ),
-            ),//기부증명서, 기부재단 소개
+            ), //기부증명서, 기부재단 소개
             Container(
               child: Text('\'GoodStep\'은 모든 수익을 기부합니다.', style: TextStyle(
                 backgroundColor: HexColor("#161A24"),
@@ -96,10 +103,10 @@ class _AwesomeCarouselState extends State<DonatePage> {
                 fontSize: 13,
                 // decoration: TextDecoration.underline, //밑줄 기능인데 별로임
               ),),
-            ),//굿스탭은 모든 수익을 기부합니다.
+            ), //굿스탭은 모든 수익을 기부합니다.
             SizedBox(
               height: 15,
-            ),// 공백용도
+            ), // 공백용도
             Container(
               height: 30,
               width: 180,
@@ -118,7 +125,8 @@ class _AwesomeCarouselState extends State<DonatePage> {
               child: Center(
                 child: GestureDetector(
                   onTap: () {
-                    final Uri url = Uri.parse("https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
+                    final Uri url = Uri.parse(
+                        "https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
                     launchUrl(url);
                   },
                   child: Text(
@@ -130,7 +138,8 @@ class _AwesomeCarouselState extends State<DonatePage> {
                   ),
                 ),
               ),
-            ),//지난 기부내역(Notion)
+            ),
+            //지난 기부내역(Notion)
           ],
         ),
       ),

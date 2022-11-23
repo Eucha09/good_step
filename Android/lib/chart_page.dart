@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
+import 'dart:core';
 import 'concentration.dart';
 import 'dart:math';
 import 'utils.dart';
@@ -222,7 +225,7 @@ class _LineChartWeekCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -233,18 +236,18 @@ class _LineChartWeekCC extends StatelessWidget {
         ),
         spots: [
           FlSpot(0, 0),
-          FlSpot(1, Factor[0].toDouble()),
-          FlSpot(2, Factor[1].toDouble()),
-          FlSpot(3, Factor[2].toDouble()),
-          FlSpot(4, Factor[3].toDouble()),
-          FlSpot(5, Factor[4].toDouble()),
-          FlSpot(6, Factor[5].toDouble()),
-          FlSpot(7, Factor[6].toDouble()),
+          FlSpot(1, Factor[1].toDouble()),
+          FlSpot(2, Factor[2].toDouble()),
+          FlSpot(3, Factor[3].toDouble()),
+          FlSpot(4, Factor[4].toDouble()),
+          FlSpot(5, Factor[5].toDouble()),
+          FlSpot(6, Factor[6].toDouble()),
+          FlSpot(7, Factor[7].toDouble()),
         ],
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -420,7 +423,7 @@ class _LineChartMonthCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -431,37 +434,37 @@ class _LineChartMonthCC extends StatelessWidget {
         ),
         spots: [
           FlSpot(0, 0),
-          FlSpot(1, Factor[0].toDouble()),
-          FlSpot(2, Factor[1].toDouble()),
-          FlSpot(3, Factor[2].toDouble()),
-          FlSpot(4, Factor[3].toDouble()),
-          FlSpot(5, Factor[4].toDouble()),
-          FlSpot(6, Factor[5].toDouble()),
-          FlSpot(7, Factor[6].toDouble()),
-          FlSpot(8, Factor[7].toDouble()),
-          FlSpot(9, Factor[8].toDouble()),
-          FlSpot(10, Factor[9].toDouble()),
-          FlSpot(11, Factor[10].toDouble()),
-          FlSpot(12, Factor[11].toDouble()),
-          FlSpot(13, Factor[12].toDouble()),
-          FlSpot(14, Factor[13].toDouble()),
-          FlSpot(15, Factor[14].toDouble()),
-          FlSpot(16, Factor[15].toDouble()),
-          FlSpot(17, Factor[16].toDouble()),
-          FlSpot(18, Factor[17].toDouble()),
-          FlSpot(19, Factor[18].toDouble()),
-          FlSpot(20, Factor[19].toDouble()),
-          FlSpot(21, Factor[20].toDouble()),
-          FlSpot(22, Factor[21].toDouble()),
-          FlSpot(23, Factor[22].toDouble()),
-          FlSpot(24, Factor[23].toDouble()),
-          FlSpot(25, Factor[24].toDouble()),
-          FlSpot(26, Factor[25].toDouble()),
-          FlSpot(27, Factor[26].toDouble()),
-          FlSpot(28, Factor[27].toDouble()),
-          FlSpot(29, Factor[28].toDouble()),
-          FlSpot(30, Factor[29].toDouble()),
-          FlSpot(31, Factor[30].toDouble())
+          FlSpot(1, Factor[1].toDouble()),
+          FlSpot(2, Factor[2].toDouble()),
+          FlSpot(3, Factor[3].toDouble()),
+          FlSpot(4, Factor[4].toDouble()),
+          FlSpot(5, Factor[5].toDouble()),
+          FlSpot(6, Factor[6].toDouble()),
+          FlSpot(7, Factor[7].toDouble()),
+          FlSpot(8, Factor[8].toDouble()),
+          FlSpot(9, Factor[9].toDouble()),
+          FlSpot(10, Factor[10].toDouble()),
+          FlSpot(11, Factor[11].toDouble()),
+          FlSpot(12, Factor[12].toDouble()),
+          FlSpot(13, Factor[13].toDouble()),
+          FlSpot(14, Factor[14].toDouble()),
+          FlSpot(15, Factor[15].toDouble()),
+          FlSpot(16, Factor[16].toDouble()),
+          FlSpot(17, Factor[17].toDouble()),
+          FlSpot(18, Factor[18].toDouble()),
+          FlSpot(19, Factor[19].toDouble()),
+          FlSpot(20, Factor[20].toDouble()),
+          FlSpot(21, Factor[21].toDouble()),
+          FlSpot(22, Factor[22].toDouble()),
+          FlSpot(23, Factor[23].toDouble()),
+          FlSpot(24, Factor[24].toDouble()),
+          FlSpot(25, Factor[25].toDouble()),
+          FlSpot(26, Factor[26].toDouble()),
+          FlSpot(27, Factor[27].toDouble()),
+          FlSpot(28, Factor[28].toDouble()),
+          FlSpot(29, Factor[29].toDouble()),
+          FlSpot(30, Factor[30].toDouble()),
+          FlSpot(31, Factor[31].toDouble())
         ],
       );
 
@@ -663,7 +666,7 @@ class _LineChartWeek extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -685,7 +688,7 @@ class _LineChartWeek extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -861,7 +864,7 @@ class _LineChartMonth extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -969,37 +972,37 @@ class _ChartPageState extends State<ChartPage> {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0,
+    0, 0,
   ];
   List<int> curMonthCC = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0,
+    0, 0,
   ];
   List<int> lastMonthCCT = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0,
+    0, 0,
   ];
   List<int> curMonthCCT = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0,
+    0, 0,
   ];
   List<int> lastWeekCC = [
-    0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> curWeekCC = [
-    0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> lastWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> curWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   // 탭 변경에 따라 화면 전환할 스위치
   int selectedTabWeeks = 0;
@@ -1025,10 +1028,11 @@ class _ChartPageState extends State<ChartPage> {
   int insertLastCCT = 0;
   int insertTotalCC = 0;
   int insertLastCC = 0;
+  Future<int>? checkDB;
 
   late List _periodsCCT = [
-    _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT),
-    _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT),
+    MonthCCTBuilder,
+    WeekCCTBuilder,
   ];
 
   List _TabColor = [
@@ -1037,8 +1041,8 @@ class _ChartPageState extends State<ChartPage> {
   ];
 
   late List _periodsCC = [
-    _LineChartMonthCC(Factor: curMonthCC, last_Factor: lastMonthCC),
-    _LineChartWeekCC(Factor: curWeekCC, last_Factor: lastWeekCC),
+    MonthCCBuilder,
+    WeekCCBuilder,
   ];
 
   List _changePeriods = [
@@ -1046,7 +1050,7 @@ class _ChartPageState extends State<ChartPage> {
     '주',
   ];
 
-  void initList(List<Concentration> list) {
+  void initMonthList(List<Concentration> list) {
    for(int i = 0; i < list.length; i++) {
      // 2022-10-02
      int day = int.parse(list[i].date!.substring(8, 10));
@@ -1055,24 +1059,166 @@ class _ChartPageState extends State<ChartPage> {
    }
   }
 
-  Future<int> getDataMonth() async {
+  void initLastMonthList(List<Concentration> list){
+    for(int i = 0; i < list.length; i++) {
+      // 2022-10-02
+      int day = int.parse(list[i].date!.substring(8, 10));
+      lastMonthCCT[day] = (list[i].cctTime!/3600).toInt();
+      lastMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
+    }
+  }
+
+  void initWeekList(List<Concentration> list){
+    for(int i = 0; i < list.length; i++) {
+      int day = int.parse(list[i].date!.substring(8, 10));
+      var now = DateTime.now();
+      var firstday = now.subtract(Duration(days: now.weekday - 1));
+      String week_firstday = DateFormat('dd').format(firstday);
+      int weekday = day - int.parse(week_firstday) + 1;
+      curWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
+    }
+  }
+
+  void initLastWeekList(List<Concentration> list){
+    for(int i = 0; i < list.length; i++) {
+      int day = int.parse(list[i].date!.substring(8, 10));
+      var now = DateTime.now();
+      var firstday = now.subtract(Duration(days: now.weekday - 1));
+      String week_firstday = DateFormat('dd').format(firstday);
+      int weekday = day - int.parse(week_firstday) + 1;
+      lastWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      lastWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
+    }
+  }
+
+  Future<int> getDB() async {
     final Database database = await widget.db;
-    List<Map<String, dynamic>> maps = await database.rawQuery(
+    List<Map<String, dynamic>> maps;
+    List<Concentration> list;
+
+    // 이번달 데이터 추출
+    maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
             "FROM concentration "
             "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
             "GROUP BY date "
             "ORDER BY date"
     );
-
-    List<Concentration> list = List.generate(maps.length, (i) {
+    list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
           cctTime: maps[i]['cctTime'],
           cctScore: maps[i]['cctScore']);
     });
-    initList(list);
+    initMonthList(list);
+
+    // 저번달 데이터 추출
+    maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime', '-1 months') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+    list = List.generate(maps.length, (i) {
+      return Concentration(
+          date: maps[i]['date'].toString(),
+          cctTime: maps[i]['cctTime'],
+          cctScore: maps[i]['cctScore']);
+    });
+    initLastMonthList(list);
+
+    // 이번주 데이터 추출
+    maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-6 days', 'weekday 1') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+    list =  List.generate(maps.length, (i) {
+      return Concentration(
+          date: maps[i]['date'].toString(),
+          cctTime: maps[i]['cctTime'],
+          cctScore: maps[i]['cctScore']);
+    });
+    initWeekList(list);
+
+    // 저번주 데이터 추출
+    maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-13 days', 'weekday 1') "
+            "AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', 'now', 'localtime', '-7 days', 'weekday 0') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+    list =  List.generate(maps.length, (i) {
+      return Concentration(
+          date: maps[i]['date'].toString(),
+          cctTime: maps[i]['cctTime'],
+          cctScore: maps[i]['cctScore']);
+    });
+    initLastWeekList(list);
+
     return 1;
+  }
+
+  Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT);
+    }
+  }
+
+  Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT);
+    }
+  }
+
+  Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartMonthCC(Factor: curMonthCC, last_Factor: lastMonthCC);
+    }
+  }
+
+  Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartWeekCC(Factor: curWeekCC, last_Factor: lastWeekCC);
+    }
   }
 
   void _insertDB() {
@@ -1082,7 +1228,7 @@ class _ChartPageState extends State<ChartPage> {
     2. 일자 확인 : 현재 일자(Datetime) 기준, 속하는 달을 이번달 리스트, 과거는 저번달 리스트
     3. DB 없을 때 처리 : 원하는 일자에 DB가 존재하지 않으면 해당 배열값은 0.
      */
-    getDataMonth();
+    checkDB = getDB();
   }
 
   void _initTotal() {
@@ -1555,7 +1701,10 @@ class _ChartPageState extends State<ChartPage> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16, left: 6),
-                        child: _periodsCCT[selectedPeriodCCT],
+                        child: FutureBuilder(
+                          builder: _periodsCCT[selectedPeriodCCT],
+                          future: checkDB,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -1610,7 +1759,10 @@ class _ChartPageState extends State<ChartPage> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16, left: 6),
-                        child: _periodsCC[selectedPeriodCC],
+                        child: FutureBuilder(
+                          builder: _periodsCC[selectedPeriodCC],
+                          future: checkDB,
+                        ),
                       ),
                     ),
                     SizedBox(

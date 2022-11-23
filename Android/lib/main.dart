@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'root_page.dart';
+import 'utils.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 // 메인 함수에서 실행 시 바로 MyApp 클래스를 앱 환경에서 구동하여 반환
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+  return runApp(MyApp());
+}
 
 // MaterialApp 즉, 안드로이드 환경을 고려한 앱이며 홈 화면은 RootPage 클래스로 구현
 class MyApp extends StatelessWidget {

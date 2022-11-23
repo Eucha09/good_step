@@ -1,4 +1,7 @@
-#Mon Nov 21 17:58:29 KST 2022
-base.0=/Users/joo/Desktop/cur/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+#Wed Nov 23 19:57:57 KST 2022
+base.1=/Users/joo/Desktop/cur/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
+path.1=classes2.dex
+base.0=/Users/joo/Desktop/cur/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.1=classes2.dex
 renamed.0=classes.dex
 path.0=classes.dex
