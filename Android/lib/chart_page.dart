@@ -258,13 +258,13 @@ class _LineChartWeekCC extends StatelessWidget {
         ),
         spots: [
           FlSpot(0, 0),
-          FlSpot(1, last_Factor[0].toDouble()),
-          FlSpot(2, last_Factor[1].toDouble()),
-          FlSpot(3, last_Factor[2].toDouble()),
-          FlSpot(4, last_Factor[3].toDouble()),
-          FlSpot(5, last_Factor[4].toDouble()),
-          FlSpot(6, last_Factor[5].toDouble()),
-          FlSpot(7, last_Factor[6].toDouble()),
+          FlSpot(1, last_Factor[1].toDouble()),
+          FlSpot(2, last_Factor[2].toDouble()),
+          FlSpot(3, last_Factor[3].toDouble()),
+          FlSpot(4, last_Factor[4].toDouble()),
+          FlSpot(5, last_Factor[5].toDouble()),
+          FlSpot(6, last_Factor[6].toDouble()),
+          FlSpot(7, last_Factor[7].toDouble()),
         ],
       );
 }
@@ -969,40 +969,180 @@ class _ChartPageState extends State<ChartPage> {
 
   // DB에서 자료를 긁어와 만들 리스트
   List<int> lastMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastMonthCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curMonthCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastWeekCC = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curWeekCC = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   // 탭 변경에 따라 화면 전환할 스위치
   int selectedTabWeeks = 0;
@@ -1051,43 +1191,43 @@ class _ChartPageState extends State<ChartPage> {
   ];
 
   void initMonthList(List<Concentration> list) {
-   for(int i = 0; i < list.length; i++) {
-     // 2022-10-02
-     int day = int.parse(list[i].date!.substring(8, 10));
-     curMonthCCT[day] = (list[i].cctTime!/3600).toInt();
-     curMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
-   }
-  }
-
-  void initLastMonthList(List<Concentration> list){
-    for(int i = 0; i < list.length; i++) {
+    for (int i = 0; i < list.length; i++) {
       // 2022-10-02
       int day = int.parse(list[i].date!.substring(8, 10));
-      lastMonthCCT[day] = (list[i].cctTime!/3600).toInt();
+      curMonthCCT[day] = (list[i].cctTime! / 3600).toInt();
+      curMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
+    }
+  }
+
+  void initLastMonthList(List<Concentration> list) {
+    for (int i = 0; i < list.length; i++) {
+      // 2022-10-02
+      int day = int.parse(list[i].date!.substring(8, 10));
+      lastMonthCCT[day] = (list[i].cctTime! / 3600).toInt();
       lastMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
 
-  void initWeekList(List<Concentration> list){
-    for(int i = 0; i < list.length; i++) {
+  void initWeekList(List<Concentration> list) {
+    for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
       var firstday = now.subtract(Duration(days: now.weekday - 1));
       String week_firstday = DateFormat('dd').format(firstday);
       int weekday = day - int.parse(week_firstday) + 1;
-      curWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      curWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
 
-  void initLastWeekList(List<Concentration> list){
-    for(int i = 0; i < list.length; i++) {
+  void initLastWeekList(List<Concentration> list) {
+    for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
       var firstday = now.subtract(Duration(days: now.weekday - 1));
       String week_firstday = DateFormat('dd').format(firstday);
       int weekday = day - int.parse(week_firstday) + 1;
-      lastWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      lastWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       lastWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
@@ -1100,11 +1240,10 @@ class _ChartPageState extends State<ChartPage> {
     // 이번달 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
-            "GROUP BY date "
-            "ORDER BY date"
-    );
+        "FROM concentration "
+        "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
+        "GROUP BY date "
+        "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1116,11 +1255,10 @@ class _ChartPageState extends State<ChartPage> {
     // 저번달 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime', '-1 months') "
-            "GROUP BY date "
-            "ORDER BY date"
-    );
+        "FROM concentration "
+        "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime', '-1 months') "
+        "GROUP BY date "
+        "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1132,12 +1270,11 @@ class _ChartPageState extends State<ChartPage> {
     // 이번주 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-6 days', 'weekday 1') "
-            "GROUP BY date "
-            "ORDER BY date"
-    );
-    list =  List.generate(maps.length, (i) {
+        "FROM concentration "
+        "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-6 days', 'weekday 1') "
+        "GROUP BY date "
+        "ORDER BY date");
+    list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
           cctTime: maps[i]['cctTime'],
@@ -1148,13 +1285,12 @@ class _ChartPageState extends State<ChartPage> {
     // 저번주 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-13 days', 'weekday 1') "
-            "AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', 'now', 'localtime', '-7 days', 'weekday 0') "
-            "GROUP BY date "
-            "ORDER BY date"
-    );
-    list =  List.generate(maps.length, (i) {
+        "FROM concentration "
+        "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-13 days', 'weekday 1') "
+        "AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', 'now', 'localtime', '-7 days', 'weekday 0') "
+        "GROUP BY date "
+        "ORDER BY date");
+    list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
           cctTime: maps[i]['cctTime'],
@@ -1165,8 +1301,7 @@ class _ChartPageState extends State<ChartPage> {
     return 1;
   }
 
-  Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1179,8 +1314,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
-  Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1193,8 +1327,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
-  Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1207,8 +1340,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
-  Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1233,7 +1365,7 @@ class _ChartPageState extends State<ChartPage> {
 
   void _initTotal() {
     _insertDB();
-    for(int i = 0; i < 31; i++) {
+    for (int i = 0; i < 31; i++) {
       if (i < 7) {
         totalCCTW += curWeekCCT[i];
         totalCCW += curWeekCC[i];
@@ -1245,10 +1377,10 @@ class _ChartPageState extends State<ChartPage> {
       last_totalCCT += lastMonthCCT[i];
       last_totalCC += lastMonthCC[i];
     }
-    last_totalCC = (last_totalCC/31).toInt();
-    last_totalCCW = (last_totalCCW/7).toInt();
-    totalCC = (totalCC/31).toInt();
-    totalCCW = (totalCCW/7).toInt();
+    last_totalCC = (last_totalCC / 31).toInt();
+    last_totalCCW = (last_totalCCW / 7).toInt();
+    totalCC = (totalCC / 31).toInt();
+    totalCCW = (totalCCW / 7).toInt();
     totalCCTW *= 3600;
     totalCCT *= 3600;
     last_totalCCTW *= 3600;
@@ -1276,440 +1408,373 @@ class _ChartPageState extends State<ChartPage> {
       color: HexColor('#24202E'),
       child: Column(children: <Widget>[
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.04,
+          height: MediaQuery.of(context).size.height * 0.05,
         ),
-        AspectRatio(
-            aspectRatio: 1.9,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(18)
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.25,
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
                 ),
-                gradient: LinearGradient(
-                  colors: [
-                    HexColor('#24202E'),
-                    HexColor('#24202E'),
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ),
-              ),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
+                    Text(
+                      '  종합',
+                      style: TextStyle(
+                        color: HexColor('#FFFFFF'),
+                        fontFamily: 'pyeongchang',
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '  종합',
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.003,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: _TabColor[selectedTabWeeks],
+                            width: MediaQuery.of(context).size.height * 0.002,
+                          ),
+                        ),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedPeriodCCT = 1;
+                            selectedPeriodCC = 1;
+                            selectedTabWeeks = 1;
+                            selectedTabMonths = 0;
+                            insertLimitedCCT = limitedCCTW;
+                            insertTotalCCT = totalCCTW;
+                            insertTotalCC = totalCCW;
+                            insertLastCCT = last_totalCCTW;
+                            insertLastCC = last_totalCCW;
+                          });
+                        },
+                        child: Text(
+                          'Week',
                           style: TextStyle(
-                            color: HexColor('#FFFFFF'),
-                            fontFamily: 'Cafe24',
                             fontSize:
-                                MediaQuery.of(context).size.height * 0.03,
+                                MediaQuery.of(context).size.height * 0.017,
+                            color: HexColor('#FFFFFF'),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                    Container(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.003,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: _TabColor[selectedTabMonths],
+                            width: MediaQuery.of(context).size.height * 0.002,
                           ),
                         ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.55
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedPeriodCCT = 0;
+                            selectedPeriodCC = 0;
+                            selectedTabWeeks = 0;
+                            selectedTabMonths = 1;
+                            insertLastCC = last_totalCC;
+                            insertLastCCT = last_totalCCT;
+                            insertLimitedCCT = limitedCCT;
+                            insertTotalCC = totalCC;
+                            insertTotalCCT = totalCCT;
+                          });
+                        },
+                        child: Text(
+                          'Month',
+                          style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.017,
+                            color: HexColor('#FFFFFF'),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.01,
+                ),
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                      ),
+                    ),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Container(
+                          child: CustomPaint(
+                            size: Size(
+                              MediaQuery.of(context).size.height * 0.15,
+                              MediaQuery.of(context).size.height * 0.15,
+                            ),
+                            painter: _PieChart(
+                              percentage:
+                                  (((insertLimitedCCT - insertTotalCCT) /
+                                              insertLimitedCCT) *
+                                          100)
+                                      .toInt(),
+                              barColor: Colors.amberAccent,
+                              strokelen:
+                                  (MediaQuery.of(context).size.width * 0.2)
+                                      .toInt(),
+                            ),
+                          ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).size.height * 0.003,
-                          ),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: _TabColor[selectedTabWeeks],
-                              width: MediaQuery.of(context).size.height * 0.002,
+                          child: CustomPaint(
+                            size: Size(
+                              MediaQuery.of(context).size.height * 0.13,
+                              MediaQuery.of(context).size.height * 0.13,
+                            ),
+                            painter: _PieChart(
+                              percentage:
+                                  (((limitedCC - insertTotalCC) / limitedCC) *
+                                          100)
+                                      .toInt(),
+                              barColor: Colors.lightGreen,
+                              strokelen:
+                                  (MediaQuery.of(context).size.width * 0.2)
+                                      .toInt(),
                             ),
                           ),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedPeriodCCT = 1;
-                              selectedPeriodCC = 1;
-                              selectedTabWeeks = 1;
-                              selectedTabMonths = 0;
-                              insertLimitedCCT = limitedCCTW;
-                              insertTotalCCT = totalCCTW;
-                              insertTotalCC = totalCCW;
-                              insertLastCCT = last_totalCCTW;
-                              insertLastCC = last_totalCCW;
-                            });
-                          },
-                          child: Text(
-                              'Week',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height * 0.017,
-                                color: HexColor('#FFFFFF'),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                        ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.025
                         ),
                         Container(
-                          padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.003,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: _TabColor[selectedTabMonths],
-                                width: MediaQuery.of(context).size.height * 0.002,
-                              ),
-                            ),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                selectedPeriodCCT = 0;
-                                selectedPeriodCC = 0;
-                                selectedTabWeeks = 0;
-                                selectedTabMonths = 1;
-                                insertLastCC = last_totalCC;
-                                insertLastCCT = last_totalCCT;
-                                insertLimitedCCT = limitedCCT;
-                                insertTotalCC = totalCC;
-                                insertTotalCCT = totalCCT;
-                              });
-                            },
-                            child: Text(
-                              'Month',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height * 0.017,
-                                color: HexColor('#FFFFFF'),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
+                            child: Icon(
+                          Icons.face,
+                          size: MediaQuery.of(context).size.height * 0.1,
+                          color: HexColor('#FFFFFF'),
+                        )),
                       ],
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3),
                     ),
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.height * 0.025,
-                        ),
-                        Stack(
-                          alignment: Alignment.center,
+                        Row(
                           children: <Widget>[
-                            Container(
-                              child: CustomPaint(
-                                size: Size(
-                                  MediaQuery.of(context).size.height * 0.15,
-                                  MediaQuery.of(context).size.height * 0.15,
-                                ),
-                                painter: _PieChart(
-                                  percentage:
-                                      (((insertLimitedCCT - insertTotalCCT) / insertLimitedCCT) * 100).toInt(),
-                                  barColor: Colors.amberAccent,
-                                  strokelen:
-                                      (MediaQuery.of(context).size.width * 0.2)
-                                          .toInt(),
-                                ),
-                              ),
+                            Icon(
+                              Icons.timer,
+                              size: MediaQuery.of(context).size.height * 0.06,
+                              color: Colors.amberAccent,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.03,
                             ),
                             Container(
-                              child: CustomPaint(
-                                size: Size(
-                                  MediaQuery.of(context).size.height * 0.13,
-                                  MediaQuery.of(context).size.height * 0.13,
-                                ),
-                                painter: _PieChart(
-                                  percentage:
-                                      (((limitedCC - insertTotalCC) / limitedCC) * 100).toInt(),
-                                  barColor: Colors.lightGreen,
-                                  strokelen:
-                                      (MediaQuery.of(context).size.width * 0.2).toInt(),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Icon(
-                                  Icons.face,
-                                  size: MediaQuery.of(context).size.height * 0.1,
-                                color: HexColor('#FFFFFF'),
-                              )
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.02,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.timer,
-                                  size: MediaQuery.of(context).size.height * 0.06,
-                                  color: Colors.amberAccent,
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.03,
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width * 0.45,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      width: MediaQuery.of(context).size.width * 0.2,
+                              width: MediaQuery.of(context).size.width * 0.45,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
                                     child: Column(
                                       children: <Widget>[
                                         Text(
                                           '저번${_changePeriods[selectedTabWeeks]}',
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03,
                                             fontWeight: FontWeight.w800,
                                             color: HexColor('#D3D3D3'),
                                           ),
                                         ),
                                         SizedBox(
-                                          height: MediaQuery.of(context).size.height * 0.01,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01,
                                         ),
                                         Text(
                                             '${(insertLastCCT / 3600).toInt().toString()} 시간',
                                             style: TextStyle(
                                                 fontFamily: 'Cafe24',
-                                                fontSize: MediaQuery.of(context).size.width * 0.04,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
                                                 color: HexColor('#FFFFFF'))),
                                       ],
                                     ),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.015,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width * 0.2,
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.015,
+                                  ),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
                                     child: Column(
                                       children: <Widget>[
                                         Text(
                                           '이번${_changePeriods[selectedTabWeeks]}',
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.width * 0.03,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03,
                                             fontWeight: FontWeight.w800,
                                             color: HexColor('#D3D3D3'),
                                           ),
                                         ),
                                         SizedBox(
-                                          height: MediaQuery.of(context).size.height * 0.01,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01,
                                         ),
                                         Text(
                                             '${(insertTotalCCT / 3600).toInt().toString()} 시간',
                                             style: TextStyle(
                                                 fontFamily: 'Cafe24',
-                                                fontSize: MediaQuery.of(context).size.width * 0.04,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
                                                 color: HexColor('#FFFFFF'))),
                                       ],
                                     ),
-                                    ),
-                                  ],
-                                ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                            ),
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.lightbulb,
-                    size: MediaQuery.of(context).size.height * 0.06,
-                    color: Colors.lightGreen,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.03,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                '저번${_changePeriods[selectedTabWeeks]}',
-                                style: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                                  fontWeight: FontWeight.w800,
-                                  color: HexColor('#D3D3D3'),
-                                ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
-                              ),
-                              Text(
-                                  '${insertLastCC.toString()} %',
-                                  style: TextStyle(
-                                      fontFamily: 'Cafe24',
-                                      fontSize: MediaQuery.of(context).size.width * 0.04,
-                                      color: HexColor('#FFFFFF'))),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.015,
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                '이번${_changePeriods[selectedTabWeeks]}',
-                                style: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                                  fontWeight: FontWeight.w800,
-                                  color: HexColor('#D3D3D3'),
-                                ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.lightbulb,
+                              size: MediaQuery.of(context).size.height * 0.06,
+                              color: Colors.lightGreen,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.03,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.45,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '저번${_changePeriods[selectedTabWeeks]}',
+                                          style: TextStyle(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03,
+                                            fontWeight: FontWeight.w800,
+                                            color: HexColor('#D3D3D3'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01,
+                                        ),
+                                        Text('${insertLastCC.toString()} %',
+                                            style: TextStyle(
+                                                fontFamily: 'Cafe24',
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                                color: HexColor('#FFFFFF'))),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.015,
+                                  ),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          '이번${_changePeriods[selectedTabWeeks]}',
+                                          style: TextStyle(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.03,
+                                            fontWeight: FontWeight.w800,
+                                            color: HexColor('#D3D3D3'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01,
+                                        ),
+                                        Text('${insertTotalCC.toString()} %',
+                                            style: TextStyle(
+                                                fontFamily: 'Cafe24',
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.04,
+                                                color: HexColor('#FFFFFF'))),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
-                              ),
-                              Text(
-                                  '${insertTotalCC.toString()} %',
-                                  style: TextStyle(
-                                      fontFamily: 'Cafe24',
-                                      fontSize: MediaQuery.of(context).size.width * 0.04,
-                                      color: HexColor('#FFFFFF'))),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                            ),
                           ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            )),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.01,
-        ),
-        AspectRatio(
-          aspectRatio: 1.9,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(18)
-              ),
-              gradient: LinearGradient(
-                colors: [
-                  HexColor('#24202E'),
-                  HexColor('#24202E'),
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
-            ),
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '  집중시간',
-                          style: TextStyle(
-                            color: HexColor('#FFFFFF'),
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontFamily: 'Cafe24',
-                            letterSpacing: 2,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                        ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFAA4CFC),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  width: MediaQuery.of(context).size.width * 0.02,
-                                  height: MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.015,
-                                ),
-                                Text(
-                                  '저번${_changePeriods[selectedTabWeeks]}',
-                                  style: TextStyle(
-                                    color: HexColor('#FFFFFF'),
-                                    fontSize: MediaQuery.of(context).size.height * 0.015,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.02
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                    decoration: BoxDecoration(
-                                      color: Color(0xFF4AF699),
-                                      shape: BoxShape.circle,
-                                ),
-                                  width: MediaQuery.of(context).size.width * 0.02,
-                                  height: MediaQuery.of(context).size.height * 0.02,
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.015,
-                                ),
-                                Text(
-                                  '이번${_changePeriods[selectedTabWeeks]}',
-                                  style: TextStyle(
-                                    color: HexColor('#FFFFFF'),
-                                    fontSize: MediaQuery.of(context).size.height * 0.015,
-                                  ),
-                                )
-                              ],
-                            ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 16, left: 6),
-                        child: FutureBuilder(
-                          builder: _periodsCCT[selectedPeriodCCT],
-                          future: checkDB,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                   ],
                 ),
               ],
@@ -1717,61 +1782,153 @@ class _ChartPageState extends State<ChartPage> {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.03,
+          height: MediaQuery.of(context).size.height * 0.01,
         ),
-        AspectRatio(
-          aspectRatio: 1.9,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(18)
-              ),
-              gradient: LinearGradient(
-                colors: [
-                  HexColor('#24202E'),
-                  HexColor('#24202E'),
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-              ),
-            ),
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                        Text(
-                          '  집중도',
-                          style: TextStyle(
-                            color: HexColor('#FFFFFF'),
-                            fontSize: MediaQuery.of(context).size.width * 0.05,
-                            fontFamily: 'Cafe24',
-                            letterSpacing: 2,
-                          ),
-                          textAlign: TextAlign.left,
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.25,
+          child: Stack(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '  집중시간',
+                        style: TextStyle(
+                          color: HexColor('#FFFFFF'),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontFamily: 'pyeongchang',
+                          letterSpacing: 2,
                         ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 16, left: 6),
-                        child: FutureBuilder(
-                          builder: _periodsCC[selectedPeriodCC],
-                          future: checkDB,
+                        textAlign: TextAlign.left,
+                      ),
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
                         ),
                       ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFFAA4CFC),
+                              shape: BoxShape.circle,
+                            ),
+                            width: MediaQuery.of(context).size.width * 0.02,
+                            height: MediaQuery.of(context).size.width * 0.02,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.015,
+                          ),
+                          Text(
+                            '저번${_changePeriods[selectedTabWeeks]}',
+                            style: TextStyle(
+                              color: HexColor('#FFFFFF'),
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFF4AF699),
+                              shape: BoxShape.circle,
+                            ),
+                            width: MediaQuery.of(context).size.width * 0.02,
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.015,
+                          ),
+                          Text(
+                            '이번${_changePeriods[selectedTabWeeks]}',
+                            style: TextStyle(
+                              color: HexColor('#FFFFFF'),
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.015,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16, left: 6),
+                      child: FutureBuilder(
+                        builder: _periodsCCT[selectedPeriodCCT],
+                        future: checkDB,
+                      ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.03,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.25,
+          child: Stack(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  Text(
+                    '  집중도',
+                    style: TextStyle(
+                      color: HexColor('#FFFFFF'),
+                      fontSize: MediaQuery.of(context).size.width * 0.05,
+                      fontFamily: 'pyeongchang',
+                      letterSpacing: 2,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16, left: 6),
+                      child: FutureBuilder(
+                        builder: _periodsCC[selectedPeriodCC],
+                        future: checkDB,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ]),

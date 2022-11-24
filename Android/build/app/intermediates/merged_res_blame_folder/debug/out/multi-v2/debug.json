@@ -1279,7 +1279,7 @@
             "outputFile": "com.example.example.app-merged_res-19:/values-night-v8_values-night-v8.arsc.flat",
             "map": [
                 {
-                    "source": "/Users/joo/Desktop/cur/Android/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/Users/joo/Desktop/Team_project/Android/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,17",
                         "startColumns": "4,4",
@@ -6117,7 +6117,24 @@
                     }
                 },
                 {
-                    "source": "/Users/joo/Desktop/cur/Android/android/app/src/main/res/values/styles.xml",
+                    "source": "/Users/joo/.gradle/caches/transforms-3/f0bf7564689ac6926adab089e38e47da/transformed/work-runtime-2.7.0/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,120,190,254",
+                        "endColumns": "64,69,63,60",
+                        "endOffsets": "115,185,249,310"
+                    },
+                    "to": {
+                        "startLines": "11,12,13,14",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "501,566,636,700",
+                        "endColumns": "64,69,63,60",
+                        "endOffsets": "561,631,695,756"
+                    }
+                },
+                {
+                    "source": "/Users/joo/Desktop/Team_project/Android/android/app/src/main/res/values/styles.xml",
                     "from": {
                         "startLines": "3,17",
                         "startColumns": "4,4",
@@ -6133,23 +6150,6 @@
                         "endLines": "170,173",
                         "endColumns": "12,12",
                         "endOffsets": "12249,12418"
-                    }
-                },
-                {
-                    "source": "/Users/joo/.gradle/caches/transforms-3/f0bf7564689ac6926adab089e38e47da/transformed/work-runtime-2.7.0/res/values/values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,120,190,254",
-                        "endColumns": "64,69,63,60",
-                        "endOffsets": "115,185,249,310"
-                    },
-                    "to": {
-                        "startLines": "11,12,13,14",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "501,566,636,700",
-                        "endColumns": "64,69,63,60",
-                        "endOffsets": "561,631,695,756"
                     }
                 },
                 {
@@ -7500,7 +7500,7 @@
             "outputFile": "com.example.example.app-merged_res-19:/values-v31_values-v31.arsc.flat",
             "map": [
                 {
-                    "source": "/Users/joo/Desktop/cur/Android/android/app/src/main/res/values-v31/styles.xml",
+                    "source": "/Users/joo/Desktop/Team_project/Android/android/app/src/main/res/values-v31/styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

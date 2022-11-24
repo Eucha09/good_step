@@ -246,7 +246,7 @@ class _HomePageState extends State<HomePage> {
           // startAngle : 슬라이더 시작 위치, angleRange: 슬라이더가 얼마나 돌아갈지, size : 슬라이더 크기
           startAngle: 270,
           angleRange: 360,
-          size: 225.0,
+          size: MediaQuery.of(context).size.height * 0.25,
         ),
         /* 슬라이더 원주 길이
            min : 원주가 최초로 시작하는 지점 크기, max : 원주를 돌아 끝에 달했을 때 크기, initialValue : 원주 시작점
@@ -261,7 +261,7 @@ class _HomePageState extends State<HomePage> {
           // Center : 정중앙에 위젯 설치, SizedBox : 위젯 크기 설정, FittedBox : 위젯을 설정한 크기에 딱 맞춘다
           return Center(
               child : SizedBox(
-                height: MediaQuery.of(context).size.height * 0.21,
+                height: MediaQuery.of(context).size.height * 0.215,
                 child: FittedBox(
                   child: FloatingActionButton(
                     backgroundColor: HexColor("#3b444b"),
@@ -378,6 +378,9 @@ class _HomePageState extends State<HomePage> {
                         size: MediaQuery.of(context).size.width * 0.1,
                         color: HexColor("#FFFFFF")
                     ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
                         '집중시간',
                         style: TextStyle(
@@ -397,6 +400,9 @@ class _HomePageState extends State<HomePage> {
                         CupertinoIcons.lightbulb,
                         size: MediaQuery.of(context).size.width * 0.1,
                         color: HexColor("#FFFFFF")
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Text(
                       '집중도',

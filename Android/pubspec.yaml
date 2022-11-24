@@ -94,9 +94,10 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
 
   fonts:
-    - family: Cafe24
+    - family: pyeongchang
       fonts:
-        - asset: fonts/Cafe24Classictype.ttf
+        - asset: fonts/PyeongChangPeace-light.otf
+        - asset: fonts/PyeongChangPeace-bold.otf
     - family: Harsh
       fonts:
         - asset: fonts/Harshita.ttf

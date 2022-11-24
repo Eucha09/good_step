@@ -57,15 +57,13 @@ class _HomePageState extends State<HomePage> {
     final Database database = await widget.db;
     List<Map<String, dynamic>> maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m-%d', date) = strftime('%Y-%m-%d', 'now', 'localtime') "
-            "GROUP BY date"
-    );
+        "FROM concentration "
+        "WHERE strftime('%Y-%m-%d', date) = strftime('%Y-%m-%d', 'now', 'localtime') "
+        "GROUP BY date");
     Concentration data = Concentration(
         date: maps[0]['date'].toString(),
         cctTime: maps[0]['cctTime'],
-        cctScore: maps[0]['cctScore']
-    );
+        cctScore: maps[0]['cctScore']);
     print('debug: ${data.cctTime}');
     return data;
   }
@@ -96,19 +94,20 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("   to Make the world, Better.\n",
-                  style: TextStyle(fontWeight:
-                  FontWeight.bold,
+                Text(
+                  "   to Make the world, Better.\n",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
                       color: Colors.green,
                       fontSize: 20),
-                ),//to Make the world, Better
+                ), //to Make the world, Better
                 Text(
                   "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
-                      "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
-                      "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
-                      "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
-                      "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n",
-                ),//본문
+                  "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
+                  "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
+                  "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n"
+                  "구구절절 구구절절 구구절절 구구절절\n구구절절 구구절절 구구절절 구구절절\n",
+                ), //본문
                 Row(
                   children: [
                     SizedBox(
@@ -126,7 +125,8 @@ class _HomePageState extends State<HomePage> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            final Uri url = Uri.parse("https://www.instagram.com/make_better_123/");
+                            final Uri url = Uri.parse(
+                                "https://www.instagram.com/make_better_123/");
                             launchUrl(url);
                           },
                           child: Image.asset(
@@ -135,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                    ),//instagram
+                    ), //instagram
                     SizedBox(
                       height: 40,
                       width: 40,
@@ -149,7 +149,8 @@ class _HomePageState extends State<HomePage> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            final Uri url = Uri.parse("https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
+                            final Uri url = Uri.parse(
+                                "https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
                             launchUrl(url);
                           },
                           child: Image.asset(
@@ -158,17 +159,17 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                    ),//notion
+                    ), //notion
                   ],
-                ),//notion
+                ), //notion
               ],
             ),
           );
         });
   }
 
-  Widget totalCctTimeBuilder(BuildContext context, AsyncSnapshot<Concentration> snapshot)
-  {
+  Widget totalCctTimeBuilder(
+      BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return Text('0');
@@ -181,7 +182,7 @@ class _HomePageState extends State<HomePage> {
           Concentration today = (snapshot.data as Concentration);
           int? totalCctTime = today.cctTime;
           return Text(
-            '${(totalCctTime!/3600).toInt().toString()}',
+            '${(totalCctTime! / 3600).toInt().toString()}',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.03,
               color: HexColor("#FFFFFF"),
@@ -193,8 +194,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget totalCctScoreBuilder(BuildContext context, AsyncSnapshot<Concentration> snapshot)
-  {
+  Widget totalCctScoreBuilder(
+      BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return Text('0');
@@ -228,26 +229,24 @@ class _HomePageState extends State<HomePage> {
        SleekCircularSlider : 원형 슬라이더 정의
     */
     final slider = SleekCircularSlider(
-      // appearance : 슬라이더 세부 설정 적용
+        // appearance : 슬라이더 세부 설정 적용
         appearance: CircularSliderAppearance(
           // customWidths : 슬라이더가 돌아가는 구간(track), 슬라이더(progressBar), 궤적에 보이는 그림자(shadow) 크기 적용
           customWidths: CustomSliderWidths(
               trackWidth: MediaQuery.of(context).size.width * 0.04,
               progressBarWidth: MediaQuery.of(context).size.width * 0.03,
-              shadowWidth: MediaQuery.of(context).size.width * 0.04
-          ),
+              shadowWidth: MediaQuery.of(context).size.width * 0.04),
           // curstomColors : 슬라이더 색깔을 정한다
           customColors: CustomSliderColors(
               dotColor: HexColor('#FFFFFF'),
               trackColor: HexColor('#000000'),
               progressBarColors: [HexColor('#1AB584'), HexColor('#797EF6')],
               shadowColor: HexColor('#000000'),
-              shadowMaxOpacity: 0.05
-          ),
+              shadowMaxOpacity: 0.05),
           // startAngle : 슬라이더 시작 위치, angleRange: 슬라이더가 얼마나 돌아갈지, size : 슬라이더 크기
           startAngle: 270,
           angleRange: 360,
-          size: 225.0,
+          size: MediaQuery.of(context).size.height * 0.25,
         ),
         /* 슬라이더 원주 길이
            min : 원주가 최초로 시작하는 지점 크기, max : 원주를 돌아 끝에 달했을 때 크기, initialValue : 원주 시작점
@@ -261,59 +260,57 @@ class _HomePageState extends State<HomePage> {
         innerWidget: (double value) {
           // Center : 정중앙에 위젯 설치, SizedBox : 위젯 크기 설정, FittedBox : 위젯을 설정한 크기에 딱 맞춘다
           return Center(
-              child : SizedBox(
-                width: MediaQuery.of(context).size.width * 0.47,
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: FittedBox(
-                  child: FloatingActionButton(
-                    backgroundColor: HexColor("#3b444b"),
-                    onPressed: () async {
-                      // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
-                      isUpdate = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => DarkPage(myValue, widget.db)),
-                      );
-                      if (isUpdate) {
-                        // setState를 통해 DB에 누적된 값을 다시 받아온다
-                        setState(() {
-                          if (isUpdate) {
-                            todayCCT = getTotalDay();
-                            isUpdate = false;
-                          }
-                        });
-                      }
-                    },
-                    // 버튼에 들어가는 상징물
-                    child: Container(
-                      height: MediaQuery.of(context).size.width * 0.11,
-                      width: MediaQuery.of(context).size.width * 0.11,
-                      child: Image.asset(
-                        'assets/start_icon.png',
-                        // color: HexColor('#FFFFFF'),
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.215,
+                  child: FittedBox(
+                    child: FloatingActionButton(
+                      backgroundColor: HexColor("#3b444b"),
+                      onPressed: () async {
+                        // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
+                        isUpdate = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DarkPage(myValue, widget.db)),
+                        );
+                        if (isUpdate) {
+                          // setState를 통해 DB에 누적된 값을 다시 받아온다
+                          setState(() {
+                            if (isUpdate) {
+                              todayCCT = getTotalDay();
+                              isUpdate = false;
+                            }
+                          });
+                        }
+                      },
+                      // 버튼에 들어가는 상징물
+                      child: Container(
+                        height: MediaQuery.of(context).size.width * 0.11,
+                        width: MediaQuery.of(context).size.width * 0.11,
+                        child: Image.asset(
+                          'assets/start_icon.png',
+                          // color: HexColor('#FFFFFF'),
+                        ),
                       ),
-          ),
                     ),
-                )
-              )
-          );
+                  )));
         },
         // value 값이 바뀔 때마다 바뀐 value 값을 myValue에 저장하고 디지털 시계 출력용으로 만든 문자열을 loLoo에 저장
         onChange: (double value) {
           print(value);
           setState(() {
-            myValue = (value - value%300);
+            myValue = (value - value % 300);
             loLoo = printDuration(Duration(seconds: myValue.toInt()));
           });
-        }
-    );
+        });
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title : Text(
-            'Good Step',
-            style: TextStyle(
-              fontFamily: 'Harsh',
-              fontSize: 22,
+        title: Text(
+          'Good Step',
+          style: TextStyle(
+            fontFamily: 'Harsh',
+            fontSize: 22,
           ),
         ),
         toolbarHeight: 50,
@@ -343,77 +340,63 @@ class _HomePageState extends State<HomePage> {
                 colors: pageColors,
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
-                tileMode: TileMode.clamp
-            )),
+                tileMode: TileMode.clamp)),
         // 원형 슬라이더, 디지털 시계, 하단부 상징물을 세로로 배열에서 화면에 띄운다
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // 열심히 만들어 놓은 원형 슬라이더 설정을 저장해 놓은 slider 변수를 불러서 화면에 띄운다
             Center(
-                child: slider
+              child: Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: slider),
             ),
             // 원형 슬라이더와 일정 거리를 두고 디지털 시계용으로 만들어 놓은 문자열 loLoo를 출력
             Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.1
-              ),
-              child: Text(
-                  '$loLoo',
-                  style: TextStyle(
-                    color: HexColor("#FFFFFF"),
-                    fontSize: MediaQuery.of(context).size.height * 0.09,
-                    fontWeight: FontWeight.w600,
-                  )
-              )
-            ),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.05,
+                    bottom: MediaQuery.of(context).size.height * 0.1),
+                child: Text('$loLoo',
+                    style: TextStyle(
+                      color: HexColor("#FFFFFF"),
+                      fontSize: MediaQuery.of(context).size.height * 0.09,
+                      fontWeight: FontWeight.w600,
+                    ))),
             // 하단부에 배치하기로 한 상징물 2개를 가로로 배열
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Icon(
-                        Icons.timer,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    Icon(Icons.timer,
                         size: MediaQuery.of(context).size.width * 0.1,
-                        color: HexColor("#FFFFFF")
-                    ),
+                        color: HexColor("#FFFFFF")),
                     Text(
-                        '집중시간',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          color: HexColor("#FFFFFF"),
-                        ),
+                      '집중시간',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.025,
+                        color: HexColor("#FFFFFF"),
+                      ),
                     ),
                     FutureBuilder(
                       builder: totalCctTimeBuilder,
                       future: todayCCT,
                     ),
-                  ]
-                ),
-                Column(
-                  children: <Widget>[
-                    Icon(
-                        Icons.lightbulb,
+                  ]),
+                  Column(children: <Widget>[
+                    Icon(Icons.lightbulb,
                         size: MediaQuery.of(context).size.width * 0.1,
-                        color: HexColor("#FFFFFF")
-                    ),
-                    Text(
-                      '집중도',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.025,
-                        color: HexColor("#FFFFFF"),
-                      )
-                    ),
+                        color: HexColor("#FFFFFF")),
+                    Text('집중도',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
+                          color: HexColor("#FFFFFF"),
+                        )),
                     FutureBuilder(
                       builder: totalCctScoreBuilder,
                       future: todayCCT,
                     ),
-                  ]
-                ),
-              ]
-            )
+                  ]),
+                ])
           ],
         ),
       ),

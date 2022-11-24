@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'root_page.dart';
 import 'utils.dart';
@@ -18,13 +19,15 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     Future<Database> database = initDatabase();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      builder: (context, child) {
+        return MediaQuery(
+            child: child!,
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0));
+      },
       home: AnimatedSplashScreen(
         splash: Image.asset('assets/splash.png'),
         duration: 1000,
@@ -40,7 +43,7 @@ class MyApp extends StatelessWidget {
       onCreate: (db, version) {
         return db.execute(
           "CREATE TABLE concentration(id INTEGER PRIMARY KEY AUTOINCREMENT, "
-              "date TEXT, time TEXT, cctTime INTEGER, cctScore INTEGER)",
+          "date TEXT, time TEXT, cctTime INTEGER, cctScore INTEGER)",
         );
       },
       version: 1,

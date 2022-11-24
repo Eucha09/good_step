@@ -72,6 +72,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
       _pause();
     }
   }
+
   void _pause() {
     _timer?.cancel();
     isRestart = true;
@@ -88,43 +89,42 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     const oneSec = const Duration(seconds: 1);
 
     var callback = (timer) => {
-      setState(() {
-        if (countTime < total) {
-          countTime++;
-          loLoo = printDuration(Duration(seconds: (total - countTime).toInt()));
-        } else {
-          // 포기하지 않으면 집중시간은 total과 동일
-          if (!giveUp) {
-            cctTime = total.toInt();
-          }
-          // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
-          if (cctScore < 0) {
-            cctScore = 0;
-          }
-          cctScore *= cctTime;
-          // DB 리스트 전달 관련 내용 들어갈 예정
-          var now = new DateTime.now();
-          String date;
-          String time;
+          setState(() {
+            if (countTime < total) {
+              countTime++;
+              loLoo =
+                  printDuration(Duration(seconds: (total - countTime).toInt()));
+            } else {
+              // 포기하지 않으면 집중시간은 total과 동일
+              if (!giveUp) {
+                cctTime = total.toInt();
+              }
+              // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
+              if (cctScore < 0) {
+                cctScore = 0;
+              }
+              cctScore *= cctTime;
+              // DB 리스트 전달 관련 내용 들어갈 예정
+              var now = new DateTime.now();
+              String date;
+              String time;
 
-          date = DateFormat('yyyy-MM-dd').format(now);
-          time = DateFormat('HH:mm').format(now);
-          Concentration data = Concentration(
-            date: date,
-            time: time,
-            cctTime: cctTime,
-            cctScore: cctScore,
-          );
-          _insertData(data);
-          Navigator.pop(context, true);
-        }
-      })
-    };
+              date = DateFormat('yyyy-MM-dd').format(now);
+              time = DateFormat('HH:mm').format(now);
+              Concentration data = Concentration(
+                date: date,
+                time: time,
+                cctTime: cctTime,
+                cctScore: cctScore,
+              );
+              _insertData(data);
+              Navigator.pop(context, true);
+            }
+          })
+        };
 
     _timer = Timer.periodic(oneSec, callback);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
       // 화면 전체에 터치 이벤트를 넣기 위해 body 부분을 GestureDetector로 감싼다
       backgroundColor: HexColor("#000000"),
       body: GestureDetector(
-        // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
+          // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
           behavior: HitTestBehavior.translucent,
           onTap: () {
             // tab하고 팝업창을 띄우기 위한 설정
@@ -152,16 +152,14 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                       // 팝업창 모양, 들어갈 문장 등 적용
                       child: AlertDialog(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(15.0))
-                        ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0))),
                         contentPadding: EdgeInsets.only(top: 0),
                         content: Center(
-                            child: Text(
-                                isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
+                            child: Text(isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                )
-                            )),
+                                ))),
                         // 팝업창에서 실제 이벤트가 벌어지는 부분
                         actions: [
                           Row(
@@ -207,8 +205,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                       ),
                     ),
                   );
-                }
-            );
+                });
           },
           // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
           child: Column(
@@ -216,18 +213,16 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
               children: <Widget>[
                 Center(
                   // 디지털 시계를 출력하는 부분
-                  child: Text('$loLoo',
+                  child: Text(
+                    '$loLoo',
                     style: TextStyle(
                       color: HexColor("#FFFFFF"),
-                      fontSize: 70.0,
+                      fontSize: MediaQuery.of(context).size.width * 0.2,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-              ]
-          )
-      ),
+              ])),
     );
   }
 }
-

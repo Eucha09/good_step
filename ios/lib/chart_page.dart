@@ -224,7 +224,7 @@ class _LineChartWeekCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -246,7 +246,7 @@ class _LineChartWeekCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -422,7 +422,7 @@ class _LineChartMonthCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -468,7 +468,7 @@ class _LineChartMonthCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -479,37 +479,37 @@ class _LineChartMonthCC extends StatelessWidget {
         ),
         spots: [
           FlSpot(0, 0),
-          FlSpot(1, last_Factor[0].toDouble()),
-          FlSpot(2, last_Factor[1].toDouble()),
-          FlSpot(3, last_Factor[2].toDouble()),
-          FlSpot(4, last_Factor[3].toDouble()),
-          FlSpot(5, last_Factor[4].toDouble()),
-          FlSpot(6, last_Factor[5].toDouble()),
-          FlSpot(7, last_Factor[6].toDouble()),
-          FlSpot(8, last_Factor[7].toDouble()),
-          FlSpot(9, last_Factor[8].toDouble()),
-          FlSpot(10, last_Factor[9].toDouble()),
-          FlSpot(11, last_Factor[10].toDouble()),
-          FlSpot(12, last_Factor[11].toDouble()),
-          FlSpot(13, last_Factor[12].toDouble()),
-          FlSpot(14, last_Factor[13].toDouble()),
-          FlSpot(15, last_Factor[14].toDouble()),
-          FlSpot(16, last_Factor[15].toDouble()),
-          FlSpot(17, last_Factor[16].toDouble()),
-          FlSpot(18, last_Factor[17].toDouble()),
-          FlSpot(19, last_Factor[18].toDouble()),
-          FlSpot(20, last_Factor[19].toDouble()),
-          FlSpot(21, last_Factor[20].toDouble()),
-          FlSpot(22, last_Factor[21].toDouble()),
-          FlSpot(23, last_Factor[22].toDouble()),
-          FlSpot(24, last_Factor[23].toDouble()),
-          FlSpot(25, last_Factor[24].toDouble()),
-          FlSpot(26, last_Factor[25].toDouble()),
-          FlSpot(27, last_Factor[26].toDouble()),
-          FlSpot(28, last_Factor[27].toDouble()),
-          FlSpot(29, last_Factor[28].toDouble()),
-          FlSpot(30, last_Factor[29].toDouble()),
-          FlSpot(31, last_Factor[30].toDouble()),
+          FlSpot(1, last_Factor[1].toDouble()),
+          FlSpot(2, last_Factor[2].toDouble()),
+          FlSpot(3, last_Factor[3].toDouble()),
+          FlSpot(4, last_Factor[4].toDouble()),
+          FlSpot(5, last_Factor[5].toDouble()),
+          FlSpot(6, last_Factor[6].toDouble()),
+          FlSpot(7, last_Factor[7].toDouble()),
+          FlSpot(8, last_Factor[8].toDouble()),
+          FlSpot(9, last_Factor[9].toDouble()),
+          FlSpot(10, last_Factor[10].toDouble()),
+          FlSpot(11, last_Factor[11].toDouble()),
+          FlSpot(12, last_Factor[12].toDouble()),
+          FlSpot(13, last_Factor[13].toDouble()),
+          FlSpot(14, last_Factor[14].toDouble()),
+          FlSpot(15, last_Factor[15].toDouble()),
+          FlSpot(16, last_Factor[16].toDouble()),
+          FlSpot(17, last_Factor[17].toDouble()),
+          FlSpot(18, last_Factor[18].toDouble()),
+          FlSpot(19, last_Factor[19].toDouble()),
+          FlSpot(20, last_Factor[20].toDouble()),
+          FlSpot(21, last_Factor[21].toDouble()),
+          FlSpot(22, last_Factor[22].toDouble()),
+          FlSpot(23, last_Factor[23].toDouble()),
+          FlSpot(24, last_Factor[24].toDouble()),
+          FlSpot(25, last_Factor[25].toDouble()),
+          FlSpot(26, last_Factor[26].toDouble()),
+          FlSpot(27, last_Factor[27].toDouble()),
+          FlSpot(28, last_Factor[28].toDouble()),
+          FlSpot(29, last_Factor[29].toDouble()),
+          FlSpot(30, last_Factor[30].toDouble()),
+          FlSpot(31, last_Factor[31].toDouble()),
         ],
       );
 }
@@ -601,7 +601,7 @@ class _LineChartWeek extends StatelessWidget {
         getTitlesWidget: leftTitleWidgets,
         showTitles: true,
         interval: 1,
-        reservedSize: 15,
+        reservedSize: 18,
       );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -665,7 +665,7 @@ class _LineChartWeek extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -687,7 +687,7 @@ class _LineChartWeek extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -698,13 +698,13 @@ class _LineChartWeek extends StatelessWidget {
         ),
         spots: [
           FlSpot(0, 0),
-          FlSpot(1, last_Factor[0].toDouble()),
-          FlSpot(2, last_Factor[1].toDouble()),
-          FlSpot(3, last_Factor[2].toDouble()),
-          FlSpot(4, last_Factor[3].toDouble()),
-          FlSpot(5, last_Factor[4].toDouble()),
-          FlSpot(6, last_Factor[5].toDouble()),
-          FlSpot(7, last_Factor[6].toDouble()),
+          FlSpot(1, last_Factor[1].toDouble()),
+          FlSpot(2, last_Factor[2].toDouble()),
+          FlSpot(3, last_Factor[3].toDouble()),
+          FlSpot(4, last_Factor[4].toDouble()),
+          FlSpot(5, last_Factor[5].toDouble()),
+          FlSpot(6, last_Factor[6].toDouble()),
+          FlSpot(7, last_Factor[7].toDouble()),
         ],
       );
 }
@@ -796,7 +796,7 @@ class _LineChartMonth extends StatelessWidget {
         getTitlesWidget: leftTitleWidgets,
         showTitles: true,
         interval: 1,
-        reservedSize: 15,
+        reservedSize: 18,
       );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -863,7 +863,7 @@ class _LineChartMonth extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -909,7 +909,7 @@ class _LineChartMonth extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -920,37 +920,37 @@ class _LineChartMonth extends StatelessWidget {
         ),
         spots: [
           FlSpot(0, 0),
-          FlSpot(1, last_Factor[0].toDouble()),
-          FlSpot(2, last_Factor[1].toDouble()),
-          FlSpot(3, last_Factor[2].toDouble()),
-          FlSpot(4, last_Factor[3].toDouble()),
-          FlSpot(5, last_Factor[4].toDouble()),
-          FlSpot(6, last_Factor[5].toDouble()),
-          FlSpot(7, last_Factor[6].toDouble()),
-          FlSpot(8, last_Factor[7].toDouble()),
-          FlSpot(9, last_Factor[8].toDouble()),
-          FlSpot(10, last_Factor[9].toDouble()),
-          FlSpot(11, last_Factor[10].toDouble()),
-          FlSpot(12, last_Factor[11].toDouble()),
-          FlSpot(13, last_Factor[12].toDouble()),
-          FlSpot(14, last_Factor[13].toDouble()),
-          FlSpot(15, last_Factor[14].toDouble()),
-          FlSpot(16, last_Factor[15].toDouble()),
-          FlSpot(17, last_Factor[16].toDouble()),
-          FlSpot(18, last_Factor[17].toDouble()),
-          FlSpot(19, last_Factor[18].toDouble()),
-          FlSpot(20, last_Factor[19].toDouble()),
-          FlSpot(21, last_Factor[20].toDouble()),
-          FlSpot(22, last_Factor[21].toDouble()),
-          FlSpot(23, last_Factor[22].toDouble()),
-          FlSpot(24, last_Factor[23].toDouble()),
-          FlSpot(25, last_Factor[24].toDouble()),
-          FlSpot(26, last_Factor[25].toDouble()),
-          FlSpot(27, last_Factor[26].toDouble()),
-          FlSpot(28, last_Factor[27].toDouble()),
-          FlSpot(29, last_Factor[28].toDouble()),
-          FlSpot(30, last_Factor[29].toDouble()),
-          FlSpot(31, last_Factor[30].toDouble()),
+          FlSpot(1, last_Factor[1].toDouble()),
+          FlSpot(2, last_Factor[2].toDouble()),
+          FlSpot(3, last_Factor[3].toDouble()),
+          FlSpot(4, last_Factor[4].toDouble()),
+          FlSpot(5, last_Factor[5].toDouble()),
+          FlSpot(6, last_Factor[6].toDouble()),
+          FlSpot(7, last_Factor[7].toDouble()),
+          FlSpot(8, last_Factor[8].toDouble()),
+          FlSpot(9, last_Factor[9].toDouble()),
+          FlSpot(10, last_Factor[10].toDouble()),
+          FlSpot(11, last_Factor[11].toDouble()),
+          FlSpot(12, last_Factor[12].toDouble()),
+          FlSpot(13, last_Factor[13].toDouble()),
+          FlSpot(14, last_Factor[14].toDouble()),
+          FlSpot(15, last_Factor[15].toDouble()),
+          FlSpot(16, last_Factor[16].toDouble()),
+          FlSpot(17, last_Factor[17].toDouble()),
+          FlSpot(18, last_Factor[18].toDouble()),
+          FlSpot(19, last_Factor[19].toDouble()),
+          FlSpot(20, last_Factor[20].toDouble()),
+          FlSpot(21, last_Factor[21].toDouble()),
+          FlSpot(22, last_Factor[22].toDouble()),
+          FlSpot(23, last_Factor[23].toDouble()),
+          FlSpot(24, last_Factor[24].toDouble()),
+          FlSpot(25, last_Factor[25].toDouble()),
+          FlSpot(26, last_Factor[26].toDouble()),
+          FlSpot(27, last_Factor[27].toDouble()),
+          FlSpot(28, last_Factor[28].toDouble()),
+          FlSpot(29, last_Factor[29].toDouble()),
+          FlSpot(30, last_Factor[30].toDouble()),
+          FlSpot(31, last_Factor[31].toDouble()),
         ],
       );
 }
@@ -1280,8 +1280,8 @@ class _ChartPageState extends State<ChartPage> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.25,
-          child: LayoutBuilder(
-            builder: Column(
+          child: Container(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 SizedBox(
@@ -1298,8 +1298,12 @@ class _ChartPageState extends State<ChartPage> {
                         fontSize: MediaQuery.of(context).size.height * 0.03,
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.6,
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                      ),
                     ),
                     Container(
                       padding: EdgeInsets.only(
@@ -1382,6 +1386,9 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -1389,8 +1396,12 @@ class _ChartPageState extends State<ChartPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    SizedBox(
-                      width: MediaQuery.of(context).size.height * 0.025,
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                      ),
                     ),
                     Stack(
                       alignment: Alignment.center,
@@ -1440,8 +1451,12 @@ class _ChartPageState extends State<ChartPage> {
                         )),
                       ],
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.02,
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                      ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1630,6 +1645,9 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05
+                    ),
                   ],
                 ),
               ],
@@ -1661,8 +1679,12 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                        ),
                       ),
                       Row(
                         children: <Widget>[
@@ -1710,6 +1732,9 @@ class _ChartPageState extends State<ChartPage> {
                             ),
                           )
                         ],
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.05,
                       ),
                     ],
                   ),
