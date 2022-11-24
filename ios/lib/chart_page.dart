@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:intl/intl.dart';
 import 'concentration.dart';
 import 'dart:math';
 import 'utils.dart';
@@ -967,180 +968,40 @@ class _ChartPageState extends State<ChartPage> {
 
   // DB에서 자료를 긁어와 만들 리스트
   List<int> lastMonthCC = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0,
   ];
   List<int> curMonthCC = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0,
   ];
   List<int> lastMonthCCT = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0,
   ];
   List<int> curMonthCCT = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0,
   ];
   List<int> lastWeekCC = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> curWeekCC = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> lastWeekCCT = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   List<int> curWeekCCT = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0,
   ];
   // 탭 변경에 따라 화면 전환할 스위치
   int selectedTabWeeks = 0;
@@ -1166,10 +1027,11 @@ class _ChartPageState extends State<ChartPage> {
   int insertLastCCT = 0;
   int insertTotalCC = 0;
   int insertLastCC = 0;
+  Future<int>? checkDB;
 
   late List _periodsCCT = [
-    _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT),
-    _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT),
+    MonthCCTBuilder,
+    WeekCCTBuilder,
   ];
 
   List _TabColor = [
@@ -1178,8 +1040,8 @@ class _ChartPageState extends State<ChartPage> {
   ];
 
   late List _periodsCC = [
-    _LineChartMonthCC(Factor: curMonthCC, last_Factor: lastMonthCC),
-    _LineChartWeekCC(Factor: curWeekCC, last_Factor: lastWeekCC),
+    MonthCCBuilder,
+    WeekCCBuilder,
   ];
 
   List _changePeriods = [
@@ -1187,32 +1049,175 @@ class _ChartPageState extends State<ChartPage> {
     '주',
   ];
 
-  void initList(List<Concentration> list) {
-    for (int i = 0; i < list.length; i++) {
+  void initMonthList(List<Concentration> list) {
+    for(int i = 0; i < list.length; i++) {
       // 2022-10-02
       int day = int.parse(list[i].date!.substring(8, 10));
-      curMonthCCT[day] = (list[i].cctTime! / 3600).toInt();
+      curMonthCCT[day] = (list[i].cctTime!/3600).toInt();
       curMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
 
-  Future<int> getDataMonth() async {
-    final Database database = await widget.db;
-    List<Map<String, dynamic>> maps = await database.rawQuery(
-        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-        "FROM concentration "
-        "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
-        "GROUP BY date "
-        "ORDER BY date");
+  void initLastMonthList(List<Concentration> list){
+    for(int i = 0; i < list.length; i++) {
+      // 2022-10-02
+      int day = int.parse(list[i].date!.substring(8, 10));
+      lastMonthCCT[day] = (list[i].cctTime!/3600).toInt();
+      lastMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
+    }
+  }
 
-    List<Concentration> list = List.generate(maps.length, (i) {
+  void initWeekList(List<Concentration> list){
+    for(int i = 0; i < list.length; i++) {
+      int day = int.parse(list[i].date!.substring(8, 10));
+      var now = DateTime.now();
+      var firstday = now.subtract(Duration(days: now.weekday - 1));
+      String week_firstday = DateFormat('dd').format(firstday);
+      int weekday = day - int.parse(week_firstday) + 1;
+      curWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
+    }
+  }
+
+  void initLastWeekList(List<Concentration> list){
+    for(int i = 0; i < list.length; i++) {
+      int day = int.parse(list[i].date!.substring(8, 10));
+      var now = DateTime.now();
+      var firstday = now.subtract(Duration(days: now.weekday - 1));
+      String week_firstday = DateFormat('dd').format(firstday);
+      int weekday = day - int.parse(week_firstday) + 1;
+      lastWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      lastWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
+    }
+  }
+
+  Future<int> getDB() async {
+    final Database database = await widget.db;
+    List<Map<String, dynamic>> maps;
+    List<Concentration> list;
+
+    // 이번달 데이터 추출
+    maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+    list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
           cctTime: maps[i]['cctTime'],
           cctScore: maps[i]['cctScore']);
     });
-    initList(list);
+    initMonthList(list);
+
+    // 저번달 데이터 추출
+    maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime', '-1 months') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+    list = List.generate(maps.length, (i) {
+      return Concentration(
+          date: maps[i]['date'].toString(),
+          cctTime: maps[i]['cctTime'],
+          cctScore: maps[i]['cctScore']);
+    });
+    initLastMonthList(list);
+
+    // 이번주 데이터 추출
+    maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-6 days', 'weekday 1') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+    list =  List.generate(maps.length, (i) {
+      return Concentration(
+          date: maps[i]['date'].toString(),
+          cctTime: maps[i]['cctTime'],
+          cctScore: maps[i]['cctScore']);
+    });
+    initWeekList(list);
+
+    // 저번주 데이터 추출
+    maps = await database.rawQuery(
+        "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
+            "FROM concentration "
+            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-13 days', 'weekday 1') "
+            "AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', 'now', 'localtime', '-7 days', 'weekday 0') "
+            "GROUP BY date "
+            "ORDER BY date"
+    );
+    list =  List.generate(maps.length, (i) {
+      return Concentration(
+          date: maps[i]['date'].toString(),
+          cctTime: maps[i]['cctTime'],
+          cctScore: maps[i]['cctScore']);
+    });
+    initLastWeekList(list);
+
     return 1;
+  }
+
+  Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT);
+    }
+  }
+
+  Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT);
+    }
+  }
+
+  Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartMonthCC(Factor: curMonthCC, last_Factor: lastMonthCC);
+    }
+  }
+
+  Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
+  {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return _LineChartWeekCC(Factor: curWeekCC, last_Factor: lastWeekCC);
+    }
   }
 
   void _insertDB() {
@@ -1222,12 +1227,12 @@ class _ChartPageState extends State<ChartPage> {
     2. 일자 확인 : 현재 일자(Datetime) 기준, 속하는 달을 이번달 리스트, 과거는 저번달 리스트
     3. DB 없을 때 처리 : 원하는 일자에 DB가 존재하지 않으면 해당 배열값은 0.
      */
-    getDataMonth();
+    checkDB = getDB();
   }
 
   void _initTotal() {
     _insertDB();
-    for (int i = 0; i < 31; i++) {
+    for(int i = 0; i < 31; i++) {
       if (i < 7) {
         totalCCTW += curWeekCCT[i];
         totalCCW += curWeekCC[i];
@@ -1239,10 +1244,10 @@ class _ChartPageState extends State<ChartPage> {
       last_totalCCT += lastMonthCCT[i];
       last_totalCC += lastMonthCC[i];
     }
-    last_totalCC = (last_totalCC / 31).toInt();
-    last_totalCCW = (last_totalCCW / 7).toInt();
-    totalCC = (totalCC / 31).toInt();
-    totalCCW = (totalCCW / 7).toInt();
+    last_totalCC = (last_totalCC/31).toInt();
+    last_totalCCW = (last_totalCCW/7).toInt();
+    totalCC = (totalCC/31).toInt();
+    totalCCW = (totalCCW/7).toInt();
     totalCCTW *= 3600;
     totalCCT *= 3600;
     last_totalCCTW *= 3600;
@@ -1275,8 +1280,8 @@ class _ChartPageState extends State<ChartPage> {
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.25,
-          child: Container(
-            child: Column(
+          child: LayoutBuilder(
+            builder: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 SizedBox(
@@ -1335,7 +1340,9 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                       ),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.025),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.025,
+                    ),
                     Container(
                       padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.003,
@@ -1596,8 +1603,7 @@ class _ChartPageState extends State<ChartPage> {
                                           style: TextStyle(
                                             fontSize: MediaQuery.of(context)
                                                     .size
-                                                    .width *
-                                                0.03,
+                                                    .width * 0.03,
                                             fontWeight: FontWeight.w800,
                                             color: HexColor('#D3D3D3'),
                                           ),
@@ -1605,16 +1611,14 @@ class _ChartPageState extends State<ChartPage> {
                                         SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
-                                                  .height *
-                                              0.01,
+                                                  .height * 0.01,
                                         ),
                                         Text('${insertTotalCC.toString()} %',
                                             style: TextStyle(
                                                 fontFamily: 'pyeongchang',
                                                 fontSize: MediaQuery.of(context)
                                                         .size
-                                                        .width *
-                                                    0.04,
+                                                        .width * 0.04,
                                                 color: HexColor('#FFFFFF'))),
                                       ],
                                     ),
@@ -1715,7 +1719,10 @@ class _ChartPageState extends State<ChartPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16, left: 6),
-                      child: _periodsCCT[selectedPeriodCCT],
+                      child: FutureBuilder(
+                        builder: _periodsCCT[selectedPeriodCCT],
+                        future: checkDB,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -1754,7 +1761,10 @@ class _ChartPageState extends State<ChartPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(right: 16, left: 6),
-                      child: _periodsCC[selectedPeriodCC],
+                      child: FutureBuilder(
+                        builder: _periodsCC[selectedPeriodCC],
+                        future: checkDB,
+                      ),
                     ),
                   ),
                   SizedBox(
