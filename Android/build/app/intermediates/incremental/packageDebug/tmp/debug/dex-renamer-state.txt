@@ -1,4 +1,4 @@
-#Fri Nov 25 15:48:08 KST 2022
+#Fri Nov 25 17:05:50 KST 2022
 base.1=/Users/joo/Desktop/code/android/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 path.1=classes2.dex
 base.0=/Users/joo/Desktop/code/android/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex

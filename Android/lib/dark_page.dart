@@ -106,7 +106,6 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     total = widget.myValue;
     countTime = 0;
     loLoo = printDuration(Duration(seconds: total.toInt()));
-    _loadInterstitialAd();
   }
 
   /*
@@ -184,6 +183,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     // _start() 함수를 한 번 실행하고 난 뒤, 추가 실행하지 않는다. 안 그러면 위젯 내부에서 여러번 _start가 중복됨
     if (trigger) {
       _start();
+      _loadInterstitialAd();
       trigger = false;
     }
     return Scaffold(

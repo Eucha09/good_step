@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   int cctScoreDay = 0;
   Future<Concentration>? todayCCT;
   bool isUpdate = false;
+  var footcolor = HexColor("#3b444b");
   final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
 
   late final InterstitialAd interstitialAd;
@@ -275,8 +276,11 @@ class _HomePageState extends State<HomePage> {
                   height: MediaQuery.of(context).size.height * 0.215,
                   child: FittedBox(
                     child: FloatingActionButton(
-                      backgroundColor: HexColor("#3b444b"),
+                      backgroundColor: footcolor,
                       onPressed: () async {
+                        setState(() {
+                          footcolor = HexColor('#b3cf99');
+                        });
                         // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
                         isUpdate = await Navigator.push(
                           context,
@@ -290,6 +294,7 @@ class _HomePageState extends State<HomePage> {
                             if (isUpdate) {
                               todayCCT = getTotalDay();
                               isUpdate = false;
+                              footcolor = HexColor("#3b444b");
                             }
                           });
                         }
