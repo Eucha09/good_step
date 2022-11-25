@@ -14,8 +14,8 @@ class DonatePage extends StatefulWidget {
 class _AwesomeCarouselState extends State<DonatePage> {
 
   List<String> data = [
-    'assets/donation.jpeg',
-    'assets/donation_brand.jpeg',
+    'assets/donation.png',
+    'assets/donation_brand.png',
   ];
 
   int _currentPage = 0;
@@ -37,10 +37,11 @@ class _AwesomeCarouselState extends State<DonatePage> {
           ),),
         backgroundColor: HexColor("#161A24"),
       ),
-      bottomNavigationBar: Container(
-        height: 60,
-        child: AdBanner(),
-      ),
+      //Banner 광고 Test
+      // bottomNavigationBar: Container(
+      //   height: 60,
+      //   child: AdBanner(),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           verticalDirection: VerticalDirection.down,
@@ -126,7 +127,7 @@ class _AwesomeCarouselState extends State<DonatePage> {
                 child: GestureDetector(
                   onTap: () {
                     final Uri url = Uri.parse(
-                        "https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
+                        "https://harvest-lightning-366.notion.site/Good-Step-9b48fcb26ae44d838d891e0e5f825155");
                     launchUrl(url);
                   },
                   child: Text(
