@@ -38,7 +38,6 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   bool trigger = true;
   bool giveUp = false;
   bool isRestart = false;
-  bool selectGiveUp = false;
   double countTime = 0;
   double total = 0;
   int cctTime = 0;
@@ -148,6 +147,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
               // 포기하지 않으면 집중시간은 total과 동일
               if (!giveUp) {
                 cctTime = total.toInt();
+                // 광고 삽입(집중시간 완수)
+                _showInterstitialAd();
               }
               // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
               if (cctScore < 0) {
@@ -197,7 +198,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
           behavior: HitTestBehavior.translucent,
           onTap: () {
             // tab하고 팝업창을 띄우기 위한 설정
-            if(!selectGiveUp) {
+            if(!giveUp) {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -241,7 +242,6 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                       isRestart = false;
                                       _start();
                                     } else {
-                                      selectGiveUp = true;
                                       cctTime = (countTime).toInt();
                                       cctScore -= 50;
                                       countTime = total;
