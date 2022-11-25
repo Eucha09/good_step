@@ -40,6 +40,25 @@
                     }
                 },
                 {
+                    "source": "/Users/yunhokwak/Desktop/M&&B/good_step/android/android/app/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "3,17",
+                        "startColumns": "4,4",
+                        "startOffsets": "173,1015",
+                        "endLines": "10,19",
+                        "endColumns": "12,12",
+                        "endOffsets": "673,1179"
+                    },
+                    "to": {
+                        "startLines": "164,171",
+                        "startColumns": "4,4",
+                        "startOffsets": "11876,12254",
+                        "endLines": "170,173",
+                        "endColumns": "12,12",
+                        "endOffsets": "12249,12418"
+                    }
+                },
+                {
                     "source": "/Users/yunhokwak/.gradle/caches/transforms-3/62947f9b007500d2dcc530dc5e0e6895/transformed/browser-1.4.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11",
@@ -181,25 +200,6 @@
                         "startOffsets": "7337",
                         "endColumns": "82",
                         "endOffsets": "7415"
-                    }
-                },
-                {
-                    "source": "/Users/yunhokwak/Desktop/M&&B/good_step/Android/android/app/src/main/res/values/styles.xml",
-                    "from": {
-                        "startLines": "3,17",
-                        "startColumns": "4,4",
-                        "startOffsets": "173,1015",
-                        "endLines": "10,19",
-                        "endColumns": "12,12",
-                        "endOffsets": "673,1179"
-                    },
-                    "to": {
-                        "startLines": "164,171",
-                        "startColumns": "4,4",
-                        "startOffsets": "11876,12254",
-                        "endLines": "170,173",
-                        "endColumns": "12,12",
-                        "endOffsets": "12249,12418"
                     }
                 }
             ]

@@ -68,10 +68,6 @@
         "source": "com.example.example.app-main-13:/mipmap-mdpi/ic_launcher.png"
     },
     {
-        "merged": "com.example.example.app-merged_res-19:/drawable_splash.png.flat",
-        "source": "com.example.example.app-main-13:/drawable/splash.png"
-    },
-    {
         "merged": "com.example.example.app-merged_res-19:/drawable-night_launch_background.xml.flat",
         "source": "com.example.example.app-main-13:/drawable-night/launch_background.xml"
     },

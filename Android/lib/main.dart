@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
       },
       home:
       AnimatedSplashScreen(
-        splash: Image.asset('assets/donation.png'),
-        duration: 1500,
+        splash: Image.asset('assets/splash.png'),
+        duration: 3500,
         nextScreen: RootPage(database),
         splashIconSize: 150,
       ),
