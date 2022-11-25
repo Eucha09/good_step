@@ -1050,43 +1050,43 @@ class _ChartPageState extends State<ChartPage> {
   ];
 
   void initMonthList(List<Concentration> list) {
-    for(int i = 0; i < list.length; i++) {
+    for (int i = 0; i < list.length; i++) {
       // 2022-10-02
       int day = int.parse(list[i].date!.substring(8, 10));
-      curMonthCCT[day] = (list[i].cctTime!/3600).toInt();
+      curMonthCCT[day] = (list[i].cctTime! / 3600).toInt();
       curMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
 
-  void initLastMonthList(List<Concentration> list){
-    for(int i = 0; i < list.length; i++) {
+  void initLastMonthList(List<Concentration> list) {
+    for (int i = 0; i < list.length; i++) {
       // 2022-10-02
       int day = int.parse(list[i].date!.substring(8, 10));
-      lastMonthCCT[day] = (list[i].cctTime!/3600).toInt();
+      lastMonthCCT[day] = (list[i].cctTime! / 3600).toInt();
       lastMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
 
-  void initWeekList(List<Concentration> list){
-    for(int i = 0; i < list.length; i++) {
+  void initWeekList(List<Concentration> list) {
+    for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
       var firstday = now.subtract(Duration(days: now.weekday - 1));
       String week_firstday = DateFormat('dd').format(firstday);
       int weekday = day - int.parse(week_firstday) + 1;
-      curWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      curWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
 
-  void initLastWeekList(List<Concentration> list){
-    for(int i = 0; i < list.length; i++) {
+  void initLastWeekList(List<Concentration> list) {
+    for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
       var firstday = now.subtract(Duration(days: now.weekday - 1));
       String week_firstday = DateFormat('dd').format(firstday);
       int weekday = day - int.parse(week_firstday) + 1;
-      lastWeekCCT[weekday] = (list[i].cctTime!/3600).toInt();
+      lastWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       lastWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
@@ -1102,8 +1102,7 @@ class _ChartPageState extends State<ChartPage> {
             "FROM concentration "
             "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
             "GROUP BY date "
-            "ORDER BY date"
-    );
+            "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1118,8 +1117,7 @@ class _ChartPageState extends State<ChartPage> {
             "FROM concentration "
             "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime', '-1 months') "
             "GROUP BY date "
-            "ORDER BY date"
-    );
+            "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1134,9 +1132,8 @@ class _ChartPageState extends State<ChartPage> {
             "FROM concentration "
             "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-6 days', 'weekday 1') "
             "GROUP BY date "
-            "ORDER BY date"
-    );
-    list =  List.generate(maps.length, (i) {
+            "ORDER BY date");
+    list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
           cctTime: maps[i]['cctTime'],
@@ -1151,9 +1148,8 @@ class _ChartPageState extends State<ChartPage> {
             "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-13 days', 'weekday 1') "
             "AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', 'now', 'localtime', '-7 days', 'weekday 0') "
             "GROUP BY date "
-            "ORDER BY date"
-    );
-    list =  List.generate(maps.length, (i) {
+            "ORDER BY date");
+    list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
           cctTime: maps[i]['cctTime'],
@@ -1161,11 +1157,11 @@ class _ChartPageState extends State<ChartPage> {
     });
     initLastWeekList(list);
 
+    _initTotal();
     return 1;
   }
 
-  Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1178,8 +1174,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
-  Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1192,8 +1187,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
-  Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1206,8 +1200,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
-  Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot)
-  {
+  Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1217,6 +1210,88 @@ class _ChartPageState extends State<ChartPage> {
         return CircularProgressIndicator();
       case ConnectionState.done:
         return _LineChartWeekCC(Factor: curWeekCC, last_Factor: lastWeekCC);
+    }
+  }
+
+  Widget totalCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return Text('${insertTotalCC.toString()} %',
+            style: TextStyle(
+                fontFamily: 'Cafe24',
+                fontSize: MediaQuery.of(context)
+                    .size
+                    .width *
+                    0.04,
+                color: HexColor('#FFFFFF')));
+    }
+  }
+
+  Widget totalLastCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return Text('${insertLastCC.toString()} %',
+            style: TextStyle(
+                fontFamily: 'Cafe24',
+                fontSize: MediaQuery.of(context)
+                    .size
+                    .width *
+                    0.04,
+                color: HexColor('#FFFFFF')));
+    }
+  }
+
+  Widget totalCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return Text(
+            '${(insertTotalCCT / 3600).toInt().toString()} 시간',
+            style: TextStyle(
+                fontFamily: 'Cafe24',
+                fontSize: MediaQuery.of(context)
+                    .size
+                    .width *
+                    0.04,
+                color: HexColor('#FFFFFF')));
+    }
+  }
+
+  Widget totalLastCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return CircularProgressIndicator();
+      case ConnectionState.waiting:
+        return CircularProgressIndicator();
+      case ConnectionState.active:
+        return CircularProgressIndicator();
+      case ConnectionState.done:
+        return Text(
+            '${(insertLastCCT / 3600).toInt().toString()} 시간',
+            style: TextStyle(
+                fontFamily: 'Cafe24',
+                fontSize: MediaQuery.of(context)
+                    .size
+                    .width *
+                    0.04,
+                color: HexColor('#FFFFFF')));
     }
   }
 
@@ -1231,27 +1306,60 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   void _initTotal() {
-    _insertDB();
-    for(int i = 0; i < 31; i++) {
-      if (i < 7) {
+    int curweekcount = 0;
+    int lastweekcount = 0;
+    int curcount = 0;
+    int lastcount = 0;
+    for (int i = 1; i <= 31; i++) {
+      if (i <= 7) {
+        if (curWeekCCT[i] != 0) {
+          curweekcount += 1;
+        }
+        if (lastWeekCCT[i] != 0) {
+          lastweekcount += 1;
+        }
         totalCCTW += curWeekCCT[i];
         totalCCW += curWeekCC[i];
         last_totalCCTW += lastWeekCCT[i];
         last_totalCCW += lastWeekCC[i];
+      }
+      if (curMonthCCT[i] != 0) {
+        curcount += 1;
+      }
+      if (lastMonthCCT[i] != 0) {
+        lastcount += 1;
       }
       totalCCT += curMonthCCT[i];
       totalCC += curMonthCC[i];
       last_totalCCT += lastMonthCCT[i];
       last_totalCC += lastMonthCC[i];
     }
-    last_totalCC = (last_totalCC/31).toInt();
-    last_totalCCW = (last_totalCCW/7).toInt();
-    totalCC = (totalCC/31).toInt();
-    totalCCW = (totalCCW/7).toInt();
+    if (curcount == 0) {
+      curcount = 1;
+    }
+    if (lastcount == 0) {
+      lastcount = 1;
+    }
+    if (curweekcount == 0) {
+      curweekcount = 1;
+    }
+    if (lastweekcount == 0) {
+      lastweekcount = 1;
+    }
+    last_totalCC = (last_totalCC / lastcount).toInt();
+    last_totalCCW = (last_totalCCW / lastweekcount).toInt();
+    totalCC = (totalCC / curcount).toInt();
+    totalCCW = (totalCCW / curweekcount).toInt();
     totalCCTW *= 3600;
     totalCCT *= 3600;
     last_totalCCTW *= 3600;
     last_totalCCT *= 3600;
+
+    insertTotalCC = totalCCW;
+    insertLastCC = last_totalCCW;
+    insertTotalCCT = totalCCTW;
+    insertLastCCT = last_totalCCTW;
+    insertLimitedCCT = limitedCCTW;
   }
 
   @override
@@ -1261,7 +1369,7 @@ class _ChartPageState extends State<ChartPage> {
     selectedPeriodCC = 1;
     selectedTabMonths = 0;
     selectedTabWeeks = 1;
-    _initTotal();
+    _insertDB();
     insertTotalCC = totalCCW;
     insertLastCC = last_totalCCW;
     insertTotalCCT = totalCCTW;
@@ -1498,15 +1606,10 @@ class _ChartPageState extends State<ChartPage> {
                                                   .height *
                                               0.01,
                                         ),
-                                        Text(
-                                            '${(insertLastCCT / 3600).toInt().toString()} 시간',
-                                            style: TextStyle(
-                                                fontFamily: 'pyeongchang',
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.04,
-                                                color: HexColor('#FFFFFF'))),
+                                        FutureBuilder(
+                                          builder: totalLastCCTBuilder,
+                                          future: checkDB,
+                                        )
                                       ],
                                     ),
                                   ),
@@ -1536,15 +1639,10 @@ class _ChartPageState extends State<ChartPage> {
                                                   .height *
                                               0.01,
                                         ),
-                                        Text(
-                                            '${(insertTotalCCT / 3600).toInt().toString()} 시간',
-                                            style: TextStyle(
-                                                fontFamily: 'pyeongchang',
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.04,
-                                                color: HexColor('#FFFFFF'))),
+                                        FutureBuilder(
+                                          builder: totalCCTBuilder,
+                                          future: checkDB,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -1593,14 +1691,10 @@ class _ChartPageState extends State<ChartPage> {
                                                   .height *
                                               0.01,
                                         ),
-                                        Text('${insertLastCC.toString()} %',
-                                            style: TextStyle(
-                                                fontFamily: 'pyeongchang',
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.04,
-                                                color: HexColor('#FFFFFF'))),
+                                        FutureBuilder(
+                                          builder: totalLastCCBuilder,
+                                          future: checkDB,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -1628,13 +1722,10 @@ class _ChartPageState extends State<ChartPage> {
                                                   .size
                                                   .height * 0.01,
                                         ),
-                                        Text('${insertTotalCC.toString()} %',
-                                            style: TextStyle(
-                                                fontFamily: 'pyeongchang',
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width * 0.04,
-                                                color: HexColor('#FFFFFF'))),
+                                        FutureBuilder(
+                                          builder: totalCCBuilder,
+                                          future: checkDB,
+                                        ),
                                       ],
                                     ),
                                   ),

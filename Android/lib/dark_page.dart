@@ -145,9 +145,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
             } else {
               // 포기하지 않으면 집중시간은 total과 동일
               if (!giveUp) {
-                cctTime = total.toInt();
-                // 광고 삽입(집중시간 완수)
+                // 포기하지 않았을 떄, 들어갈 광고
                 _showInterstitialAd();
+                cctTime = total.toInt();
               }
               // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
               if (cctScore < 0) {
@@ -182,8 +182,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     // _start() 함수를 한 번 실행하고 난 뒤, 추가 실행하지 않는다. 안 그러면 위젯 내부에서 여러번 _start가 중복됨
     if (trigger) {
-      _start();
       _loadInterstitialAd();
+      _start();
       trigger = false;
     }
     return Scaffold(

@@ -271,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                         context,
                         CupertinoPageRoute(builder: (context) => DarkPage(myValue, widget.db)),
                       );
-                      if (isUpdate) {
+                      /*if (isUpdate) {
                         // setState를 통해 DB에 누적된 값을 다시 받아온다
                         setState(() {
                           if (isUpdate) {
@@ -279,7 +279,7 @@ class _HomePageState extends State<HomePage> {
                             isUpdate = false;
                           }
                         });
-                      }
+                      }*/
                     },
                     // 버튼에 들어가는 상징물
                     child: Container(
