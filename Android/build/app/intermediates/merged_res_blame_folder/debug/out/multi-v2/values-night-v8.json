@@ -4,7 +4,7 @@
             "outputFile": "com.example.example.app-mergeDebugResources-17:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "/Users/yunhokwak/Desktop/M&&B/good_step/android/android/app/src/main/res/values-night/styles.xml",
+                    "source": "/Users/joo/Desktop/code/android/android/app/src/main/res/values-night/styles.xml",
                     "from": {
                         "startLines": "3,17",
                         "startColumns": "4,4",

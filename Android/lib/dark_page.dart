@@ -38,10 +38,12 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   bool trigger = true;
   bool giveUp = false;
   bool isRestart = false;
+  bool selectGiveUp = false;
   double countTime = 0;
   double total = 0;
   int cctTime = 0;
   int cctScore = 100;
+  int finalScore = 0;
   late final InterstitialAd interstitialAd;
   final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
   late final RewardedAd rewardedAd;
@@ -151,7 +153,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
               if (cctScore < 0) {
                 cctScore = 0;
               }
-              cctScore *= cctTime;
+              finalScore = cctScore * cctTime;
               // DB 리스트 전달 관련 내용 들어갈 예정
               var now = new DateTime.now();
               String date;
@@ -163,8 +165,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                 date: date,
                 time: time,
                 cctTime: cctTime,
-                cctScore: cctScore,
+                cctScore: finalScore,
               );
+              print('Time: $cctTime, Score: $finalScore');
               _insertData(data);
               Navigator.pop(context, true);
             }
@@ -185,78 +188,91 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     return Scaffold(
       // 화면 전체에 터치 이벤트를 넣기 위해 body 부분을 GestureDetector로 감싼다
       backgroundColor: HexColor("#000000"),
-      body: GestureDetector(
+      body: WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+      child: GestureDetector(
           // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
           behavior: HitTestBehavior.translucent,
           onTap: () {
             // tab하고 팝업창을 띄우기 위한 설정
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return Center(
-                    child: Container(
-                      // 팝업창 크기 적용
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      // 팝업창 모양, 들어갈 문장 등 적용
-                      child: AlertDialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15.0))),
-                        contentPadding: EdgeInsets.only(top: 0),
-                        content: Center(
-                            child: Text(isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                ))),
-                        // 팝업창에서 실제 이벤트가 벌어지는 부분
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  backgroundColor: HexColor('#64B5F6'),
-                                  foregroundColor: HexColor('#FFFFFF'),
+            if(!selectGiveUp) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: Container(
+                        // 팝업창 크기 적용
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.8,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.25,
+                        // 팝업창 모양, 들어갈 문장 등 적용
+                        child: AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(15.0))),
+                          contentPadding: EdgeInsets.only(top: 0),
+                          content: Center(
+                              child: Text(
+                                  isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ))),
+                          // 팝업창에서 실제 이벤트가 벌어지는 부분
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: HexColor('#64B5F6'),
+                                    foregroundColor: HexColor('#FFFFFF'),
+                                  ),
+                                  child: Text('예'),
+                                  onPressed: () {
+                                    // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
+                                    if (isRestart) {
+                                      isRestart = false;
+                                      _start();
+                                    } else {
+                                      selectGiveUp = true;
+                                      cctTime = (countTime).toInt();
+                                      cctScore -= 50;
+                                      countTime = total;
+                                      giveUp = true;
+                                      _showInterstitialAd();
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
                                 ),
-                                child: Text('예'),
-                                onPressed: () {
-                                  // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-                                  if (isRestart) {
-                                    isRestart = false;
-                                    _showInterstitialAd();
-                                    _start();
-                                  } else {
-                                    cctTime = (countTime).toInt();
-                                    cctScore -= 50;
-                                    countTime = total;
-                                    giveUp = true;
-                                  }
-                                  _showInterstitialAd();
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  backgroundColor: HexColor('#64B5F6'),
-                                  foregroundColor: HexColor('#FFFFFF'),
-                                ),
-                                child: Text('아니오'),
-                                onPressed: () {
-                                  // 아니오를 누르면 팝업창만 탈출
-                                  if (!isRestart) {
-                                    cctScore -= 5;
-                                  }
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          ),
-                        ],
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: HexColor('#64B5F6'),
+                                    foregroundColor: HexColor('#FFFFFF'),
+                                  ),
+                                  child: Text('아니오'),
+                                  onPressed: () {
+                                    // 아니오를 누르면 팝업창만 탈출
+                                    if (!isRestart) {
+                                      cctScore -= 5;
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                });
+                    );
+                  });
+            };
           },
           // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
           child: Column(
@@ -274,6 +290,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                   ),
                 ),
               ])),
+      ),
     );
   }
 }
