@@ -29,9 +29,10 @@ class MyApp extends StatelessWidget {
             child: child!,
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0));
       },
-      home: AnimatedSplashScreen(
-        splash: Image.asset('assets/splash.png'),
-        duration: 1000,
+      home:
+      AnimatedSplashScreen(
+        splash: Image.asset('assets/donation.png'),
+        duration: 1500,
         nextScreen: RootPage(database),
         splashIconSize: 150,
       ),

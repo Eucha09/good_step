@@ -1,4 +1,4 @@
-#Fri Nov 25 10:11:42 KST 2022
+#Fri Nov 25 10:58:46 KST 2022
 base.1=/Users/yunhokwak/Desktop/M&&B/good_step/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 path.1=classes2.dex
 base.0=/Users/yunhokwak/Desktop/M&&B/good_step/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
