@@ -7,6 +7,10 @@ import 'package:sqflite/sqflite.dart';
 //import 'package:path/path.dart';
 import 'concentration.dart';
 import 'dart:async';
+import 'ad_helper.dart';
+import 'home_page.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 
 // 원형 슬라이더 내부 버튼을 누르고 튀어 나올 검은 화면을 정의할 클래스
 class DarkPage extends StatefulWidget {
@@ -38,6 +42,49 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   double total = 0;
   int cctTime = 0;
   int cctScore = 100;
+  late final InterstitialAd interstitialAd;
+  final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
+  late final RewardedAd rewardedAd;
+
+  //광고
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: interstitialAdUnitId,
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad){
+            interstitialAd = ad;
+            _setFullScreenContentCallback(ad);
+          },
+          onAdFailedToLoad: (LoadAdError loadAdError){
+            print("Interstitial ad failed to load: $loadAdError");
+          }
+      ),
+    );
+  }
+  //광고
+  void _setFullScreenContentCallback(InterstitialAd ad){
+
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) => print("$ad onAdShowedFullScreenContent"),
+      onAdDismissedFullScreenContent: (InterstitialAd ad){
+        print("$ad onAdDismissedFullScreenContent");
+
+        ad.dispose();
+      },
+
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error){
+        print("onAdFailedToShowFullScreenContent: $error ");
+      },
+
+      onAdImpression: (InterstitialAd ad) => print("$ad Impression occured"),
+    );
+
+  }
+  //광고
+  void _showInterstitialAd(){
+    interstitialAd.show();
+  }
 
   @override
   void dispose() {
@@ -58,6 +105,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     total = widget.myValue;
     countTime = 0;
     loLoo = printDuration(Duration(seconds: total.toInt()));
+    _loadInterstitialAd();
   }
 
   /*
@@ -124,6 +172,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
         };
 
     _timer = Timer.periodic(oneSec, callback);
+
   }
 
   @override
@@ -175,6 +224,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                   // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
                                   if (isRestart) {
                                     isRestart = false;
+                                    _showInterstitialAd();
                                     _start();
                                   } else {
                                     cctTime = (countTime).toInt();
@@ -182,6 +232,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                     countTime = total;
                                     giveUp = true;
                                   }
+                                  _showInterstitialAd();
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -226,3 +277,4 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     );
   }
 }
+

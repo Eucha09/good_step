@@ -7,6 +7,7 @@ import 'root_page.dart';
 import 'utils.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 // 메인 함수에서 실행 시 바로 MyApp 클래스를 앱 환경에서 구동하여 반환
 void main() {

@@ -5,6 +5,9 @@ import 'concentration.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'ad_helper.dart';
+import 'dart:io';
 
 // 실제로 앱 실행 시 전면부에 나올 홈페이지 및 집중시간 적용 시 이어지는 DarkPage 화면을 위한 다트 파일
 // printDuration : 디지털 시계화면 출력 용도
@@ -45,12 +48,18 @@ class _HomePageState extends State<HomePage> {
   bool isUpdate = false;
   final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
 
+  late final InterstitialAd interstitialAd;
+  final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
+  late final RewardedAd rewardedAd;
+
+
   @override
   void initState() {
     super.initState();
     myValue = 0;
     todayCCT = getTotalDay();
     loLoo = "00:00";
+
   }
 
   Future<Concentration> getTotalDay() async {
@@ -122,7 +131,8 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                       ),
-                      child: Center(
+                      child: Center
+                        (
                         child: GestureDetector(
                           onTap: () {
                             final Uri url = Uri.parse(
@@ -314,13 +324,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         toolbarHeight: 50,
-        // title: Text(
-        //   'Thanks, Your \'GoodStep\'',
-        //   style: TextStyle(
-        //     fontWeight: FontWeight.bold,
-        //     fontSize: 25,
-        //     color: Colors.lightGreenAccent,
-        //   ),),
         actions: <Widget>[
           IconButton(
             onPressed: () => FlutterDialog(),

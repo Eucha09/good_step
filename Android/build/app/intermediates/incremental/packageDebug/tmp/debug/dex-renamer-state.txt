@@ -1,7 +1,7 @@
-#Thu Nov 24 14:55:00 KST 2022
-base.1=/Users/joo/Desktop/Team_project/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
+#Fri Nov 25 09:51:53 KST 2022
+base.1=/Users/yunhokwak/Desktop/M&&B/good_step/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 path.1=classes2.dex
-base.0=/Users/joo/Desktop/Team_project/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+base.0=/Users/yunhokwak/Desktop/M&&B/good_step/Android/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
 path.0=classes.dex
