@@ -7,8 +7,6 @@ import 'package:sqflite/sqflite.dart';
 //import 'package:path/path.dart';
 import 'concentration.dart';
 import 'dart:async';
-import 'ad_helper.dart';
-import 'home_page.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
@@ -43,9 +41,15 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   int cctTime = 0;
   int cctScore = 100;
   int finalScore = 0;
+
+
+  //전면 광고
   late final InterstitialAd interstitialAd;
   final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
+
+  //보상형 광고
   late final RewardedAd rewardedAd;
+  final String rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
 
   //광고
   void _loadInterstitialAd() {
