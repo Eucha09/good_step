@@ -11,8 +11,8 @@ class DonatePage extends StatefulWidget {
 class _AwesomeCarouselState extends State<DonatePage> {
 
   List<String> data = [
-    'assets/donation.jpeg',
-    'assets/donation_brand.jpeg',
+    'assets/donation.png',
+    'assets/donation_brand.png',
   ];
 
   int _currentPage = 0;

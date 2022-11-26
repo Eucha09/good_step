@@ -77,8 +77,8 @@ flutter:
   assets:
     - assets/splash.png
     - assets/north_pole.jpeg
-    - assets/donation.jpeg
-    - assets/donation_brand.jpeg
+    - assets/donation.png
+    - assets/donation_brand.png
     - assets/footsteps.png
     - assets/logo.png
     - assets/Instagram_logo.png
