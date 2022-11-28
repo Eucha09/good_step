@@ -82,6 +82,17 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <provider
+            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+            android:authorities="com.example.example.flutter.image_provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/flutter_image_picker_file_paths" />
+        </provider>
+
         <meta-data
             android:name="io.flutter.embedded_views_preview"
             android:value="true" />
@@ -113,13 +124,7 @@
             android:required="false" />
         <uses-library
             android:name="androidx.window.sidecar"
-            android:required="false" />
-
-        <provider
-            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-            android:authorities="com.example.example.lifecycle-process"
-            android:exported="false"
-            android:multiprocess="true" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+            android:required="false" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -246,6 +251,12 @@
                 <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+            android:authorities="com.example.example.lifecycle-process"
+            android:exported="false"
+            android:multiprocess="true" />
 
         <service
             android:name="androidx.room.MultiInstanceInvalidationService"

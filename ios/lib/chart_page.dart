@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 import 'concentration.dart';
 import 'dart:math';
+import 'dart:io';
 import 'utils.dart';
 
 class _PieChart extends CustomPainter {
@@ -964,6 +969,9 @@ class ChartPage extends StatefulWidget {
 }
 
 class _ChartPageState extends State<ChartPage> {
+  final ImagePicker _picker = ImagePicker();
+  //XFile? _image;
+  File? _setImage;
   Future<List<Concentration>>? cctList;
 
   // DB에서 자료를 긁어와 만들 리스트
@@ -1028,6 +1036,7 @@ class _ChartPageState extends State<ChartPage> {
   int insertTotalCC = 0;
   int insertLastCC = 0;
   Future<int>? checkDB;
+  Future<int>? checkPIC;
 
   late List _periodsCCT = [
     MonthCCTBuilder,
@@ -1048,6 +1057,22 @@ class _ChartPageState extends State<ChartPage> {
     '달',
     '주',
   ];
+
+  // image를 사진첩에서 공수해온다
+  Future<int> gsImage(bool isGet) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (isGet) {
+      final directory = await getApplicationDocumentsDirectory();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      final File temp = File(image!.path);
+      final _path = directory.path;
+      _setImage = await temp.copy('$_path/setImage.png');
+      prefs.setString('setImage', _setImage!.path);
+    } else {
+      _setImage = File(prefs.getString('setImage').toString());
+    }
+    return 1;
+  }
 
   void initMonthList(List<Concentration> list) {
     for (int i = 0; i < list.length; i++) {
@@ -1083,7 +1108,7 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
-      var firstday = now.subtract(Duration(days: now.weekday - 1));
+      var firstday = now.subtract(Duration(days: now.weekday + 6));
       String week_firstday = DateFormat('dd').format(firstday);
       int weekday = day - int.parse(week_firstday) + 1;
       lastWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
@@ -1164,11 +1189,11 @@ class _ChartPageState extends State<ChartPage> {
   Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT);
     }
@@ -1177,11 +1202,11 @@ class _ChartPageState extends State<ChartPage> {
   Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT);
     }
@@ -1190,11 +1215,11 @@ class _ChartPageState extends State<ChartPage> {
   Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return _LineChartMonthCC(Factor: curMonthCC, last_Factor: lastMonthCC);
     }
@@ -1203,11 +1228,11 @@ class _ChartPageState extends State<ChartPage> {
   Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return _LineChartWeekCC(Factor: curWeekCC, last_Factor: lastWeekCC);
     }
@@ -1216,15 +1241,15 @@ class _ChartPageState extends State<ChartPage> {
   Widget totalCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return Text('${insertTotalCC.toString()} %',
             style: TextStyle(
-                fontFamily: 'Cafe24',
+                fontFamily: 'pyeongchang',
                 fontSize: MediaQuery.of(context)
                     .size
                     .width *
@@ -1236,15 +1261,15 @@ class _ChartPageState extends State<ChartPage> {
   Widget totalLastCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return Text('${insertLastCC.toString()} %',
             style: TextStyle(
-                fontFamily: 'Cafe24',
+                fontFamily: 'pyeongchang',
                 fontSize: MediaQuery.of(context)
                     .size
                     .width *
@@ -1256,16 +1281,16 @@ class _ChartPageState extends State<ChartPage> {
   Widget totalCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return Text(
             '${(insertTotalCCT / 3600).toInt().toString()} 시간',
             style: TextStyle(
-                fontFamily: 'Cafe24',
+                fontFamily: 'pyeongchang',
                 fontSize: MediaQuery.of(context)
                     .size
                     .width *
@@ -1277,21 +1302,99 @@ class _ChartPageState extends State<ChartPage> {
   Widget totalLastCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.waiting:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.active:
-        return CircularProgressIndicator();
+        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
       case ConnectionState.done:
         return Text(
             '${(insertLastCCT / 3600).toInt().toString()} 시간',
             style: TextStyle(
-                fontFamily: 'Cafe24',
+                fontFamily: 'pyeongchang',
                 fontSize: MediaQuery.of(context)
                     .size
                     .width *
                     0.04,
                 color: HexColor('#FFFFFF')));
+    }
+  }
+
+  Widget circularGraphCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+      case ConnectionState.waiting:
+        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+      case ConnectionState.active:
+        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+      case ConnectionState.done:
+        return CustomPaint(
+          size: Size(
+            MediaQuery.of(context).size.height * 0.15,
+            MediaQuery.of(context).size.height * 0.15,
+          ),
+          painter: _PieChart(
+            percentage:
+            (((insertLimitedCCT - insertTotalCCT) /
+                insertLimitedCCT) *
+                100)
+                .toInt(),
+            barColor: HexColor('#FFD740'),
+            strokelen:
+            (MediaQuery.of(context).size.width * 0.2)
+                .toInt(),
+          ),
+        );
+    }
+  }
+
+  Widget circularGraphCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+      case ConnectionState.waiting:
+        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+      case ConnectionState.active:
+        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+      case ConnectionState.done:
+        return CustomPaint(
+          size: Size(
+            MediaQuery.of(context).size.height * 0.13,
+            MediaQuery.of(context).size.height * 0.13,
+          ),
+          painter: _PieChart(
+            percentage:
+            (((limitedCC - insertTotalCC) / limitedCC) *
+                100)
+                .toInt(),
+            barColor: HexColor('#90EE90'),
+            strokelen:
+            (MediaQuery.of(context).size.width * 0.2)
+                .toInt(),
+          ),
+        );
+    }
+  }
+
+  Widget circularPhotoBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Icon(CupertinoIcons.photo);
+      case ConnectionState.waiting:
+        return Icon(CupertinoIcons.photo);
+      case ConnectionState.active:
+        return Icon(CupertinoIcons.photo);
+      case ConnectionState.done:
+        return ClipOval(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+            width: MediaQuery.of(context).size.height * 0.1,
+            child: _setImage!.existsSync()
+                ? Image.file(File(_setImage!.path), fit: BoxFit.cover)
+                : Icon(CupertinoIcons.photo)
+          ),
+        );
     }
   }
 
@@ -1303,6 +1406,7 @@ class _ChartPageState extends State<ChartPage> {
     3. DB 없을 때 처리 : 원하는 일자에 DB가 존재하지 않으면 해당 배열값은 0.
      */
     checkDB = getDB();
+    checkPIC = gsImage(false);
   }
 
   void _initTotal() {
@@ -1312,10 +1416,10 @@ class _ChartPageState extends State<ChartPage> {
     int lastcount = 0;
     for (int i = 1; i <= 31; i++) {
       if (i <= 7) {
-        if (curWeekCCT[i] != 0) {
+        if (curWeekCC[i] != 0) {
           curweekcount += 1;
         }
-        if (lastWeekCCT[i] != 0) {
+        if (lastWeekCC[i] != 0) {
           lastweekcount += 1;
         }
         totalCCTW += curWeekCCT[i];
@@ -1323,10 +1427,10 @@ class _ChartPageState extends State<ChartPage> {
         last_totalCCTW += lastWeekCCT[i];
         last_totalCCW += lastWeekCC[i];
       }
-      if (curMonthCCT[i] != 0) {
+      if (curMonthCC[i] != 0) {
         curcount += 1;
       }
-      if (lastMonthCCT[i] != 0) {
+      if (lastMonthCC[i] != 0) {
         lastcount += 1;
       }
       totalCCT += curMonthCCT[i];
@@ -1515,48 +1619,36 @@ class _ChartPageState extends State<ChartPage> {
                       alignment: Alignment.center,
                       children: <Widget>[
                         Container(
-                          child: CustomPaint(
-                            size: Size(
-                              MediaQuery.of(context).size.height * 0.15,
-                              MediaQuery.of(context).size.height * 0.15,
-                            ),
-                            painter: _PieChart(
-                              percentage:
-                                  (((insertLimitedCCT - insertTotalCCT) /
-                                              insertLimitedCCT) *
-                                          100)
-                                      .toInt(),
-                              barColor: HexColor('#FFD740'),
-                              strokelen:
-                                  (MediaQuery.of(context).size.width * 0.2)
-                                      .toInt(),
-                            ),
+                          child: FutureBuilder(
+                            builder: circularGraphCCTBuilder,
+                            future: checkDB,
                           ),
                         ),
                         Container(
-                          child: CustomPaint(
-                            size: Size(
-                              MediaQuery.of(context).size.height * 0.13,
-                              MediaQuery.of(context).size.height * 0.13,
-                            ),
-                            painter: _PieChart(
-                              percentage:
-                                  (((limitedCC - insertTotalCC) / limitedCC) *
-                                          100)
-                                      .toInt(),
-                              barColor: HexColor('#90EE90'),
-                              strokelen:
-                                  (MediaQuery.of(context).size.width * 0.2)
-                                      .toInt(),
-                            ),
+                          child: FutureBuilder(
+                            builder: circularGraphCCBuilder,
+                            future: checkDB,
                           ),
                         ),
                         Container(
-                            child: Icon(
-                          CupertinoIcons.drop,
-                          size: MediaQuery.of(context).size.height * 0.1,
-                          color: HexColor('#FFFFFF'),
-                        )),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          height: MediaQuery.of(context).size.height * 0.11,
+                            child: FittedBox(
+                              child: FloatingActionButton(
+                                backgroundColor: HexColor('#24202E'),
+                              onPressed: () {
+                                  gsImage(true);
+                                  print('path: ${_setImage!.path}');
+                                },
+                              child: FutureBuilder(
+                                builder: circularPhotoBuilder,
+                                future: checkPIC,
+                              ),
+                              ),
+                              ),
+                            ),
                       ],
                     ),
                     Flexible(

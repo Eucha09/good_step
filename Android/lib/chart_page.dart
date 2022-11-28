@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
+import 'dart:io';
 import 'dart:core';
 import 'concentration.dart';
 import 'dart:math';
@@ -22,8 +28,8 @@ class _PieChart extends CustomPainter {
 
   _PieChart(
       {required this.percentage,
-        required this.barColor,
-        required this.strokelen});
+      required this.barColor,
+      required this.strokelen});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -38,7 +44,7 @@ class _PieChart extends CustomPainter {
         size.height / 2 -
             paint.strokeWidth / 2); // 원의 반지름을 구함, 선의 굵기에 영향을 받지 않게 보정
     Offset center =
-    Offset(size.width / 2, size.height / 2); // 원이 위젯 가운데에 그려지게 좌표 정함
+        Offset(size.width / 2, size.height / 2); // 원이 위젯 가운데에 그려지게 좌표 정함
     canvas.drawCircle(center, radius, paint); // 원을 그린다
     double arcAngle = 2 * pi * (percentage / 100); // 호의 각도를 정한다
     paint..color = HexColor('#24202E'); // 호를 그릴 때 색깔을 바꿔줌
@@ -89,43 +95,43 @@ class _LineChartWeekCC extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 7,
-    maxY: 100,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 7,
+        maxY: 100,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -158,11 +164,11 @@ class _LineChartWeekCC extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -206,67 +212,67 @@ class _LineChartWeekCC extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: false,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, Factor[1].toDouble()),
-      FlSpot(2, Factor[2].toDouble()),
-      FlSpot(3, Factor[3].toDouble()),
-      FlSpot(4, Factor[4].toDouble()),
-      FlSpot(5, Factor[5].toDouble()),
-      FlSpot(6, Factor[6].toDouble()),
-      FlSpot(7, Factor[7].toDouble()),
-    ],
-  );
+        isCurved: false,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, Factor[1].toDouble()),
+          FlSpot(2, Factor[2].toDouble()),
+          FlSpot(3, Factor[3].toDouble()),
+          FlSpot(4, Factor[4].toDouble()),
+          FlSpot(5, Factor[5].toDouble()),
+          FlSpot(6, Factor[6].toDouble()),
+          FlSpot(7, Factor[7].toDouble()),
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: false,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, last_Factor[1].toDouble()),
-      FlSpot(2, last_Factor[2].toDouble()),
-      FlSpot(3, last_Factor[3].toDouble()),
-      FlSpot(4, last_Factor[4].toDouble()),
-      FlSpot(5, last_Factor[5].toDouble()),
-      FlSpot(6, last_Factor[6].toDouble()),
-      FlSpot(7, last_Factor[7].toDouble()),
-    ],
-  );
+        isCurved: false,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, last_Factor[1].toDouble()),
+          FlSpot(2, last_Factor[2].toDouble()),
+          FlSpot(3, last_Factor[3].toDouble()),
+          FlSpot(4, last_Factor[4].toDouble()),
+          FlSpot(5, last_Factor[5].toDouble()),
+          FlSpot(6, last_Factor[6].toDouble()),
+          FlSpot(7, last_Factor[7].toDouble()),
+        ],
+      );
 }
 
 class _LineChartMonthCC extends StatelessWidget {
@@ -284,43 +290,43 @@ class _LineChartMonthCC extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 31,
-    maxY: 100,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 31,
+        maxY: 100,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -353,11 +359,11 @@ class _LineChartMonthCC extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -404,115 +410,115 @@ class _LineChartMonthCC extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: false,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, Factor[1].toDouble()),
-      FlSpot(2, Factor[2].toDouble()),
-      FlSpot(3, Factor[3].toDouble()),
-      FlSpot(4, Factor[4].toDouble()),
-      FlSpot(5, Factor[5].toDouble()),
-      FlSpot(6, Factor[6].toDouble()),
-      FlSpot(7, Factor[7].toDouble()),
-      FlSpot(8, Factor[8].toDouble()),
-      FlSpot(9, Factor[9].toDouble()),
-      FlSpot(10, Factor[10].toDouble()),
-      FlSpot(11, Factor[11].toDouble()),
-      FlSpot(12, Factor[12].toDouble()),
-      FlSpot(13, Factor[13].toDouble()),
-      FlSpot(14, Factor[14].toDouble()),
-      FlSpot(15, Factor[15].toDouble()),
-      FlSpot(16, Factor[16].toDouble()),
-      FlSpot(17, Factor[17].toDouble()),
-      FlSpot(18, Factor[18].toDouble()),
-      FlSpot(19, Factor[19].toDouble()),
-      FlSpot(20, Factor[20].toDouble()),
-      FlSpot(21, Factor[21].toDouble()),
-      FlSpot(22, Factor[22].toDouble()),
-      FlSpot(23, Factor[23].toDouble()),
-      FlSpot(24, Factor[24].toDouble()),
-      FlSpot(25, Factor[25].toDouble()),
-      FlSpot(26, Factor[26].toDouble()),
-      FlSpot(27, Factor[27].toDouble()),
-      FlSpot(28, Factor[28].toDouble()),
-      FlSpot(29, Factor[29].toDouble()),
-      FlSpot(30, Factor[30].toDouble()),
-      FlSpot(31, Factor[31].toDouble())
-    ],
-  );
+        isCurved: false,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, Factor[1].toDouble()),
+          FlSpot(2, Factor[2].toDouble()),
+          FlSpot(3, Factor[3].toDouble()),
+          FlSpot(4, Factor[4].toDouble()),
+          FlSpot(5, Factor[5].toDouble()),
+          FlSpot(6, Factor[6].toDouble()),
+          FlSpot(7, Factor[7].toDouble()),
+          FlSpot(8, Factor[8].toDouble()),
+          FlSpot(9, Factor[9].toDouble()),
+          FlSpot(10, Factor[10].toDouble()),
+          FlSpot(11, Factor[11].toDouble()),
+          FlSpot(12, Factor[12].toDouble()),
+          FlSpot(13, Factor[13].toDouble()),
+          FlSpot(14, Factor[14].toDouble()),
+          FlSpot(15, Factor[15].toDouble()),
+          FlSpot(16, Factor[16].toDouble()),
+          FlSpot(17, Factor[17].toDouble()),
+          FlSpot(18, Factor[18].toDouble()),
+          FlSpot(19, Factor[19].toDouble()),
+          FlSpot(20, Factor[20].toDouble()),
+          FlSpot(21, Factor[21].toDouble()),
+          FlSpot(22, Factor[22].toDouble()),
+          FlSpot(23, Factor[23].toDouble()),
+          FlSpot(24, Factor[24].toDouble()),
+          FlSpot(25, Factor[25].toDouble()),
+          FlSpot(26, Factor[26].toDouble()),
+          FlSpot(27, Factor[27].toDouble()),
+          FlSpot(28, Factor[28].toDouble()),
+          FlSpot(29, Factor[29].toDouble()),
+          FlSpot(30, Factor[30].toDouble()),
+          FlSpot(31, Factor[31].toDouble())
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: true,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, last_Factor[0].toDouble()),
-      FlSpot(2, last_Factor[1].toDouble()),
-      FlSpot(3, last_Factor[2].toDouble()),
-      FlSpot(4, last_Factor[3].toDouble()),
-      FlSpot(5, last_Factor[4].toDouble()),
-      FlSpot(6, last_Factor[5].toDouble()),
-      FlSpot(7, last_Factor[6].toDouble()),
-      FlSpot(8, last_Factor[7].toDouble()),
-      FlSpot(9, last_Factor[8].toDouble()),
-      FlSpot(10, last_Factor[9].toDouble()),
-      FlSpot(11, last_Factor[10].toDouble()),
-      FlSpot(12, last_Factor[11].toDouble()),
-      FlSpot(13, last_Factor[12].toDouble()),
-      FlSpot(14, last_Factor[13].toDouble()),
-      FlSpot(15, last_Factor[14].toDouble()),
-      FlSpot(16, last_Factor[15].toDouble()),
-      FlSpot(17, last_Factor[16].toDouble()),
-      FlSpot(18, last_Factor[17].toDouble()),
-      FlSpot(19, last_Factor[18].toDouble()),
-      FlSpot(20, last_Factor[19].toDouble()),
-      FlSpot(21, last_Factor[20].toDouble()),
-      FlSpot(22, last_Factor[21].toDouble()),
-      FlSpot(23, last_Factor[22].toDouble()),
-      FlSpot(24, last_Factor[23].toDouble()),
-      FlSpot(25, last_Factor[24].toDouble()),
-      FlSpot(26, last_Factor[25].toDouble()),
-      FlSpot(27, last_Factor[26].toDouble()),
-      FlSpot(28, last_Factor[27].toDouble()),
-      FlSpot(29, last_Factor[28].toDouble()),
-      FlSpot(30, last_Factor[29].toDouble()),
-      FlSpot(31, last_Factor[30].toDouble()),
-    ],
-  );
+        isCurved: true,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, last_Factor[0].toDouble()),
+          FlSpot(2, last_Factor[1].toDouble()),
+          FlSpot(3, last_Factor[2].toDouble()),
+          FlSpot(4, last_Factor[3].toDouble()),
+          FlSpot(5, last_Factor[4].toDouble()),
+          FlSpot(6, last_Factor[5].toDouble()),
+          FlSpot(7, last_Factor[6].toDouble()),
+          FlSpot(8, last_Factor[7].toDouble()),
+          FlSpot(9, last_Factor[8].toDouble()),
+          FlSpot(10, last_Factor[9].toDouble()),
+          FlSpot(11, last_Factor[10].toDouble()),
+          FlSpot(12, last_Factor[11].toDouble()),
+          FlSpot(13, last_Factor[12].toDouble()),
+          FlSpot(14, last_Factor[13].toDouble()),
+          FlSpot(15, last_Factor[14].toDouble()),
+          FlSpot(16, last_Factor[15].toDouble()),
+          FlSpot(17, last_Factor[16].toDouble()),
+          FlSpot(18, last_Factor[17].toDouble()),
+          FlSpot(19, last_Factor[18].toDouble()),
+          FlSpot(20, last_Factor[19].toDouble()),
+          FlSpot(21, last_Factor[20].toDouble()),
+          FlSpot(22, last_Factor[21].toDouble()),
+          FlSpot(23, last_Factor[22].toDouble()),
+          FlSpot(24, last_Factor[23].toDouble()),
+          FlSpot(25, last_Factor[24].toDouble()),
+          FlSpot(26, last_Factor[25].toDouble()),
+          FlSpot(27, last_Factor[26].toDouble()),
+          FlSpot(28, last_Factor[27].toDouble()),
+          FlSpot(29, last_Factor[28].toDouble()),
+          FlSpot(30, last_Factor[29].toDouble()),
+          FlSpot(31, last_Factor[30].toDouble()),
+        ],
+      );
 }
 
 class _LineChartWeek extends StatelessWidget {
@@ -530,43 +536,43 @@ class _LineChartWeek extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 7,
-    maxY: 15,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 7,
+        maxY: 15,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -599,11 +605,11 @@ class _LineChartWeek extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -647,67 +653,67 @@ class _LineChartWeek extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: false,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, Factor[0].toDouble()),
-      FlSpot(2, Factor[1].toDouble()),
-      FlSpot(3, Factor[2].toDouble()),
-      FlSpot(4, Factor[3].toDouble()),
-      FlSpot(5, Factor[4].toDouble()),
-      FlSpot(6, Factor[5].toDouble()),
-      FlSpot(7, Factor[6].toDouble()),
-    ],
-  );
+        isCurved: false,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, Factor[0].toDouble()),
+          FlSpot(2, Factor[1].toDouble()),
+          FlSpot(3, Factor[2].toDouble()),
+          FlSpot(4, Factor[3].toDouble()),
+          FlSpot(5, Factor[4].toDouble()),
+          FlSpot(6, Factor[5].toDouble()),
+          FlSpot(7, Factor[6].toDouble()),
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: false,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, last_Factor[0].toDouble()),
-      FlSpot(2, last_Factor[1].toDouble()),
-      FlSpot(3, last_Factor[2].toDouble()),
-      FlSpot(4, last_Factor[3].toDouble()),
-      FlSpot(5, last_Factor[4].toDouble()),
-      FlSpot(6, last_Factor[5].toDouble()),
-      FlSpot(7, last_Factor[6].toDouble()),
-    ],
-  );
+        isCurved: false,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, last_Factor[0].toDouble()),
+          FlSpot(2, last_Factor[1].toDouble()),
+          FlSpot(3, last_Factor[2].toDouble()),
+          FlSpot(4, last_Factor[3].toDouble()),
+          FlSpot(5, last_Factor[4].toDouble()),
+          FlSpot(6, last_Factor[5].toDouble()),
+          FlSpot(7, last_Factor[6].toDouble()),
+        ],
+      );
 }
 
 class _LineChartMonth extends StatelessWidget {
@@ -725,43 +731,43 @@ class _LineChartMonth extends StatelessWidget {
   }
 
   LineChartData get sampleData1 => LineChartData(
-    lineTouchData: lineTouchData1,
-    gridData: gridData,
-    titlesData: titlesData1,
-    borderData: borderData,
-    lineBarsData: lineBarsData1,
-    minX: 0,
-    maxX: 31,
-    maxY: 15,
-    minY: 0,
-  );
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 31,
+        maxY: 15,
+        minY: 0,
+      );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-    handleBuiltInTouches: true,
-    touchTooltipData: LineTouchTooltipData(
-      tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-    ),
-  );
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
+        ),
+      );
 
   FlTitlesData get titlesData1 => FlTitlesData(
-    bottomTitles: AxisTitles(
-      sideTitles: bottomTitles,
-    ),
-    rightTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    topTitles: AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    leftTitles: AxisTitles(
-      sideTitles: leftTitles(),
-    ),
-  );
+        bottomTitles: AxisTitles(
+          sideTitles: bottomTitles,
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: leftTitles(),
+        ),
+      );
 
   List<LineChartBarData> get lineBarsData1 => [
-    lineChartBarData1_1,
-    lineChartBarData1_2,
-  ];
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -794,11 +800,11 @@ class _LineChartMonth extends StatelessWidget {
   }
 
   SideTitles leftTitles() => SideTitles(
-    getTitlesWidget: leftTitleWidgets,
-    showTitles: true,
-    interval: 1,
-    reservedSize: 15,
-  );
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 15,
+      );
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -845,117 +851,116 @@ class _LineChartMonth extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-    showTitles: true,
-    reservedSize: 15,
-    interval: 1,
-    getTitlesWidget: bottomTitleWidgets,
-  );
+        showTitles: true,
+        reservedSize: 15,
+        interval: 1,
+        getTitlesWidget: bottomTitleWidgets,
+      );
 
   FlGridData get gridData => FlGridData(show: false);
 
   FlBorderData get borderData => FlBorderData(
-    show: true,
-    border: Border(
-      bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
-      left: BorderSide(color: Colors.transparent),
-      right: BorderSide(color: Colors.transparent),
-      top: BorderSide(color: Colors.transparent),
-    ),
-  );
+        show: true,
+        border: Border(
+          bottom: BorderSide(color: Color(0xff4e4965), width: 0.2),
+          left: BorderSide(color: Colors.transparent),
+          right: BorderSide(color: Colors.transparent),
+          top: BorderSide(color: Colors.transparent),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-    isCurved: false,
-    color: const Color(0xFF4AF699),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: const Color(0x5F4AF699),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, Factor[0].toDouble()),
-      FlSpot(2, Factor[1].toDouble()),
-      FlSpot(3, Factor[2].toDouble()),
-      FlSpot(4, Factor[3].toDouble()),
-      FlSpot(5, Factor[4].toDouble()),
-      FlSpot(6, Factor[5].toDouble()),
-      FlSpot(7, Factor[6].toDouble()),
-      FlSpot(8, Factor[7].toDouble()),
-      FlSpot(9, Factor[8].toDouble()),
-      FlSpot(10, Factor[9].toDouble()),
-      FlSpot(11, Factor[10].toDouble()),
-      FlSpot(12, Factor[11].toDouble()),
-      FlSpot(13, Factor[12].toDouble()),
-      FlSpot(14, Factor[13].toDouble()),
-      FlSpot(15, Factor[14].toDouble()),
-      FlSpot(16, Factor[15].toDouble()),
-      FlSpot(17, Factor[16].toDouble()),
-      FlSpot(18, Factor[17].toDouble()),
-      FlSpot(19, Factor[18].toDouble()),
-      FlSpot(20, Factor[19].toDouble()),
-      FlSpot(21, Factor[20].toDouble()),
-      FlSpot(22, Factor[21].toDouble()),
-      FlSpot(23, Factor[22].toDouble()),
-      FlSpot(24, Factor[23].toDouble()),
-      FlSpot(25, Factor[24].toDouble()),
-      FlSpot(26, Factor[25].toDouble()),
-      FlSpot(27, Factor[26].toDouble()),
-      FlSpot(28, Factor[27].toDouble()),
-      FlSpot(29, Factor[28].toDouble()),
-      FlSpot(30, Factor[29].toDouble()),
-      FlSpot(31, Factor[30].toDouble())
-    ],
-  );
+        isCurved: false,
+        color: const Color(0xFF4AF699),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: const Color(0x5F4AF699),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, Factor[0].toDouble()),
+          FlSpot(2, Factor[1].toDouble()),
+          FlSpot(3, Factor[2].toDouble()),
+          FlSpot(4, Factor[3].toDouble()),
+          FlSpot(5, Factor[4].toDouble()),
+          FlSpot(6, Factor[5].toDouble()),
+          FlSpot(7, Factor[6].toDouble()),
+          FlSpot(8, Factor[7].toDouble()),
+          FlSpot(9, Factor[8].toDouble()),
+          FlSpot(10, Factor[9].toDouble()),
+          FlSpot(11, Factor[10].toDouble()),
+          FlSpot(12, Factor[11].toDouble()),
+          FlSpot(13, Factor[12].toDouble()),
+          FlSpot(14, Factor[13].toDouble()),
+          FlSpot(15, Factor[14].toDouble()),
+          FlSpot(16, Factor[15].toDouble()),
+          FlSpot(17, Factor[16].toDouble()),
+          FlSpot(18, Factor[17].toDouble()),
+          FlSpot(19, Factor[18].toDouble()),
+          FlSpot(20, Factor[19].toDouble()),
+          FlSpot(21, Factor[20].toDouble()),
+          FlSpot(22, Factor[21].toDouble()),
+          FlSpot(23, Factor[22].toDouble()),
+          FlSpot(24, Factor[23].toDouble()),
+          FlSpot(25, Factor[24].toDouble()),
+          FlSpot(26, Factor[25].toDouble()),
+          FlSpot(27, Factor[26].toDouble()),
+          FlSpot(28, Factor[27].toDouble()),
+          FlSpot(29, Factor[28].toDouble()),
+          FlSpot(30, Factor[29].toDouble()),
+          FlSpot(31, Factor[30].toDouble())
+        ],
+      );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-    isCurved: true,
-    color: Color(0xFFAA4CFC),
-    barWidth: 1,
-    isStrokeCapRound: true,
-    dotData: FlDotData(show: false),
-    belowBarData: BarAreaData(
-      show: true,
-      color: Color(0x5FAA4CFC),
-    ),
-    spots: [
-      FlSpot(0, 0),
-      FlSpot(1, last_Factor[0].toDouble()),
-      FlSpot(2, last_Factor[1].toDouble()),
-      FlSpot(3, last_Factor[2].toDouble()),
-      FlSpot(4, last_Factor[3].toDouble()),
-      FlSpot(5, last_Factor[4].toDouble()),
-      FlSpot(6, last_Factor[5].toDouble()),
-      FlSpot(7, last_Factor[6].toDouble()),
-      FlSpot(8, last_Factor[7].toDouble()),
-      FlSpot(9, last_Factor[8].toDouble()),
-      FlSpot(10, last_Factor[9].toDouble()),
-      FlSpot(11, last_Factor[10].toDouble()),
-      FlSpot(12, last_Factor[11].toDouble()),
-      FlSpot(13, last_Factor[12].toDouble()),
-      FlSpot(14, last_Factor[13].toDouble()),
-      FlSpot(15, last_Factor[14].toDouble()),
-      FlSpot(16, last_Factor[15].toDouble()),
-      FlSpot(17, last_Factor[16].toDouble()),
-      FlSpot(18, last_Factor[17].toDouble()),
-      FlSpot(19, last_Factor[18].toDouble()),
-      FlSpot(20, last_Factor[19].toDouble()),
-      FlSpot(21, last_Factor[20].toDouble()),
-      FlSpot(22, last_Factor[21].toDouble()),
-      FlSpot(23, last_Factor[22].toDouble()),
-      FlSpot(24, last_Factor[23].toDouble()),
-      FlSpot(25, last_Factor[24].toDouble()),
-      FlSpot(26, last_Factor[25].toDouble()),
-      FlSpot(27, last_Factor[26].toDouble()),
-      FlSpot(28, last_Factor[27].toDouble()),
-      FlSpot(29, last_Factor[28].toDouble()),
-      FlSpot(30, last_Factor[29].toDouble()),
-      FlSpot(31, last_Factor[30].toDouble()),
-    ],
-  );
+        isCurved: true,
+        color: Color(0xFFAA4CFC),
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: true,
+          color: Color(0x5FAA4CFC),
+        ),
+        spots: [
+          FlSpot(0, 0),
+          FlSpot(1, last_Factor[0].toDouble()),
+          FlSpot(2, last_Factor[1].toDouble()),
+          FlSpot(3, last_Factor[2].toDouble()),
+          FlSpot(4, last_Factor[3].toDouble()),
+          FlSpot(5, last_Factor[4].toDouble()),
+          FlSpot(6, last_Factor[5].toDouble()),
+          FlSpot(7, last_Factor[6].toDouble()),
+          FlSpot(8, last_Factor[7].toDouble()),
+          FlSpot(9, last_Factor[8].toDouble()),
+          FlSpot(10, last_Factor[9].toDouble()),
+          FlSpot(11, last_Factor[10].toDouble()),
+          FlSpot(12, last_Factor[11].toDouble()),
+          FlSpot(13, last_Factor[12].toDouble()),
+          FlSpot(14, last_Factor[13].toDouble()),
+          FlSpot(15, last_Factor[14].toDouble()),
+          FlSpot(16, last_Factor[15].toDouble()),
+          FlSpot(17, last_Factor[16].toDouble()),
+          FlSpot(18, last_Factor[17].toDouble()),
+          FlSpot(19, last_Factor[18].toDouble()),
+          FlSpot(20, last_Factor[19].toDouble()),
+          FlSpot(21, last_Factor[20].toDouble()),
+          FlSpot(22, last_Factor[21].toDouble()),
+          FlSpot(23, last_Factor[22].toDouble()),
+          FlSpot(24, last_Factor[23].toDouble()),
+          FlSpot(25, last_Factor[24].toDouble()),
+          FlSpot(26, last_Factor[25].toDouble()),
+          FlSpot(27, last_Factor[26].toDouble()),
+          FlSpot(28, last_Factor[27].toDouble()),
+          FlSpot(29, last_Factor[28].toDouble()),
+          FlSpot(30, last_Factor[29].toDouble()),
+          FlSpot(31, last_Factor[30].toDouble()),
+        ],
+      );
 }
-
 
 class ChartPage extends StatefulWidget {
   final Future<Database> db;
@@ -967,43 +972,185 @@ class ChartPage extends StatefulWidget {
 
 class _ChartPageState extends State<ChartPage> {
   Future<List<Concentration>>? cctList;
+  final ImagePicker _picker = ImagePicker();
+  File? _setImage;
 
   // DB에서 자료를 긁어와 만들 리스트
   List<int> lastMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastMonthCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curMonthCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastWeekCC = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curWeekCC = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   // 탭 변경에 따라 화면 전환할 스위치
   int selectedTabWeeks = 0;
@@ -1029,28 +1176,51 @@ class _ChartPageState extends State<ChartPage> {
   int insertLastCCT = 0;
   int insertTotalCC = 0;
   int insertLastCC = 0;
+  // DB에서 필요한 내용물을 전부 불러왔는지 확인을 위한 future int
   Future<int>? checkDB;
+  Future<int>? checkPIC;
 
+  // periods CC처럼 DB값을 불러와 chart에 적용한 내용물을 불러오는 리스트
   late List _periodsCCT = [
     MonthCCTBuilder,
     WeekCCTBuilder,
   ];
 
+  // week, month 선택 시, 선택된 대상과 비대상에 그어진 밑줄 색
   List _TabColor = [
-    HexColor('#212B55'),
+    HexColor('#24202E'),
     HexColor('#FFFFFF'),
   ];
 
+  // periodsCCT와 동일 용도. 불러오는 값이 집중도란 것만 다름.
   late List _periodsCC = [
     MonthCCBuilder,
     WeekCCBuilder,
   ];
 
+  // week, month 변경 시, 이번 주/달, 다음 주/달 중 맞는 부븐을 표시
   List _changePeriods = [
     '달',
     '주',
   ];
 
+  // image를 사진첩에서 공수해온다
+  Future<int> gsImage(bool isGet) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (isGet) {
+      final directory = await getApplicationDocumentsDirectory();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      final File temp = File(image!.path);
+      final _path = directory.path;
+      _setImage = await temp.copy('$_path/setImage.png');
+      prefs.setString('setImage', _setImage!.path);
+    } else {
+      _setImage = File(prefs.getString('setImage').toString());
+    }
+    return 1;
+  }
+
+  // 리스트화된 DB 내용물을 그래프에 뿌려주기 위해 해당 리스트에 값을 저장
   void initMonthList(List<Concentration> list) {
     for (int i = 0; i < list.length; i++) {
       // 2022-10-02
@@ -1085,7 +1255,7 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
-      var firstday = now.subtract(Duration(days: now.weekday - 1));
+      var firstday = now.subtract(Duration(days: now.weekday + 6));
       String week_firstday = DateFormat('dd').format(firstday);
       int weekday = day - int.parse(week_firstday) + 1;
       lastWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
@@ -1093,6 +1263,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
+  // DB에서 해당하는 주, 달 값을 긁어오기 위한 함수
   Future<int> getDB() async {
     final Database database = await widget.db;
     List<Map<String, dynamic>> maps;
@@ -1163,6 +1334,7 @@ class _ChartPageState extends State<ChartPage> {
     return 1;
   }
 
+  // 위 리스트가 DB 내용을 전부 긁어올 때까지 기다리는 시간 동안 값 대신 보여줄 위젯
   Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
@@ -1226,11 +1398,8 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.done:
         return Text('${insertTotalCC.toString()} %',
             style: TextStyle(
-                fontFamily: 'Cafe24',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontFamily: 'pyeongchang',
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
   }
@@ -1246,11 +1415,8 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.done:
         return Text('${insertLastCC.toString()} %',
             style: TextStyle(
-                fontFamily: 'Cafe24',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontFamily: 'pyeongchang',
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
   }
@@ -1264,19 +1430,16 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.active:
         return CircularProgressIndicator();
       case ConnectionState.done:
-        return Text(
-            '${(insertTotalCCT / 3600).toInt().toString()} 시간',
+        return Text('${(insertTotalCCT / 3600).toInt().toString()} 시간',
             style: TextStyle(
-                fontFamily: 'Cafe24',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontFamily: 'pyeongchang',
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
   }
 
-  Widget totalLastCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+  Widget totalLastCCTBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -1285,15 +1448,101 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.active:
         return CircularProgressIndicator();
       case ConnectionState.done:
-        return Text(
-            '${(insertLastCCT / 3600).toInt().toString()} 시간',
+        return Text('${(insertLastCCT / 3600).toInt().toString()} 시간',
             style: TextStyle(
-                fontFamily: 'Cafe24',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontFamily: 'pyeongchang',
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
+    }
+  }
+
+  Widget circularGraphCCTBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
+      case ConnectionState.waiting:
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
+      case ConnectionState.active:
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
+      case ConnectionState.done:
+        return CustomPaint(
+          size: Size(
+            MediaQuery.of(context).size.height * 0.15,
+            MediaQuery.of(context).size.height * 0.15,
+          ),
+          painter: _PieChart(
+            percentage:
+                (((insertLimitedCCT - insertTotalCCT) / insertLimitedCCT) * 100)
+                    .toInt(),
+            barColor: HexColor('#FFD740'),
+            strokelen: (MediaQuery.of(context).size.width * 0.2).toInt(),
+          ),
+        );
+    }
+  }
+
+  Widget circularGraphCCBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
+      case ConnectionState.waiting:
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
+      case ConnectionState.active:
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
+      case ConnectionState.done:
+        return CustomPaint(
+          size: Size(
+            MediaQuery.of(context).size.height * 0.13,
+            MediaQuery.of(context).size.height * 0.13,
+          ),
+          painter: _PieChart(
+            percentage:
+                (((limitedCC - insertTotalCC) / limitedCC) * 100).toInt(),
+            barColor: HexColor('#90EE90'),
+            strokelen: (MediaQuery.of(context).size.width * 0.2).toInt(),
+          ),
+        );
+    }
+  }
+
+  Widget circularPhotoBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
+    switch (snapshot.connectionState) {
+      case ConnectionState.none:
+        return Icon(CupertinoIcons.photo);
+      case ConnectionState.waiting:
+        return Icon(CupertinoIcons.photo);
+      case ConnectionState.active:
+        return Icon(CupertinoIcons.photo);
+      case ConnectionState.done:
+        return ClipOval(
+          child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.height * 0.1,
+              child: _setImage!.existsSync()
+                  ? Image.file(File(_setImage!.path), fit: BoxFit.cover)
+                  : Icon(CupertinoIcons.photo)),
+        );
     }
   }
 
@@ -1305,8 +1554,10 @@ class _ChartPageState extends State<ChartPage> {
     3. DB 없을 때 처리 : 원하는 일자에 DB가 존재하지 않으면 해당 배열값은 0.
      */
     checkDB = getDB();
+    checkPIC = gsImage(false);
   }
 
+  // DB에서 가져온 값이 저장된 리스트를 이용하여 주, 월 총합을 표기할 수 있는 값을 만듬
   void _initTotal() {
     int curweekcount = 0;
     int lastweekcount = 0;
@@ -1511,48 +1762,34 @@ class _ChartPageState extends State<ChartPage> {
                       alignment: Alignment.center,
                       children: <Widget>[
                         Container(
-                          child: CustomPaint(
-                            size: Size(
-                              MediaQuery.of(context).size.height * 0.15,
-                              MediaQuery.of(context).size.height * 0.15,
-                            ),
-                            painter: _PieChart(
-                              percentage:
-                                  (((insertLimitedCCT - insertTotalCCT) /
-                                              insertLimitedCCT) *
-                                          100)
-                                      .toInt(),
-                              barColor: Colors.amberAccent,
-                              strokelen:
-                                  (MediaQuery.of(context).size.width * 0.2)
-                                      .toInt(),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: CustomPaint(
-                            size: Size(
-                              MediaQuery.of(context).size.height * 0.13,
-                              MediaQuery.of(context).size.height * 0.13,
-                            ),
-                            painter: _PieChart(
-                              percentage:
-                                  (((limitedCC - insertTotalCC) / limitedCC) *
-                                          100)
-                                      .toInt(),
-                              barColor: Colors.lightGreen,
-                              strokelen:
-                                  (MediaQuery.of(context).size.width * 0.2)
-                                      .toInt(),
-                            ),
-                          ),
-                        ),
-                        Container(
-                            child: Icon(
-                          Icons.face,
-                          size: MediaQuery.of(context).size.height * 0.1,
-                          color: HexColor('#FFFFFF'),
+                            child: FutureBuilder(
+                          builder: circularGraphCCTBuilder,
+                          future: checkDB,
                         )),
+                        Container(
+                            child: FutureBuilder(
+                          builder: circularGraphCCBuilder,
+                          future: checkDB,
+                        )),
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          height: MediaQuery.of(context).size.height * 0.11,
+                          child: FittedBox(
+                            child: FloatingActionButton(
+                              backgroundColor: HexColor('#24202E'),
+                              onPressed: () {
+                                gsImage(true);
+                                print('path: ${_setImage!.path}');
+                              },
+                              child: FutureBuilder(
+                                builder: circularPhotoBuilder,
+                                future: checkPIC,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     Flexible(
@@ -1567,7 +1804,7 @@ class _ChartPageState extends State<ChartPage> {
                         Row(
                           children: <Widget>[
                             Icon(
-                              Icons.timer,
+                              CupertinoIcons.timer,
                               size: MediaQuery.of(context).size.height * 0.06,
                               color: Colors.amberAccent,
                             ),
@@ -1652,7 +1889,7 @@ class _ChartPageState extends State<ChartPage> {
                         Row(
                           children: <Widget>[
                             Icon(
-                              Icons.lightbulb,
+                              CupertinoIcons.lightbulb,
                               size: MediaQuery.of(context).size.height * 0.06,
                               color: Colors.lightGreen,
                             ),

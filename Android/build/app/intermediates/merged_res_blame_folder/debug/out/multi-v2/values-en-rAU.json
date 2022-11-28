@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.example.app-mergeDebugResources-17:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "com.example.example.app-mergeDebugResources-18:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
-                    "source": "/Users/yunhokwak/.gradle/caches/transforms-3/62947f9b007500d2dcc530dc5e0e6895/transformed/browser-1.4.0/res/values-en-rAU/values-en-rAU.xml",
+                    "source": "/Users/joo/.gradle/caches/transforms-3/62947f9b007500d2dcc530dc5e0e6895/transformed/browser-1.4.0/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/yunhokwak/.gradle/caches/transforms-3/3d943b8a8d6718874a3fad89ac634056/transformed/core-1.6.0/res/values-en-rAU/values-en-rAU.xml",
+                    "source": "/Users/joo/.gradle/caches/transforms-3/f6a12936ecbbfb86057ffa1eb980a294/transformed/core-1.8.0/res/values-en-rAU/values-en-rAU.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

@@ -1,4 +1,4 @@
-# example
+# goodstep
 
 M&&B 팀의 첫 플러터 프로젝트입니다.
 
@@ -12,9 +12,10 @@ M&&B 팀의 첫 플러터 프로젝트입니다.
 5. dark_page.dart : 집중시간 적용 시 나오는 검은 화면 정의
 6. notification.dart : dark_page 탈출 시, 경고 알림 창 띄우기 위한 용도
 7. chart_page.dart : 사용자의 각종 데이터를 가시화해서 보여주는 화면 정의
-8. donate_page.dart : 기부 관련 내용물을 가시화해서 보여주는 화면 정의
-9. setting_page.dart : 별도 옵션 내용물을 가시화해서 보여주는 화면 정의
-10. utils.dart : 각종 여러 파일에 쓰일 도구들을 저장. 현재는 HexColor 부분만 들어가 있음.
+8. concentration.dart : DB 데이터를 key, value 값으로 정리하기 위한 용도
+9. donate_page.dart : 기부 관련 내용물을 가시화해서 보여주는 화면 정의
+10. setting_page.dart : 별도 옵션 내용물을 가시화해서 보여주는 화면 정의
+11. utils.dart : 각종 여러 파일에 쓰일 도구들을 저장. 현재는 HexColor 부분만 들어가 있음.
 
 기타 세부 내용은 각 다트 파일에 있는 주석을 읽을 것
 

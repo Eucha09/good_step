@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'utils.dart';
 import 'dark_page.dart';
 import 'concentration.dart';
+import 'question_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'dart:io';
 
 // 실제로 앱 실행 시 전면부에 나올 홈페이지 및 집중시간 적용 시 이어지는 DarkPage 화면을 위한 다트 파일
 // printDuration : 디지털 시계화면 출력 용도
@@ -47,13 +50,10 @@ class _HomePageState extends State<HomePage> {
   var footcolor = HexColor("#3b444b");
   final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
 
-  //전면 광고
   late final InterstitialAd interstitialAd;
   final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
-  //보상형 광고
   late final RewardedAd rewardedAd;
   final String rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
-
 
   @override
   void initState() {
@@ -61,7 +61,6 @@ class _HomePageState extends State<HomePage> {
     myValue = 0;
     todayCCT = getTotalDay();
     loLoo = "00:00";
-
   }
 
   Future<Concentration> getTotalDay() async {
@@ -114,16 +113,16 @@ class _HomePageState extends State<HomePage> {
                 ), //to Make the world, Better
                 Text(
                   "우리의 시작은 단순했습니다.\n"
-                      "\"to make the world, better\"\n"
-                      "더 나은 세상을 만들기 위해.\n"
-                      "우리는 고민했습니다.\n"
-                      "어떻게 하면 더 나은 세상이 될까?\n"
-                      "그래서 만들기로(Make) 했습니다.\n"
-                      "더 나은(Better) 세상을 위한 무언가를.\n"
-                      "첫 프로젝트 <Good Step>을 시작으로,\n"
-                      "한 걸음 한 걸음 묵묵히 걸으려고 합니다.\n"
-                      "목적지는 ‘더 나은 세상’ 입니다.\n"
-                      "같이 좀 걸을까요?",
+                  "\"to make the world, better\"\n"
+                  "더 나은 세상을 만들기 위해.\n"
+                  "우리는 고민했습니다.\n"
+                  "어떻게 하면 더 나은 세상이 될까?\n"
+                  "그래서 만들기로(Make) 했습니다.\n"
+                  "더 나은(Better) 세상을 위한 무언가를.\n"
+                  "첫 프로젝트 <Good Step>을 시작으로,\n"
+                  "한 걸음 한 걸음 묵묵히 걸으려고 합니다.\n"
+                  "목적지는 ‘더 나은 세상’ 입니다.\n"
+                  "같이 좀 걸을까요?",
                   textAlign: TextAlign.center,
                 ), //본문
                 Row(
@@ -140,8 +139,7 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                       ),
-                      child: Center
-                        (
+                      child: Center(
                         child: GestureDetector(
                           onTap: () {
                             final Uri url = Uri.parse(
@@ -191,11 +189,11 @@ class _HomePageState extends State<HomePage> {
       BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0');
+        return Text(' ');
       case ConnectionState.waiting:
-        return Text('0');
+        return Text(' ');
       case ConnectionState.active:
-        return Text('0');
+        return Text(' ');
       case ConnectionState.done:
         if (snapshot.hasData) {
           Concentration today = (snapshot.data as Concentration);
@@ -217,11 +215,11 @@ class _HomePageState extends State<HomePage> {
       BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0');
+        return Text(' ');
       case ConnectionState.waiting:
-        return Text('0');
+        return Text(' ');
       case ConnectionState.active:
-        return Text('0');
+        return Text(' ');
       case ConnectionState.done:
         if (snapshot.hasData) {
           Concentration today = (snapshot.data as Concentration);
@@ -285,25 +283,14 @@ class _HomePageState extends State<HomePage> {
                     child: FloatingActionButton(
                       backgroundColor: footcolor,
                       onPressed: () async {
-                        setState(() {
-                          footcolor = HexColor('#b3cf99');
-                        });
                         // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
-                        isUpdate = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  DarkPage(myValue, widget.db)),
-                        );
-                        if (isUpdate) {
-                          // setState를 통해 DB에 누적된 값을 다시 받아온다
-                          setState(() {
-                            if (isUpdate) {
-                              todayCCT = getTotalDay();
-                              isUpdate = false;
-                              footcolor = HexColor("#3b444b");
-                            }
-                          });
+                        if (value >= 300) {
+                          isUpdate = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DarkPage(myValue, widget.db)),
+                          );
                         }
                       },
                       // 버튼에 들어가는 상징물
@@ -337,6 +324,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         toolbarHeight: 50,
+        leading: IconButton(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+            onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => question_page()),
+                ),
+            icon: Icon(CupertinoIcons.question_circle)),
         actions: <Widget>[
           IconButton(
             onPressed: () => FlutterDialog(),
@@ -383,7 +377,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Column(children: <Widget>[
-                    Icon(Icons.timer,
+                    Icon(CupertinoIcons.timer,
                         size: MediaQuery.of(context).size.width * 0.1,
                         color: HexColor("#FFFFFF")),
                     Text(
@@ -399,7 +393,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ]),
                   Column(children: <Widget>[
-                    Icon(Icons.lightbulb,
+                    Icon(CupertinoIcons.lightbulb,
                         size: MediaQuery.of(context).size.width * 0.1,
                         color: HexColor("#FFFFFF")),
                     Text('집중도',

@@ -98,6 +98,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
        loLoo는 myValue를 디지털 시계로 변환한 값 저장, countTime은 시간을 세어주기 위해 0으로 초기화
        또한, 앱 상태 전환을 인지하기 위한 WidgetBinding 추가 */
     super.initState();
+    _loadInterstitialAd();
     WidgetsBinding.instance.addObserver(this);
     initNotification();
     total = widget.myValue;
@@ -143,11 +144,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
           // 포기하지 않으면 집중시간은 total과 동일
           if (!giveUp) {
             // 포기하지 않았을 떄, 들어갈 광고
-            _showInterstitialAd();
             cctTime = total.toInt();
-          } else {
-            // 포기했을 때, 들어갈 광고
-            _showInterstitialAd();
           }
           // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
           if (cctScore < 0) {
@@ -169,6 +166,11 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
           );
           _insertData(data);
           Navigator.pop(context, true);
+          if (!giveUp) {
+            _showInterstitialAd();
+          } else {
+            _showInterstitialAd();
+          }
         }
       })
     };
@@ -182,7 +184,6 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     // _start() 함수를 한 번 실행하고 난 뒤, 추가 실행하지 않는다. 안 그러면 위젯 내부에서 여러번 _start가 중복됨
     if (trigger) {
-      _loadInterstitialAd();
       _start();
       trigger = false;
     }
@@ -224,12 +225,12 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                 isDefaultAction: true,
                                 child: Text('예'),
                                 onPressed: () {
-                                  isAlarm = false;
                                   // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
                                   if (isRestart) {
                                     isRestart = false;
                                     _start();
                                   } else {
+                                    isAlarm = false;
                                     cctTime = (countTime).toInt();
                                     cctScore -= 50;
                                     countTime = total;

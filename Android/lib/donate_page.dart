@@ -3,8 +3,6 @@ import 'utils.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/foundation.dart';
-import 'ad_banner.dart';
-import 'ad_helper.dart';
 
 class DonatePage extends StatefulWidget {
   @override

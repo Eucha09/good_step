@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'utils.dart';
 import 'dark_page.dart';
 import 'concentration.dart';
+import 'question_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -67,7 +68,6 @@ class _HomePageState extends State<HomePage> {
         cctTime: maps[0]['cctTime'],
         cctScore: maps[0]['cctScore']
     );
-    print('debug: ${data.cctTime}');
     return data;
   }
 
@@ -274,10 +274,12 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: HexColor("#3b444b"),
                     onPressed: () async {
                       // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
-                      isUpdate = await Navigator.push(
-                        context,
-                        CupertinoPageRoute(builder: (context) => DarkPage(myValue, widget.db)),
-                      );
+                      if (value >= 300) {
+                        isUpdate = await Navigator.push(
+                          context,
+                          CupertinoPageRoute(builder: (context) => DarkPage(myValue, widget.db)),
+                        );
+                      }
                       /*if (isUpdate) {
                         // setState를 통해 DB에 누적된 값을 다시 받아온다
                         setState(() {
@@ -328,6 +330,14 @@ class _HomePageState extends State<HomePage> {
         //     fontSize: 25,
         //     color: Colors.lightGreenAccent,
         //   ),),
+        leading: CupertinoButton(
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+            onPressed: () => Navigator.push(
+                context,
+                CupertinoPageRoute(builder: (context) => question_page()),
+            ),
+            child: Icon(CupertinoIcons.question_circle, color: HexColor('#FFFFFF'),),
+        ),
         trailing: CupertinoButton(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
             onPressed: () => FlutterDialog(),

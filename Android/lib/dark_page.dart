@@ -4,11 +4,11 @@ import 'utils.dart';
 import 'notification.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
-//import 'package:path/path.dart';
 import 'concentration.dart';
 import 'dart:async';
+import 'home_page.dart';
+import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
 
 // 원형 슬라이더 내부 버튼을 누르고 튀어 나올 검은 화면을 정의할 클래스
 class DarkPage extends StatefulWidget {
@@ -42,7 +42,6 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   int cctScore = 100;
   int finalScore = 0;
 
-
   //전면 광고
   late final InterstitialAd interstitialAd;
   final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
@@ -56,38 +55,35 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     InterstitialAd.load(
       adUnitId: interstitialAdUnitId,
       request: AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (InterstitialAd ad){
-            interstitialAd = ad;
-            _setFullScreenContentCallback(ad);
-          },
-          onAdFailedToLoad: (LoadAdError loadAdError){
-            print("Interstitial ad failed to load: $loadAdError");
-          }
-      ),
+      adLoadCallback:
+          InterstitialAdLoadCallback(onAdLoaded: (InterstitialAd ad) {
+        interstitialAd = ad;
+        _setFullScreenContentCallback(ad);
+      }, onAdFailedToLoad: (LoadAdError loadAdError) {
+        print("Interstitial ad failed to load: $loadAdError");
+      }),
     );
   }
-  //광고
-  void _setFullScreenContentCallback(InterstitialAd ad){
 
+  //광고
+  void _setFullScreenContentCallback(InterstitialAd ad) {
     ad.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) => print("$ad onAdShowedFullScreenContent"),
-      onAdDismissedFullScreenContent: (InterstitialAd ad){
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print("$ad onAdShowedFullScreenContent"),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
         print("$ad onAdDismissedFullScreenContent");
 
         ad.dispose();
       },
-
-      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error){
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
         print("onAdFailedToShowFullScreenContent: $error ");
       },
-
       onAdImpression: (InterstitialAd ad) => print("$ad Impression occured"),
     );
-
   }
+
   //광고
-  void _showInterstitialAd(){
+  void _showInterstitialAd() {
     interstitialAd.show();
   }
 
@@ -105,6 +101,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
        loLoo는 myValue를 디지털 시계로 변환한 값 저장, countTime은 시간을 세어주기 위해 0으로 초기화
        또한, 앱 상태 전환을 인지하기 위한 WidgetBinding 추가 */
     super.initState();
+    _loadInterstitialAd();
     WidgetsBinding.instance.addObserver(this);
     initNotification();
     total = widget.myValue;
@@ -150,8 +147,10 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
               // 포기하지 않으면 집중시간은 total과 동일
               if (!giveUp) {
                 // 포기하지 않았을 떄, 들어갈 광고
-                _showInterstitialAd();
+                //_showInterstitialAd();
                 cctTime = total.toInt();
+              } else {
+                //_showInterstitialAd();
               }
               // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
               if (cctScore < 0) {
@@ -171,22 +170,24 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                 cctTime: cctTime,
                 cctScore: finalScore,
               );
-              print('Time: $cctTime, Score: $finalScore');
               _insertData(data);
               Navigator.pop(context, true);
+              if (!giveUp) {
+                _showInterstitialAd();
+              } else {
+                _showInterstitialAd();
+              }
             }
           })
         };
 
     _timer = Timer.periodic(oneSec, callback);
-
   }
 
   @override
   Widget build(BuildContext context) {
     // _start() 함수를 한 번 실행하고 난 뒤, 추가 실행하지 않는다. 안 그러면 위젯 내부에서 여러번 _start가 중복됨
     if (trigger) {
-      _loadInterstitialAd();
       _start();
       trigger = false;
     }
@@ -197,105 +198,99 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
         onWillPop: () async {
           return false;
         },
-      child: GestureDetector(
-          // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            // tab하고 팝업창을 띄우기 위한 설정
-            if(!giveUp) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Center(
-                      child: Container(
-                        // 팝업창 크기 적용
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.8,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.25,
-                        // 팝업창 모양, 들어갈 문장 등 적용
-                        child: AlertDialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                          contentPadding: EdgeInsets.only(top: 0),
-                          content: Center(
-                              child: Text(
-                                  isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                  ))),
-                          // 팝업창에서 실제 이벤트가 벌어지는 부분
-                          actions: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: HexColor('#64B5F6'),
-                                    foregroundColor: HexColor('#FFFFFF'),
+        child: GestureDetector(
+            // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              // tab하고 팝업창을 띄우기 위한 설정
+              if (!giveUp) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Center(
+                        child: Container(
+                          // 팝업창 크기 적용
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.25,
+                          // 팝업창 모양, 들어갈 문장 등 적용
+                          child: AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15.0))),
+                            contentPadding: EdgeInsets.only(top: 0),
+                            content: Center(
+                                child:
+                                    Text(isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ))),
+                            // 팝업창에서 실제 이벤트가 벌어지는 부분
+                            actions: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: HexColor('#64B5F6'),
+                                      foregroundColor: HexColor('#FFFFFF'),
+                                    ),
+                                    child: Text('예'),
+                                    onPressed: () {
+                                      // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
+                                      if (isRestart) {
+                                        isRestart = false;
+                                        _start();
+                                      } else {
+                                        cctTime = (countTime).toInt();
+                                        cctScore -= 50;
+                                        countTime = total;
+                                        giveUp = true;
+                                      }
+                                      Navigator.of(context).pop();
+                                    },
                                   ),
-                                  child: Text('예'),
-                                  onPressed: () {
-                                    // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-                                    if (isRestart) {
-                                      isRestart = false;
-                                      _start();
-                                    } else {
-                                      cctTime = (countTime).toInt();
-                                      cctScore -= 50;
-                                      countTime = total;
-                                      giveUp = true;
-                                      _showInterstitialAd();
-                                    }
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    backgroundColor: HexColor('#64B5F6'),
-                                    foregroundColor: HexColor('#FFFFFF'),
-                                  ),
-                                  child: Text('아니오'),
-                                  onPressed: () {
-                                    // 아니오를 누르면 팝업창만 탈출
-                                    if (!isRestart) {
-                                      cctScore -= 5;
-                                    }
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ],
-                            ),
-                          ],
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: HexColor('#64B5F6'),
+                                      foregroundColor: HexColor('#FFFFFF'),
+                                    ),
+                                    child: Text('아니오'),
+                                    onPressed: () {
+                                      // 아니오를 누르면 팝업창만 탈출
+                                      if (!isRestart) {
+                                        cctScore -= 5;
+                                      }
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
+                      );
+                    });
+              }
+              ;
+            },
+            // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Center(
+                    // 디지털 시계를 출력하는 부분
+                    child: Text(
+                      '$loLoo',
+                      style: TextStyle(
+                        color: HexColor("#FFFFFF"),
+                        fontSize: MediaQuery.of(context).size.width * 0.2,
+                        fontWeight: FontWeight.w600,
                       ),
-                    );
-                  });
-            };
-          },
-          // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Center(
-                  // 디지털 시계를 출력하는 부분
-                  child: Text(
-                    '$loLoo',
-                    style: TextStyle(
-                      color: HexColor("#FFFFFF"),
-                      fontSize: MediaQuery.of(context).size.width * 0.2,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
-              ])),
+                ])),
       ),
     );
   }
 }
-

@@ -46,6 +46,9 @@ dependencies:
   path: ^1.8.2
   intl: ^0.17.0
   google_mobile_ads: ^2.3.0
+  image_picker: ^0.8.6
+  shared_preferences: ^2.0.15
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
@@ -58,7 +61,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   flutter_local_notifications: ^12.0.3+1
-  google_mobile_ads: ^2.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -87,6 +89,12 @@ flutter:
     - assets/Notion_logo.png
     - assets/M&&B_logo.png
     - assets/start_icon.png
+    - assets/ex1.png
+    - assets/ex2.png
+    - assets/ex3.png
+    - assets/ex4.png
+    - assets/ex5.png
+    - assets/ex6.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

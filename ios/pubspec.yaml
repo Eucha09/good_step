@@ -45,6 +45,9 @@ dependencies:
   sqflite: ^2.0.0+3
   path: ^1.8.2
   intl: ^0.17.0
+  image_picker: ^0.8.6
+  shared_preferences: ^2.0.15
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
@@ -77,8 +80,6 @@ flutter:
   assets:
     - assets/splash.png
     - assets/north_pole.jpeg
-    - assets/donation.png
-    - assets/donation_brand.png
     - assets/footsteps.png
     - assets/logo.png
     - assets/Instagram_logo.png
@@ -86,6 +87,14 @@ flutter:
     - assets/Notion_logo.png
     - assets/M&&B_logo.png
     - assets/start_icon.png
+    - assets/donation.png
+    - assets/donation_brand.png
+    - assets/ex1.png
+    - assets/ex2.png
+    - assets/ex3.png
+    - assets/ex4.png
+    - assets/ex5.png
+    - assets/ex6.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
