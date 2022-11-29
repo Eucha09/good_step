@@ -1,4 +1,4 @@
-com.example.example
+com.goodstep.android
 attr activityAction
 attr activityName
 attr adSize

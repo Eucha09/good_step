@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.example"
+    package="com.goodstep.android"
     android:versionCode="1"
     android:versionName="1.0.0" >
 
@@ -46,9 +46,9 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="example" >
+        android:label="goodstep" >
         <activity
-            android:name="com.example.example.MainActivity"
+            android:name="com.goodstep.android.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
@@ -85,7 +85,7 @@
 
         <provider
             android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-            android:authorities="com.example.example.flutter.image_provider"
+            android:authorities="com.goodstep.android.flutter.image_provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -133,7 +133,7 @@
 
         <provider
             android:name="com.google.android.gms.ads.MobileAdsInitProvider"
-            android:authorities="com.example.example.mobileadsinitprovider"
+            android:authorities="com.goodstep.android.mobileadsinitprovider"
             android:exported="false"
             android:initOrder="100" />
 
@@ -153,7 +153,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.example.example.androidx-startup"
+            android:authorities="com.goodstep.android.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
@@ -254,7 +254,7 @@
 
         <provider
             android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-            android:authorities="com.example.example.lifecycle-process"
+            android:authorities="com.goodstep.android.lifecycle-process"
             android:exported="false"
             android:multiprocess="true" />
 

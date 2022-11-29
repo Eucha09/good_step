@@ -977,52 +977,14 @@ class _ChartPageState extends State<ChartPage> {
 
   // DB에서 자료를 긁어와 만들 리스트
   List<int> lastMonthCC = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0,
   ];
   List<int> curMonthCC = [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0,
     0,
     0,
     0,
@@ -1210,12 +1172,18 @@ class _ChartPageState extends State<ChartPage> {
     if (isGet) {
       final directory = await getApplicationDocumentsDirectory();
       XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      print('${image!.path}');
       final File temp = File(image!.path);
       final _path = directory.path;
-      _setImage = await temp.copy('$_path/setImage.png');
+      setState(() {
+        _setImage = temp;
+      });
+      await temp.copy('$_path/_setImage');
       prefs.setString('setImage', _setImage!.path);
     } else {
-      _setImage = File(prefs.getString('setImage').toString());
+      setState(() {
+        _setImage = File(prefs.getString('setImage').toString());
+      });
     }
     return 1;
   }

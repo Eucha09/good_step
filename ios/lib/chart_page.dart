@@ -1062,12 +1062,16 @@ class _ChartPageState extends State<ChartPage> {
   Future<int> gsImage(bool isGet) async {
     final prefs = await SharedPreferences.getInstance();
     if (isGet) {
+      prefs.remove('setImage');
       final directory = await getApplicationDocumentsDirectory();
       XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       final File temp = File(image!.path);
       final _path = directory.path;
-      _setImage = await temp.copy('$_path/setImage.png');
-      prefs.setString('setImage', _setImage!.path);
+      setState(() {
+        _setImage = temp;
+      });
+      await temp.copy('$_path/setImage.png');
+      await prefs.setString('setImage', _setImage!.path);
     } else {
       _setImage = File(prefs.getString('setImage').toString());
     }

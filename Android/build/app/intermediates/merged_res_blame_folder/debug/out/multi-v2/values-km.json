@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.example.app-mergeDebugResources-18:/values-km/values-km.xml",
+            "outputFile": "com.goodstep.android.app-mergeDebugResources-18:/values-km/values-km.xml",
             "map": [
                 {
                     "source": "/Users/joo/.gradle/caches/transforms-3/9cdeea47fa06d5152e97983ca1e9e9ad/transformed/jetified-play-services-basement-18.0.0/res/values-km/values.xml",

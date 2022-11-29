@@ -121,7 +121,12 @@ class _AwesomeCarouselState extends State<DonatePage> {
                   ),
                 ],
               ),
-              child: Center(
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: HexColor('#3b444b'),
+                ),
                 child: GestureDetector(
                   onTap: () {
                     final Uri url = Uri.parse(
@@ -129,14 +134,15 @@ class _AwesomeCarouselState extends State<DonatePage> {
                     launchUrl(url);
                   },
                   child: Text(
-                    '지난 기부내역(Click)',
+                    '지난 기부내역',
                     style: TextStyle(
                       //fontWeight: FontWeight.bold,
-                        color: Colors.lightGreenAccent,
-                        fontSize: 20),
+                        color: HexColor('#FFFFFF'),
+                        fontSize: MediaQuery.of(context).size.height * 0.022,
                   ),
                 ),
               ),
+            ),
             ),
             //지난 기부내역(Notion)
           ],

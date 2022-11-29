@@ -50,10 +50,10 @@ class _HomePageState extends State<HomePage> {
   var footcolor = HexColor("#3b444b");
   final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
 
-  late final InterstitialAd interstitialAd;
-  final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
-  late final RewardedAd rewardedAd;
-  final String rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
+  //late final InterstitialAd interstitialAd;
+  //final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
+  //late final RewardedAd rewardedAd;
+  //final String rewardedAdUnitId = "ca-app-pub-3940256099942544/5224354917";
 
   @override
   void initState() {

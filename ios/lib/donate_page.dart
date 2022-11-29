@@ -113,21 +113,28 @@ class _AwesomeCarouselState extends State<DonatePage> {
                   ),
                 ],
               ),
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    final Uri url = Uri.parse("https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
-                    launchUrl(url);
-                  },
-                  child: Text(
-                    '지난 기부내역',
-                    style: TextStyle(
-                      //fontWeight: FontWeight.bold,
-                        color: HexColor('#DDE26A'),
-                        fontSize: 20),
-                  ),
-                ),
-              ),
+    child: Container(
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(15),
+    color: HexColor('#3b444b'),
+    ),
+    child: GestureDetector(
+    onTap: () {
+    final Uri url = Uri.parse(
+    "https://harvest-lightning-366.notion.site/Good-Step-9b48fcb26ae44d838d891e0e5f825155");
+    launchUrl(url);
+    },
+    child: Text(
+    '지난 기부내역',
+    style: TextStyle(
+    //fontWeight: FontWeight.bold,
+    color: HexColor('#FFFFFF'),
+    fontSize: MediaQuery.of(context).size.height * 0.022,
+    ),
+    ),
+    ),
+    ),
             ),//지난 기부내역(Notion)
           ],
         ),

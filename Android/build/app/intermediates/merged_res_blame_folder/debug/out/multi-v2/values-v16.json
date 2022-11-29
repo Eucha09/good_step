@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.example.app-mergeDebugResources-18:/values-v16/values-v16.xml",
+            "outputFile": "com.goodstep.android.app-mergeDebugResources-18:/values-v16/values-v16.xml",
             "map": [
                 {
                     "source": "/Users/joo/.gradle/caches/transforms-3/f6a12936ecbbfb86057ffa1eb980a294/transformed/core-1.8.0/res/values-v16/values-v16.xml",
