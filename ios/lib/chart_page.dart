@@ -1186,6 +1186,12 @@ class _ChartPageState extends State<ChartPage> {
     });
     initLastWeekList(list);
 
+    // 오래된 데이터 삭제(2달전 데이터)
+    database.rawDelete(
+        "DELETE FROM concentration "
+            "WHERE strftime('%Y-%m', date) <= strftime('%Y-%m', 'now', 'localtime', '-2 months')"
+    );
+
     _initTotal();
     return 1;
   }

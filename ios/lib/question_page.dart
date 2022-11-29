@@ -7,30 +7,31 @@ class question_page extends StatefulWidget {
 }
 
 class _question_pageState extends State<question_page> {
-  int index = 0;
-  List picture = [
-    Image.asset('assets/ex1.png', fit: BoxFit.contain,),
-    Image.asset('assets/ex2.png', fit: BoxFit.contain,),
-    Image.asset('assets/ex3.png', fit: BoxFit.contain,),
-    Image.asset('assets/ex4.png', fit: BoxFit.contain,),
-    Image.asset('assets/ex5.png', fit: BoxFit.contain,),
-    Image.asset('assets/ex6.png', fit: BoxFit.contain,),
+  int _currentPage = 0;
+  List data = [
+    'assets/ex1.png',
+    'assets/ex2.png',
+    'assets/ex3.png',
+    'assets/ex4.png',
+    'assets/ex5.png',
+    'assets/ex6.png',
   ];
 
   @override
   void initState() {
     super.initState();
-    index = 0;
+    _currentPage = 0;
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle : Text(
-          'Help',
+        middle: Text(
+          '앱 가이드',
+          textAlign: TextAlign.center,
           style: TextStyle(
-            fontFamily: 'Harsh',
+            //fontFamily: 'pyeongchang',
             fontSize: 22,
             color: HexColor('#FFFFFF'),
           ),
@@ -42,23 +43,48 @@ class _question_pageState extends State<question_page> {
         ),
         backgroundColor: HexColor("#222021"),
       ),
-      child: GestureDetector(
-        onTap: () {
-          if (index < 5)
-          {
-            setState(() {
-              index++;
-            });
-          } else {
-            Navigator.pop(context);
-          }
-        },
-        child: Container(
-          color: HexColor("#222021"),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: picture[index],
-        )
+      child: Container(
+        color: HexColor('#222021'),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        alignment: Alignment.center,
+        child: Stack(children: [
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 0),
+            child: Container(
+              key: ValueKey<String>(data[_currentPage]),
+              decoration: BoxDecoration(
+                color: HexColor("#222021"),
+              ),
+            ),
+          ),
+          FractionallySizedBox(
+            heightFactor: 0.99,
+            child: PageView.builder(
+              itemCount: data.length,
+              onPageChanged: (int page) {
+                setState(() {
+                  _currentPage = page;
+                });
+              },
+              itemBuilder: (BuildContext context, int index) {
+                return FractionallySizedBox(
+                  widthFactor: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: HexColor('#222021'),
+                      image: DecorationImage(
+                        image: AssetImage(data[index]),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+        ),
       ),
     );
   }

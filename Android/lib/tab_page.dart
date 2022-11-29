@@ -28,9 +28,9 @@ class _TabPageState extends State<TabPage> {
   ];
 
   List _color = [
-    HexColor('#24202E'),
-    HexColor('#24202E'),
-    HexColor('#24202E'),
+    HexColor('#161A24'),
+    HexColor('#161A24'),
+    HexColor('#161A24'),
   ];
 
   // 위젯은 마테리얼 디자인(Scaffold)으로 구성된 화면을 띄운다

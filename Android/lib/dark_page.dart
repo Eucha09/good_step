@@ -6,9 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'concentration.dart';
 import 'dart:async';
-import 'home_page.dart';
-import 'dart:io';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:wakelock/wakelock.dart';
 
 // 원형 슬라이더 내부 버튼을 누르고 튀어 나올 검은 화면을 정의할 클래스
 class DarkPage extends StatefulWidget {
@@ -120,6 +119,11 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
       showNotification();
       _pause();
     }
+
+    if (state == AppLifecycleState.resumed && isRestart) {
+      isRestart = false;
+      _start();
+    }
   }
 
   void _pause() {
@@ -189,6 +193,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     // _start() 함수를 한 번 실행하고 난 뒤, 추가 실행하지 않는다. 안 그러면 위젯 내부에서 여러번 _start가 중복됨
     if (trigger) {
       _start();
+      Wakelock.enable();
       trigger = false;
     }
     return Scaffold(

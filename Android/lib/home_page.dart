@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   Future<Concentration>? todayCCT;
   bool isUpdate = false;
   var footcolor = HexColor("#3b444b");
-  final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
+  final List<Color> pageColors = [HexColor('#161A24'), HexColor('#161A24')];
 
   //late final InterstitialAd interstitialAd;
   //final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return Text('0');
+          return Text('0', style: TextStyle(color: HexColor('#FFFFFF')));
         }
     }
   }
@@ -234,7 +234,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return Text('0');
+          return Text('0', style: TextStyle(color: HexColor('#FFFFFF')));
         }
     }
   }
@@ -340,7 +340,7 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         ],
-        backgroundColor: HexColor("#24202E"),
+        backgroundColor: HexColor("#161A24"),
       ),
       // onPressed: () => FlutterDialog(),
       body: Container(

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
 import 'home_page.dart';
 import 'utils.dart';
 import 'notification.dart';
@@ -8,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'concentration.dart';
 import 'dart:async';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:wakelock/wakelock.dart';
 
 // 원형 슬라이더 내부 버튼을 누르고 튀어 나올 검은 화면을 정의할 클래스
 class DarkPage extends StatefulWidget {
@@ -118,6 +118,11 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
       showNotification();
       _pause();
     }
+
+    if (state == AppLifecycleState.resumed && isRestart) {
+      isRestart = false;
+      _start();
+    }
   }
   void _pause() {
     _timer?.cancel();
@@ -185,6 +190,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     // _start() 함수를 한 번 실행하고 난 뒤, 추가 실행하지 않는다. 안 그러면 위젯 내부에서 여러번 _start가 중복됨
     if (trigger) {
       _start();
+      Wakelock.enable();
       trigger = false;
     }
     return CupertinoPageScaffold(
@@ -208,7 +214,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                             .height * 0.05,
                         alignment: Alignment.center,
                         child: Text(
-                          isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
+                          '포기하시겠습니까?',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -226,16 +232,10 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                 child: Text('예'),
                                 onPressed: () {
                                   // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-                                  if (isRestart) {
-                                    isRestart = false;
-                                    _start();
-                                  } else {
-                                    isAlarm = false;
                                     cctTime = (countTime).toInt();
                                     cctScore -= 50;
                                     countTime = total;
                                     giveUp = true;
-                                  }
                                   Navigator.of(context).pop();
                                 },
                               ),

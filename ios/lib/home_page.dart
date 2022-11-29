@@ -177,11 +177,11 @@ class _HomePageState extends State<HomePage> {
   {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0');
+        return Text('');
       case ConnectionState.waiting:
-        return Text('0');
+        return Text('');
       case ConnectionState.active:
-        return Text('0');
+        return Text('');
       case ConnectionState.done:
         if (snapshot.hasData) {
           Concentration today = (snapshot.data as Concentration);
@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return Text('0');
+          return Text('0', style: TextStyle(color: HexColor('#FFFFFF')));
         }
     }
   }
@@ -203,11 +203,11 @@ class _HomePageState extends State<HomePage> {
   {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0');
+        return Text('');
       case ConnectionState.waiting:
-        return Text('0');
+        return Text('');
       case ConnectionState.active:
-        return Text('0');
+        return Text('');
       case ConnectionState.done:
         if (snapshot.hasData) {
           Concentration today = (snapshot.data as Concentration);
@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return Text('0');
+          return Text('0', style: TextStyle(color: HexColor('#FFFFFF')));
         }
     }
   }
