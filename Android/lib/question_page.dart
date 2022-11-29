@@ -46,10 +46,12 @@ class _question_pageState extends State<question_page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          'Help',
+          '앱 가이드',
+          textAlign: TextAlign.center,
           style: TextStyle(
-            fontFamily: 'Harsh',
+            //fontFamily: 'pyeongchang',
             fontSize: 22,
             color: HexColor('#FFFFFF'),
           ),
