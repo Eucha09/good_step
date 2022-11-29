@@ -105,11 +105,11 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "\nto Make the world, Better.\n",
+                  "to Make the world, Better.\n",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
-                      fontSize: 17),
+                      fontSize: 20),
                 ), //to Make the world, Better
                 Text(
                   "우리의 시작은 단순했습니다.\n"
@@ -128,10 +128,6 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 75,
-                      width: 75,
-                    ),
                     Container(
                       height: 30,
                       width: 30,
