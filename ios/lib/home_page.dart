@@ -78,28 +78,33 @@ class _HomePageState extends State<HomePage> {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return Theme(
+            data: ThemeData.light(),
+            child: CupertinoAlertDialog(
             // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
             //Dialog Main Title
             title: Column(
               children: <Widget>[
-                Image.asset(
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
                   'assets/M&&B_logo.png',
                   width: 110,
                   height: 110,
                   fit: BoxFit.cover,
                 ),
+                ),
               ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text("   to Make the world, Better.\n",
+                Text("\nto Make the world, Better.\n",
                   style: TextStyle(fontWeight:
                   FontWeight.bold,
                       color: CupertinoColors.activeGreen,
-                      fontSize: 20),
+                      fontSize: 17),
                 ),//to Make the world, Better
                 Text(
                   "우리의 시작은 단순했습니다.\n"
@@ -116,11 +121,8 @@ class _HomePageState extends State<HomePage> {
                   textAlign: TextAlign.center,
                 ),//본문
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 75,
-                      width: 75,
-                    ),
                     Container(
                       height: 30,
                       width: 30,
@@ -136,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                             launchUrl(url);
                           },
                           child: Image.asset(
-                            'assets/Instagram_logo.png',
+                            'assets/instagram_onBack.png',
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -159,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                             launchUrl(url);
                           },
                           child: Image.asset(
-                            'assets/Notion_logo.png',
+                            'assets/notion_onBack.png',
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -169,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                 ),//notion
               ],
             ),
+          ),
           );
         });
   }

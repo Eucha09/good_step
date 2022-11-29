@@ -91,6 +91,8 @@ flutter:
     - assets/start_icon.png
     - assets/donation.png
     - assets/donation_brand.png
+    - assets/notion_onBack.png
+    - assets/instagram_onBack.png
     - assets/ex1.png
     - assets/ex2.png
     - assets/ex3.png

@@ -20,7 +20,6 @@ class _TabPageState extends State<TabPage> {
   /* selectedPageIndex : 실제로 보여줄 페이지를 전환하기 위한 스위치
      pages : 스위치 전환 시, 해당 스위치에 해당하는 내용물을 보여주기 위한 리스트*/
   int _selectedPageIndex = 0;
-
   late List _pages = [
     HomePage(widget.db),
     ChartPage(widget.db),
@@ -36,6 +35,19 @@ class _TabPageState extends State<TabPage> {
   // 위젯은 마테리얼 디자인(Scaffold)으로 구성된 화면을 띄운다
   @override
   Widget build(BuildContext context) {
+    double max = MediaQuery.of(context).size.height;
+    double? height;
+    if (max >= 900) {
+      height = 75;
+    } else if (max >= 800) {
+      height = 70;
+    } else if (max >= 700) {
+      height = 65;
+    } else if (max >= 600) {
+      height = 60;
+    } else {
+      height = 55;
+    }
     return Scaffold(
       /* body : Container로 화면을 감싸고 그 위에 위젯을 띄운다. 위젯은 page 리스트에서 스위치 전환을 통해 불러옴
          bottomNavigationBar : 하단 메뉴 막대. CurvedNavigationBar는 패키지로 물결 무늬 애니메이션 적용 */
@@ -43,7 +55,7 @@ class _TabPageState extends State<TabPage> {
           child: _pages[_selectedPageIndex]
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        height: 55,
+        height: height,
         backgroundColor: _color[_selectedPageIndex],
         color: HexColor("#D9DDDC"),
         onTap: (index) {
