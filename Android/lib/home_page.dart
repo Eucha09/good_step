@@ -123,8 +123,14 @@ class _HomePageState extends State<HomePage> {
                   "한 걸음 한 걸음 묵묵히 걸으려고 합니다.\n"
                   "목적지는 ‘더 나은 세상’ 입니다.\n"
                   "같이 좀 걸을까요?",
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
                   textAlign: TextAlign.center,
-                ), //본문
+                ),
+                SizedBox(
+                  height: 5,
+                ),//본문
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

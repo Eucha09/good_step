@@ -45,7 +45,7 @@ class _PieChart extends CustomPainter {
         Offset(size.width / 2, size.height / 2); // 원이 위젯 가운데에 그려지게 좌표 정함
     canvas.drawCircle(center, radius, paint); // 원을 그린다
     double arcAngle = 2 * pi * (percentage / 100); // 호의 각도를 정한다
-    paint..color = HexColor('#24202E'); // 호를 그릴 때 색깔을 바꿔줌
+    paint..color = HexColor('#161A24'); // 호를 그릴 때 색깔을 바꿔줌
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -pi / 2,
         arcAngle, false, paint); // 호를 그림
     //drawText(canvas, size, res); // 텍스트를 화면에 표시
@@ -1494,7 +1494,7 @@ class _ChartPageState extends State<ChartPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: HexColor('#24202E'),
+      color: HexColor('#161A24'),
       child: Column(children: <Widget>[
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.05,
@@ -1647,7 +1647,7 @@ class _ChartPageState extends State<ChartPage> {
                           height: MediaQuery.of(context).size.height * 0.11,
                             child: FittedBox(
                               child: FloatingActionButton(
-                                backgroundColor: HexColor('#24202E'),
+                                backgroundColor: HexColor('#161A24'),
                               onPressed: () {
                                   gsImage(true);
                                   print('path: ${_setImage!.path}');

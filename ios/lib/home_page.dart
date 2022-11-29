@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   int cctScoreDay = 0;
   Future<Concentration>? todayCCT;
   bool isUpdate = false;
-  final List<Color> pageColors = [HexColor('#24202E'), HexColor('#24202E')];
+  final List<Color> pageColors = [HexColor('#161A24'), HexColor('#161A24')];
 
   @override
   void initState() {
@@ -349,7 +349,7 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.fitHeight,
             ),
           ),
-        backgroundColor: HexColor("#24202E"),
+        backgroundColor: HexColor("161A24"),
       ),
       // onPressed: () => FlutterDialog(),
       child: Container(
