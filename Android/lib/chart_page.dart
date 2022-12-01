@@ -977,14 +977,52 @@ class _ChartPageState extends State<ChartPage> {
 
   // DB에서 자료를 긁어와 만들 리스트
   List<int> lastMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     0,
     0,
     0,
@@ -1172,7 +1210,6 @@ class _ChartPageState extends State<ChartPage> {
     if (isGet) {
       final directory = await getApplicationDocumentsDirectory();
       XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      print('${image!.path}');
       final File temp = File(image!.path);
       final _path = directory.path;
       setState(() {
@@ -1211,9 +1248,17 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
+      var lastmonth_lastday = DateTime(now.year, now.month, 0).toString();
+      var parse_lastday = DateTime.parse(lastmonth_lastday);
+      String Slastmonth_lastday = '${parse_lastday.day}';
+      int lastday_month = int.parse(Slastmonth_lastday);
       var firstday = now.subtract(Duration(days: now.weekday - 1));
-      String week_firstday = DateFormat('dd').format(firstday);
-      int weekday = day - int.parse(week_firstday) + 1;
+      String week_first = DateFormat('dd').format(firstday);
+      int week_firstday = int.parse(week_first);
+      if (week_firstday > day) {
+        week_firstday = week_firstday - lastday_month;
+      }
+      int weekday = day - week_firstday + 1;
       curWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
@@ -1223,9 +1268,17 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
+      var lastmonth_lastday = DateTime(now.year, now.month, 0).toString();
+      var parse_lastday = DateTime.parse(lastmonth_lastday);
+      String Slastmonth_lastday = '${parse_lastday.day}';
+      int lastday_month = int.parse(Slastmonth_lastday);
       var firstday = now.subtract(Duration(days: now.weekday + 6));
-      String week_firstday = DateFormat('dd').format(firstday);
-      int weekday = day - int.parse(week_firstday) + 1;
+      String week_first = DateFormat('dd').format(firstday);
+      int week_firstday = int.parse(week_first);
+      if (week_firstday > day) {
+        week_firstday = week_firstday - lastday_month;
+      }
+      int weekday = day - week_firstday + 1;
       lastWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       lastWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
@@ -1299,10 +1352,8 @@ class _ChartPageState extends State<ChartPage> {
     initLastWeekList(list);
 
     // 오래된 데이터 삭제(2달전 데이터)
-    database.rawDelete(
-      "DELETE FROM concentration "
-      "WHERE strftime('%Y-%m', date) <= strftime('%Y-%m', 'now', 'localtime', '-2 months')"
-    );
+    database.rawDelete("DELETE FROM concentration "
+        "WHERE strftime('%Y-%m', date) <= strftime('%Y-%m', 'now', 'localtime', '-2 months')");
 
     _initTotal();
     return 1;

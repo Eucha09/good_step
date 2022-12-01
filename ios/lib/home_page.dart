@@ -22,6 +22,17 @@ String printDuration(Duration duration) {
   return "$twoDigitMinutes:$twoDigitSeconds";
 }
 
+String printDuration_timer(Duration duration) {
+  String twoDigits(int n) {
+    if (n >= 10) return '$n';
+    return '0$n';
+  }
+
+  String twoDigitHours = twoDigits(duration.inHours);
+  String twoDigitMinutes = twoDigits(duration.inMinutes);
+  return "$twoDigitHours:$twoDigitMinutes";
+}
+
 // 홈페이지 적용을 위한 위젯
 class HomePage extends StatefulWidget {
   final Future<Database> db;
@@ -190,7 +201,7 @@ class _HomePageState extends State<HomePage> {
           Concentration today = (snapshot.data as Concentration);
           int? totalCctTime = today.cctTime;
           return Text(
-            '${(totalCctTime!/3600).toInt().toString()}',
+            printDuration(Duration(seconds: totalCctTime!)),
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.03,
               color: HexColor("#FFFFFF"),
@@ -283,15 +294,13 @@ class _HomePageState extends State<HomePage> {
                           CupertinoPageRoute(builder: (context) => DarkPage(myValue, widget.db)),
                         );
                       }
-                      /*if (isUpdate) {
+                      if (isUpdate) {
                         // setState를 통해 DB에 누적된 값을 다시 받아온다
                         setState(() {
-                          if (isUpdate) {
                             todayCCT = getTotalDay();
                             isUpdate = false;
-                          }
                         });
-                      }*/
+                      }
                     },
                     // 버튼에 들어가는 상징물
                     child: Container(

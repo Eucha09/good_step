@@ -56,3 +56,32 @@ showNotification() async {
       payload:'부가정보'
   );
 }
+
+showNotification_res() async {
+
+  var androidDetails = AndroidNotificationDetails(
+    // 알림채널 id, 알림종류
+    '53',
+    '집중화면 끝날 시 알림',
+    priority: Priority.high,
+    importance: Importance.max,
+    color: HexColor('#FFFFFF'),
+  );
+
+  var iosDetails = DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+  );
+
+  // 알림 id, 제목, 내용 맘대로 채우기
+  notifications.show(
+      1,
+      // 제목, 내용
+      '굿스텝',
+      '집중시간이 완료되었습니다',
+      NotificationDetails(android: androidDetails, iOS: iosDetails),
+      // 부가정보
+      payload:'부가정보'
+  );
+}

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'chart_page.dart';
 import 'utils.dart';
 import 'home_page.dart';
+//import 'test_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'donate_page.dart';
 
@@ -24,12 +25,14 @@ class _TabPageState extends State<TabPage> {
     HomePage(widget.db),
     ChartPage(widget.db),
     DonatePage(),
+    //DatabaseTestApp(widget.db),
   ];
 
   List _color = [
     HexColor('#161A24'),
     HexColor('#161A24'),
     HexColor('#161A24'),
+    //HexColor('#161A24'),
   ];
 
   // 위젯은 마테리얼 디자인(Scaffold)으로 구성된 화면을 띄운다
@@ -69,6 +72,7 @@ class _TabPageState extends State<TabPage> {
           Icon(Icons.home, size: MediaQuery.of(context).size.width * 0.08, color: HexColor('#000000'),),
           Icon(Icons.bar_chart, size: MediaQuery.of(context).size.width * 0.08, color: HexColor('#000000'),),
           Icon(Icons.volunteer_activism, size: MediaQuery.of(context).size.width * 0.08, color: HexColor('#000000'),),
+          //Icon(Icons.settings, size: MediaQuery.of(context).size.width * 0.08, color: HexColor('#000000'),),
         ],
       ),
     );

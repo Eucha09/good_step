@@ -8,8 +8,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'concentration.dart';
+import 'dart:async';
 import 'dart:math';
 import 'dart:io';
+import 'dart:core';
 import 'utils.dart';
 
 class _PieChart extends CustomPainter {
@@ -1044,7 +1046,7 @@ class _ChartPageState extends State<ChartPage> {
   ];
 
   List _TabColor = [
-    HexColor('#212B55'),
+    HexColor('#161A24'),
     HexColor('#FFFFFF'),
   ];
 
@@ -1062,7 +1064,6 @@ class _ChartPageState extends State<ChartPage> {
   Future<int> gsImage(bool isGet) async {
     final prefs = await SharedPreferences.getInstance();
     if (isGet) {
-      prefs.remove('setImage');
       final directory = await getApplicationDocumentsDirectory();
       XFile? image = await _picker.pickImage(source: ImageSource.gallery);
       final File temp = File(image!.path);
@@ -1070,10 +1071,12 @@ class _ChartPageState extends State<ChartPage> {
       setState(() {
         _setImage = temp;
       });
-      await temp.copy('$_path/setImage.png');
+      await temp.copy('$_path/setImage');
       await prefs.setString('setImage', _setImage!.path);
     } else {
-      _setImage = File(prefs.getString('setImage').toString());
+      setState(() {
+        _setImage = File(prefs.getString('setImage').toString());
+      });
     }
     return 1;
   }
@@ -1100,9 +1103,17 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
+      var lastmonth_lastday = DateTime(now.year, now.month, 0).toString();
+      var parse_lastday = DateTime.parse(lastmonth_lastday);
+      String Slastmonth_lastday = '${parse_lastday.day}';
+      int lastday_month = int.parse(Slastmonth_lastday);
       var firstday = now.subtract(Duration(days: now.weekday - 1));
-      String week_firstday = DateFormat('dd').format(firstday);
-      int weekday = day - int.parse(week_firstday) + 1;
+      String week_first = DateFormat('dd').format(firstday);
+      int week_firstday = int.parse(week_first);
+      if (week_firstday > day) {
+        week_firstday = week_firstday - lastday_month;
+      }
+      int weekday = day - week_firstday + 1;
       curWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
@@ -1112,9 +1123,17 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       int day = int.parse(list[i].date!.substring(8, 10));
       var now = DateTime.now();
+      var lastmonth_lastday = DateTime(now.year, now.month, 0).toString();
+      var parse_lastday = DateTime.parse(lastmonth_lastday);
+      String Slastmonth_lastday = '${parse_lastday.day}';
+      int lastday_month = int.parse(Slastmonth_lastday);
       var firstday = now.subtract(Duration(days: now.weekday + 6));
-      String week_firstday = DateFormat('dd').format(firstday);
-      int weekday = day - int.parse(week_firstday) + 1;
+      String week_first = DateFormat('dd').format(firstday);
+      int week_firstday = int.parse(week_first);
+      if (week_firstday > day) {
+        week_firstday = week_firstday - lastday_month;
+      }
+      int weekday = day - week_firstday + 1;
       lastWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       lastWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }

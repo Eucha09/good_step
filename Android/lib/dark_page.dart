@@ -175,6 +175,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                 cctScore: finalScore,
               );
               _insertData(data);
+              showNotification_res();
               Navigator.pop(context, true);
               if (!giveUp) {
                 _showInterstitialAd();
