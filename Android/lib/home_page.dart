@@ -31,7 +31,7 @@ String printDuration_timer(Duration duration) {
   }
 
   String twoDigitHours = twoDigits(duration.inHours);
-  String twoDigitMinutes = twoDigits(duration.inMinutes);
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
   return "$twoDigitHours:$twoDigitMinutes";
 }
 
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
           Concentration today = (snapshot.data as Concentration);
           int? totalCctTime = today.cctTime;
           return Text(
-            printDuration(Duration(seconds: totalCctTime!)),
+            printDuration_timer(Duration(seconds: totalCctTime!)),
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.03,
               color: HexColor("#FFFFFF"),

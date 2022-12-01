@@ -978,40 +978,180 @@ class _ChartPageState extends State<ChartPage> {
 
   // DB에서 자료를 긁어와 만들 리스트
   List<int> lastMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curMonthCC = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastMonthCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curMonthCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastWeekCC = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curWeekCC = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> lastWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   List<int> curWeekCCT = [
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
   ];
   // 탭 변경에 따라 화면 전환할 스위치
   int selectedTabWeeks = 0;
@@ -1147,10 +1287,10 @@ class _ChartPageState extends State<ChartPage> {
     // 이번달 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
-            "GROUP BY date "
-            "ORDER BY date");
+        "FROM concentration "
+        "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime') "
+        "GROUP BY date "
+        "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1162,10 +1302,10 @@ class _ChartPageState extends State<ChartPage> {
     // 저번달 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime', '-1 months') "
-            "GROUP BY date "
-            "ORDER BY date");
+        "FROM concentration "
+        "WHERE strftime('%Y-%m', date) = strftime('%Y-%m', 'now', 'localtime', '-1 months') "
+        "GROUP BY date "
+        "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1177,10 +1317,10 @@ class _ChartPageState extends State<ChartPage> {
     // 이번주 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-6 days', 'weekday 1') "
-            "GROUP BY date "
-            "ORDER BY date");
+        "FROM concentration "
+        "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-6 days', 'weekday 1') "
+        "GROUP BY date "
+        "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1192,11 +1332,11 @@ class _ChartPageState extends State<ChartPage> {
     // 저번주 데이터 추출
     maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-13 days', 'weekday 1') "
-            "AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', 'now', 'localtime', '-7 days', 'weekday 0') "
-            "GROUP BY date "
-            "ORDER BY date");
+        "FROM concentration "
+        "WHERE strftime('%Y-%m-%d', date) >= strftime('%Y-%m-%d', 'now', 'localtime', '-13 days', 'weekday 1') "
+        "AND strftime('%Y-%m-%d', date) <= strftime('%Y-%m-%d', 'now', 'localtime', '-7 days', 'weekday 0') "
+        "GROUP BY date "
+        "ORDER BY date");
     list = List.generate(maps.length, (i) {
       return Concentration(
           date: maps[i]['date'].toString(),
@@ -1206,10 +1346,8 @@ class _ChartPageState extends State<ChartPage> {
     initLastWeekList(list);
 
     // 오래된 데이터 삭제(2달전 데이터)
-    database.rawDelete(
-        "DELETE FROM concentration "
-            "WHERE strftime('%Y-%m', date) <= strftime('%Y-%m', 'now', 'localtime', '-2 months')"
-    );
+    database.rawDelete("DELETE FROM concentration "
+        "WHERE strftime('%Y-%m', date) <= strftime('%Y-%m', 'now', 'localtime', '-2 months')");
 
     _initTotal();
     return 1;
@@ -1218,11 +1356,20 @@ class _ChartPageState extends State<ChartPage> {
   Widget MonthCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT);
     }
@@ -1231,11 +1378,20 @@ class _ChartPageState extends State<ChartPage> {
   Widget WeekCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT);
     }
@@ -1244,11 +1400,20 @@ class _ChartPageState extends State<ChartPage> {
   Widget MonthCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return _LineChartMonthCC(Factor: curMonthCC, last_Factor: lastMonthCC);
     }
@@ -1257,11 +1422,20 @@ class _ChartPageState extends State<ChartPage> {
   Widget WeekCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return _LineChartWeekCC(Factor: curWeekCC, last_Factor: lastWeekCC);
     }
@@ -1270,19 +1444,25 @@ class _ChartPageState extends State<ChartPage> {
   Widget totalCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return Text('${insertTotalCC.toString()} %',
             style: TextStyle(
                 fontFamily: 'pyeongchang',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
   }
@@ -1290,19 +1470,25 @@ class _ChartPageState extends State<ChartPage> {
   Widget totalLastCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return Text('${insertLastCC.toString()} %',
             style: TextStyle(
                 fontFamily: 'pyeongchang',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
   }
@@ -1310,53 +1496,74 @@ class _ChartPageState extends State<ChartPage> {
   Widget totalCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
-        return Text(
-            '${(insertTotalCCT / 3600).toInt().toString()} 시간',
+        return Text('${(insertTotalCCT / 3600).toInt().toString()} 시간',
             style: TextStyle(
                 fontFamily: 'pyeongchang',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
   }
 
-  Widget totalLastCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+  Widget totalLastCCTBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('0', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('0',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
-        return Text(
-            '${(insertLastCCT / 3600).toInt().toString()} 시간',
+        return Text('${(insertLastCCT / 3600).toInt().toString()} 시간',
             style: TextStyle(
                 fontFamily: 'pyeongchang',
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.04,
+                fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
   }
 
-  Widget circularGraphCCTBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+  Widget circularGraphCCTBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return CustomPaint(
           size: Size(
@@ -1365,27 +1572,33 @@ class _ChartPageState extends State<ChartPage> {
           ),
           painter: _PieChart(
             percentage:
-            (((insertLimitedCCT - insertTotalCCT) /
-                insertLimitedCCT) *
-                100)
-                .toInt(),
+                (((insertLimitedCCT - insertTotalCCT) / insertLimitedCCT) * 100)
+                    .toInt(),
             barColor: HexColor('#FFD740'),
-            strokelen:
-            (MediaQuery.of(context).size.width * 0.2)
-                .toInt(),
+            strokelen: (MediaQuery.of(context).size.width * 0.2).toInt(),
           ),
         );
     }
   }
 
-  Widget circularGraphCCBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+  Widget circularGraphCCBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.waiting:
-        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.active:
-        return Text('', style: TextStyle(color: HexColor('#FFFFFF'),));
+        return Text('',
+            style: TextStyle(
+              color: HexColor('#FFFFFF'),
+            ));
       case ConnectionState.done:
         return CustomPaint(
           size: Size(
@@ -1394,19 +1607,16 @@ class _ChartPageState extends State<ChartPage> {
           ),
           painter: _PieChart(
             percentage:
-            (((limitedCC - insertTotalCC) / limitedCC) *
-                100)
-                .toInt(),
+                (((limitedCC - insertTotalCC) / limitedCC) * 100).toInt(),
             barColor: HexColor('#90EE90'),
-            strokelen:
-            (MediaQuery.of(context).size.width * 0.2)
-                .toInt(),
+            strokelen: (MediaQuery.of(context).size.width * 0.2).toInt(),
           ),
         );
     }
   }
 
-  Widget circularPhotoBuilder(BuildContext context, AsyncSnapshot<int> snapshot) {
+  Widget circularPhotoBuilder(
+      BuildContext context, AsyncSnapshot<int> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return Icon(CupertinoIcons.photo);
@@ -1417,12 +1627,11 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.done:
         return ClipOval(
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-            width: MediaQuery.of(context).size.height * 0.1,
-            child: _setImage!.existsSync()
-                ? Image.file(File(_setImage!.path), fit: BoxFit.cover)
-                : Icon(CupertinoIcons.photo)
-          ),
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.height * 0.1,
+              child: _setImage!.existsSync()
+                  ? Image.file(File(_setImage!.path), fit: BoxFit.cover)
+                  : Icon(CupertinoIcons.photo)),
         );
     }
   }
@@ -1586,7 +1795,7 @@ class _ChartPageState extends State<ChartPage> {
                       ),
                     ),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.025,
+                      width: MediaQuery.of(context).size.width * 0.025,
                     ),
                     Container(
                       padding: EdgeInsets.only(
@@ -1664,20 +1873,20 @@ class _ChartPageState extends State<ChartPage> {
                             shape: BoxShape.circle,
                           ),
                           height: MediaQuery.of(context).size.height * 0.11,
-                            child: FittedBox(
-                              child: FloatingActionButton(
-                                backgroundColor: HexColor('#161A24'),
+                          child: FittedBox(
+                            child: FloatingActionButton(
+                              backgroundColor: HexColor('#161A24'),
                               onPressed: () {
-                                  gsImage(true);
-                                  print('path: ${_setImage!.path}');
-                                },
+                                gsImage(true);
+                                print('path: ${_setImage!.path}');
+                              },
                               child: FutureBuilder(
                                 builder: circularPhotoBuilder,
                                 future: checkPIC,
                               ),
-                              ),
-                              ),
                             ),
+                          ),
+                        ),
                       ],
                     ),
                     Flexible(
@@ -1833,7 +2042,8 @@ class _ChartPageState extends State<ChartPage> {
                                           style: TextStyle(
                                             fontSize: MediaQuery.of(context)
                                                     .size
-                                                    .width * 0.03,
+                                                    .width *
+                                                0.03,
                                             fontWeight: FontWeight.w800,
                                             color: HexColor('#D3D3D3'),
                                           ),
@@ -1841,7 +2051,8 @@ class _ChartPageState extends State<ChartPage> {
                                         SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
-                                                  .height * 0.01,
+                                                  .height *
+                                              0.01,
                                         ),
                                         FutureBuilder(
                                           builder: totalCCBuilder,
@@ -1857,9 +2068,7 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.05
-                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                   ],
                 ),
               ],

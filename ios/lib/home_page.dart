@@ -29,7 +29,7 @@ String printDuration_timer(Duration duration) {
   }
 
   String twoDigitHours = twoDigits(duration.inHours);
-  String twoDigitMinutes = twoDigits(duration.inMinutes);
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
   return "$twoDigitHours:$twoDigitMinutes";
 }
 
@@ -70,15 +70,13 @@ class _HomePageState extends State<HomePage> {
     final Database database = await widget.db;
     List<Map<String, dynamic>> maps = await database.rawQuery(
         "SELECT date, SUM(cctTime) AS cctTime, SUM(cctScore) AS cctScore "
-            "FROM concentration "
-            "WHERE strftime('%Y-%m-%d', date) = strftime('%Y-%m-%d', 'now', 'localtime') "
-            "GROUP BY date"
-    );
+        "FROM concentration "
+        "WHERE strftime('%Y-%m-%d', date) = strftime('%Y-%m-%d', 'now', 'localtime') "
+        "GROUP BY date");
     Concentration data = Concentration(
         date: maps[0]['date'].toString(),
         cctTime: maps[0]['cctTime'],
-        cctScore: maps[0]['cctScore']
-    );
+        cctScore: maps[0]['cctScore']);
     return data;
   }
 
@@ -92,103 +90,106 @@ class _HomePageState extends State<HomePage> {
           return Theme(
             data: ThemeData.light(),
             child: CupertinoAlertDialog(
-            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-            //Dialog Main Title
-            title: Column(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/M&&B_logo.png',
-                  width: 110,
-                  height: 110,
-                  fit: BoxFit.cover,
-                ),
-                ),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text("\nto Make the world, Better.\n",
-                  style: TextStyle(fontWeight:
-                  FontWeight.bold,
-                      color: CupertinoColors.activeGreen,
-                      fontSize: 17),
-                ),//to Make the world, Better
-                Text(
-                  "우리의 시작은 단순했습니다.\n"
-                      "\"to make the world, better\"\n"
-                      "더 나은 세상을 만들기 위해.\n"
-                      "우리는 고민했습니다.\n"
-                      "어떻게 하면 더 나은 세상이 될까?\n"
-                      "그래서 만들기로(Make) 했습니다.\n"
-                      "더 나은(Better) 세상을 위한 무언가를.\n"
-                      "첫 프로젝트 <Good Step>을 시작으로,\n"
-                      "한 걸음 한 걸음 묵묵히 걸으려고 합니다.\n"
-                      "목적지는 ‘더 나은 세상’ 입니다.\n"
-                      "같이 좀 걸을까요?",
-                  textAlign: TextAlign.center,
-                ),//본문
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 30,
-                      width: 30,
-                      // padding: const EdgeInsets.all(0.0),
-                      // margin: const EdgeInsets.all(0.0),
-                      decoration: BoxDecoration(
-                        color: CupertinoColors.white,
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            final Uri url = Uri.parse("https://www.instagram.com/make_better_123/");
-                            launchUrl(url);
-                          },
-                          child: Image.asset(
-                            'assets/instagram_onBack.png',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                    ),//instagram
-                    SizedBox(
-                      height: 40,
-                      width: 40,
+              // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+              //Dialog Main Title
+              title: Column(
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/M&&B_logo.png',
+                      width: 110,
+                      height: 110,
+                      fit: BoxFit.cover,
                     ),
-                    Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: CupertinoColors.white,
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            final Uri url = Uri.parse("https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
-                            launchUrl(url);
-                          },
-                          child: Image.asset(
-                            'assets/notion_onBack.png',
-                            fit: BoxFit.fill,
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "\nto Make the world, Better.\n",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: CupertinoColors.activeGreen,
+                        fontSize: 17),
+                  ), //to Make the world, Better
+                  Text(
+                    "우리의 시작은 단순했습니다.\n"
+                    "\"to make the world, better\"\n"
+                    "더 나은 세상을 만들기 위해.\n"
+                    "우리는 고민했습니다.\n"
+                    "어떻게 하면 더 나은 세상이 될까?\n"
+                    "그래서 만들기로(Make) 했습니다.\n"
+                    "더 나은(Better) 세상을 위한 무언가를.\n"
+                    "첫 프로젝트 <Good Step>을 시작으로,\n"
+                    "한 걸음 한 걸음 묵묵히 걸으려고 합니다.\n"
+                    "목적지는 ‘더 나은 세상’ 입니다.\n"
+                    "같이 좀 걸을까요?",
+                    textAlign: TextAlign.center,
+                  ), //본문
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 30,
+                        // padding: const EdgeInsets.all(0.0),
+                        // margin: const EdgeInsets.all(0.0),
+                        decoration: BoxDecoration(
+                          color: CupertinoColors.white,
+                        ),
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              final Uri url = Uri.parse(
+                                  "https://www.instagram.com/make_better_123/");
+                              launchUrl(url);
+                            },
+                            child: Image.asset(
+                              'assets/instagram_onBack.png',
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
+                      ), //instagram
+                      SizedBox(
+                        height: 40,
+                        width: 40,
                       ),
-                    ),//notion
-                  ],
-                ),//notion
-              ],
+                      Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: CupertinoColors.white,
+                        ),
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              final Uri url = Uri.parse(
+                                  "https://harvest-lightning-366.notion.site/M-B-2284071d86ac428ab857c079d9c1d478");
+                              launchUrl(url);
+                            },
+                            child: Image.asset(
+                              'assets/notion_onBack.png',
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ), //notion
+                    ],
+                  ), //notion
+                ],
+              ),
             ),
-          ),
           );
         });
   }
 
-  Widget totalCctTimeBuilder(BuildContext context, AsyncSnapshot<Concentration> snapshot)
-  {
+  Widget totalCctTimeBuilder(
+      BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return Text('');
@@ -201,7 +202,7 @@ class _HomePageState extends State<HomePage> {
           Concentration today = (snapshot.data as Concentration);
           int? totalCctTime = today.cctTime;
           return Text(
-            printDuration(Duration(seconds: totalCctTime!)),
+            printDuration_timer(Duration(seconds: totalCctTime!)),
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.03,
               color: HexColor("#FFFFFF"),
@@ -213,8 +214,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget totalCctScoreBuilder(BuildContext context, AsyncSnapshot<Concentration> snapshot)
-  {
+  Widget totalCctScoreBuilder(
+      BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return Text('');
@@ -248,22 +249,20 @@ class _HomePageState extends State<HomePage> {
        SleekCircularSlider : 원형 슬라이더 정의
     */
     final slider = SleekCircularSlider(
-      // appearance : 슬라이더 세부 설정 적용
+        // appearance : 슬라이더 세부 설정 적용
         appearance: CircularSliderAppearance(
           // customWidths : 슬라이더가 돌아가는 구간(track), 슬라이더(progressBar), 궤적에 보이는 그림자(shadow) 크기 적용
           customWidths: CustomSliderWidths(
               trackWidth: MediaQuery.of(context).size.height * 0.02,
               progressBarWidth: MediaQuery.of(context).size.height * 0.015,
-              shadowWidth: MediaQuery.of(context).size.height * 0.02
-          ),
+              shadowWidth: MediaQuery.of(context).size.height * 0.02),
           // curstomColors : 슬라이더 색깔을 정한다
           customColors: CustomSliderColors(
               dotColor: HexColor('#FFFFFF'),
               trackColor: HexColor('#000000'),
               progressBarColors: [HexColor('#1AB584'), HexColor('#797EF6')],
               shadowColor: HexColor('#000000'),
-              shadowMaxOpacity: 0.05
-          ),
+              shadowMaxOpacity: 0.05),
           // startAngle : 슬라이더 시작 위치, angleRange: 슬라이더가 얼마나 돌아갈지, size : 슬라이더 크기
           startAngle: 270,
           angleRange: 360,
@@ -281,58 +280,57 @@ class _HomePageState extends State<HomePage> {
         innerWidget: (double value) {
           // Center : 정중앙에 위젯 설치, SizedBox : 위젯 크기 설정, FittedBox : 위젯을 설정한 크기에 딱 맞춘다
           return Center(
-              child : SizedBox(
-                height: MediaQuery.of(context).size.height * 0.215,
-                child: FittedBox(
-                  child: FloatingActionButton(
-                    backgroundColor: HexColor("#3b444b"),
-                    onPressed: () async {
-                      // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
-                      if (value >= 300) {
-                        isUpdate = await Navigator.push(
-                          context,
-                          CupertinoPageRoute(builder: (context) => DarkPage(myValue, widget.db)),
-                        );
-                      }
-                      if (isUpdate) {
-                        // setState를 통해 DB에 누적된 값을 다시 받아온다
-                        setState(() {
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.215,
+                  child: FittedBox(
+                    child: FloatingActionButton(
+                      backgroundColor: HexColor("#3b444b"),
+                      onPressed: () async {
+                        // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
+                        if (value >= 300) {
+                          isUpdate = await Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) =>
+                                    DarkPage(myValue, widget.db)),
+                          );
+                        }
+                        if (isUpdate) {
+                          // setState를 통해 DB에 누적된 값을 다시 받아온다
+                          setState(() {
                             todayCCT = getTotalDay();
                             isUpdate = false;
-                        });
-                      }
-                    },
-                    // 버튼에 들어가는 상징물
-                    child: Container(
-                      height: MediaQuery.of(context).size.width * 0.11,
-                      width: MediaQuery.of(context).size.width * 0.11,
-                      child: Image.asset(
-                        'assets/start_icon.png',
-                        // color: HexColor('#FFFFFF'),
+                          });
+                        }
+                      },
+                      // 버튼에 들어가는 상징물
+                      child: Container(
+                        height: MediaQuery.of(context).size.width * 0.11,
+                        width: MediaQuery.of(context).size.width * 0.11,
+                        child: Image.asset(
+                          'assets/start_icon.png',
+                          // color: HexColor('#FFFFFF'),
+                        ),
                       ),
-          ),
                     ),
-                )
-              )
-          );
+                  )));
         },
         // value 값이 바뀔 때마다 바뀐 value 값을 myValue에 저장하고 디지털 시계 출력용으로 만든 문자열을 loLoo에 저장
         onChange: (double value) {
           print(value);
           setState(() {
-            myValue = (value - value%300);
+            myValue = (value - value % 300);
             loLoo = printDuration(Duration(seconds: myValue.toInt()));
           });
-        }
-    );
+        });
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle : Text(
-            'Good Step',
-            style: TextStyle(
-              fontFamily: 'Harsh',
-              fontSize: 22,
-              color: HexColor('#FFFFFF'),
+        middle: Text(
+          'Good Step',
+          style: TextStyle(
+            fontFamily: 'Harsh',
+            fontSize: 22,
+            color: HexColor('#FFFFFF'),
           ),
         ),
         // title: Text(
@@ -344,20 +342,23 @@ class _HomePageState extends State<HomePage> {
         //   ),),
         leading: CupertinoButton(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-            onPressed: () => Navigator.push(
-                context,
-                CupertinoPageRoute(builder: (context) => question_page()),
-            ),
-            child: Icon(CupertinoIcons.question_circle, color: HexColor('#FFFFFF'),),
+          onPressed: () => Navigator.push(
+            context,
+            CupertinoPageRoute(builder: (context) => question_page()),
+          ),
+          child: Icon(
+            CupertinoIcons.question_circle,
+            color: HexColor('#FFFFFF'),
+          ),
         ),
         trailing: CupertinoButton(
           padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-            onPressed: () => FlutterDialog(),
-            child: Image.asset(
-              'assets/logo.png',
-              fit: BoxFit.fitHeight,
-            ),
+          onPressed: () => FlutterDialog(),
+          child: Image.asset(
+            'assets/logo.png',
+            fit: BoxFit.fitHeight,
           ),
+        ),
         backgroundColor: HexColor("161A24"),
       ),
       // onPressed: () => FlutterDialog(),
@@ -368,8 +369,7 @@ class _HomePageState extends State<HomePage> {
                 colors: pageColors,
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
-                tileMode: TileMode.clamp
-            )),
+                tileMode: TileMode.clamp)),
         // 원형 슬라이더, 디지털 시계, 하단부 상징물을 세로로 배열에서 화면에 띄운다
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -377,77 +377,61 @@ class _HomePageState extends State<HomePage> {
             // 열심히 만들어 놓은 원형 슬라이더 설정을 저장해 놓은 slider 변수를 불러서 화면에 띄운다
             Center(
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: slider
-              ),
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  child: slider),
             ),
             // 원형 슬라이더와 일정 거리를 두고 디지털 시계용으로 만들어 놓은 문자열 loLoo를 출력
             Padding(
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  bottom: MediaQuery.of(context).size.height * 0.1
-              ),
-              child: Text(
-                  '$loLoo',
-                  style: TextStyle(
-                    color: HexColor("#FFFFFF"),
-                    fontSize: MediaQuery.of(context).size.height * 0.09,
-                    fontWeight: FontWeight.w600,
-                  )
-              )
-            ),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.05,
+                    bottom: MediaQuery.of(context).size.height * 0.1),
+                child: Text('$loLoo',
+                    style: TextStyle(
+                      color: HexColor("#FFFFFF"),
+                      fontSize: MediaQuery.of(context).size.height * 0.09,
+                      fontWeight: FontWeight.w600,
+                    ))),
             // 하단부에 배치하기로 한 상징물 2개를 가로로 배열
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Icon(
-                        CupertinoIcons.timer,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(children: <Widget>[
+                    Icon(CupertinoIcons.timer,
                         size: MediaQuery.of(context).size.width * 0.1,
-                        color: HexColor("#FFFFFF")
-                    ),
+                        color: HexColor("#FFFFFF")),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                        '집중시간',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.025,
-                          color: HexColor("#FFFFFF"),
-                        ),
+                      '집중시간',
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.025,
+                        color: HexColor("#FFFFFF"),
+                      ),
                     ),
                     FutureBuilder(
                       builder: totalCctTimeBuilder,
                       future: todayCCT,
                     ),
-                  ]
-                ),
-                Column(
-                  children: <Widget>[
-                    Icon(
-                        CupertinoIcons.lightbulb,
+                  ]),
+                  Column(children: <Widget>[
+                    Icon(CupertinoIcons.lightbulb,
                         size: MediaQuery.of(context).size.width * 0.1,
-                        color: HexColor("#FFFFFF")
-                    ),
+                        color: HexColor("#FFFFFF")),
                     SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      '집중도',
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.025,
-                        color: HexColor("#FFFFFF"),
-                      )
-                    ),
+                    Text('집중도',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * 0.025,
+                          color: HexColor("#FFFFFF"),
+                        )),
                     FutureBuilder(
                       builder: totalCctScoreBuilder,
                       future: todayCCT,
                     ),
-                  ]
-                ),
-              ]
-            )
+                  ]),
+                ])
           ],
         ),
       ),

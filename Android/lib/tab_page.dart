@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+//import 'package:example/test.dart';
 import 'package:flutter/material.dart';
 import 'chart_page.dart';
 import 'utils.dart';
@@ -25,12 +26,14 @@ class _TabPageState extends State<TabPage> {
     HomePage(widget.db),
     ChartPage(widget.db),
     DonatePage(),
+    //DatabaseTestApp(widget.db),
   ];
 
   List _color = [
     HexColor('#161A24'),
     HexColor('#161A24'),
     HexColor('#161A24'),
+    //HexColor('#161A24'),
   ];
 
   // 위젯은 마테리얼 디자인(Scaffold)으로 구성된 화면을 띄운다
@@ -77,6 +80,10 @@ class _TabPageState extends State<TabPage> {
             Icons.volunteer_activism,
             size: MediaQuery.of(context).size.width * 0.08,
           ),
+          /*Icon(
+            Icons.settings,
+            size: MediaQuery.of(context).size.width * 0.08,
+          ),*/
         ],
       ),
     );

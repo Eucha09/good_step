@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'concentration.dart';
-import '';
 
 class DatabaseTestApp extends StatefulWidget {
   final Future<Database> db;
