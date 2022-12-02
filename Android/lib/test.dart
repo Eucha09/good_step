@@ -83,9 +83,10 @@ class _DatabaseTestApp extends State<DatabaseTestApp> {
                           date: date,
                           time: time,
                           cctTime: int.parse(cctTimeController!.value.text),
-                          cctScore: int.parse(cctScoreController!.value.text)
+                          cctScore: int.parse(cctScoreController!.value.text),
                       );
-                      //Navigator.of(context).pop(todo);
+                      data.cctTime = data.cctTime! * 60;
+                      data.cctScore = data.cctScore! * data.cctTime!;
                       _insertData(data);
                     },
                     child: Text('생성하기'),

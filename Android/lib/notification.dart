@@ -53,7 +53,35 @@ showNotification() async {
       payload: '부가정보');
 }
 
-showNotification_res() async {
+showNotification_res(int CctTime, int CctScore) async {
+  CctScore = (CctScore / CctTime).toInt();
+  CctTime = (CctTime / 60).toInt();
+  String CctScoreGrade = '';
+
+  if (92 <= CctScore) {
+    CctScoreGrade = 'A+';
+  } else if (86 <= CctScore) {
+    CctScoreGrade = 'A';
+  } else if (80 <= CctScore) {
+    CctScoreGrade = 'A-';
+  } else if (74 <= CctScore) {
+    CctScoreGrade = 'B+';
+  } else if (68 <= CctScore) {
+    CctScoreGrade = 'B';
+  } else if (62 <= CctScore) {
+    CctScoreGrade = 'B-';
+  } else if (56 <= CctScore) {
+    CctScoreGrade = 'C+';
+  } else if (46 <= CctScore) {
+    CctScoreGrade = 'C';
+  } else if (36 <= CctScore) {
+    CctScoreGrade = 'D+';
+  } else if (26 <= CctScore) {
+    CctScoreGrade = 'D';
+  } else {
+    CctScoreGrade = 'F';
+  }
+
   var androidDetails = AndroidNotificationDetails(
     // 알림채널 id, 알림종류
     '53',
@@ -74,8 +102,10 @@ showNotification_res() async {
       1,
       // 제목, 내용
       '굿스텝',
-      '집중시간이 완료되었습니다',
+      '집중시간이 완료되었습니다.\n'
+          '집중시간 : ${CctTime}분, 집중도: ${CctScoreGrade}(${CctScore})',
       NotificationDetails(android: androidDetails, iOS: iosDetails),
       // 부가정보
-      payload: '부가정보');
+      payload:'부가정보'
+  );
 }

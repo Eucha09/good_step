@@ -35,6 +35,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   bool trigger = true;
   bool giveUp = false;
   bool isRestart = false;
+  bool isAlarm = true;
   double countTime = 0;
   double total = 0;
   int cctTime = 0;
@@ -105,6 +106,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     initNotification();
     total = widget.myValue;
     countTime = 0;
+    isAlarm = true;
     loLoo = printDuration(Duration(seconds: total.toInt()));
   }
 
@@ -112,9 +114,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   앱이 비활성화 되었을 때, 경고 알림창을 띄운다
    */
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     //앱 기능이 정지했을 시, 집중도를 -10점하고 알림창 띄우기, 시간 새는 것 정지 순으로 이어진다
-    if (state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.inactive && isAlarm) {
       cctScore -= 10;
       showNotification();
       _pause();
@@ -148,13 +150,12 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
               loLoo =
                   printDuration(Duration(seconds: (total - countTime).toInt()));
             } else {
+              isAlarm = false;
               // 포기하지 않으면 집중시간은 total과 동일
               if (!giveUp) {
                 // 포기하지 않았을 떄, 들어갈 광고
                 //_showInterstitialAd();
                 cctTime = total.toInt();
-              } else {
-                //_showInterstitialAd();
               }
               // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
               if (cctScore < 0) {
@@ -175,7 +176,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                 cctScore: finalScore,
               );
               _insertData(data);
-              showNotification_res();
+              showNotification_res(cctTime, finalScore);
               Navigator.pop(context, true);
               if (!giveUp) {
                 _showInterstitialAd();
@@ -226,7 +227,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                             contentPadding: EdgeInsets.only(top: 0),
                             content: Center(
                                 child:
-                                    Text(isRestart ? '재시작하시겠습니까?' : '포기하시겠습니까?',
+                                    Text('포기하시겠습니까?',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                         ))),
@@ -243,17 +244,12 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                     ),
                                     child: Text('예'),
                                     onPressed: () {
-                                      // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-                                      if (isRestart) {
-                                        isRestart = false;
-                                        _start();
-                                      } else {
-                                        cctTime = (countTime).toInt();
-                                        cctScore -= 50;
-                                        countTime = total;
-                                        giveUp = true;
-                                      }
-                                      Navigator.of(context).pop();
+    // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
+    cctTime = (countTime).toInt();
+    cctScore -= 50;
+    countTime = total;
+    giveUp = true;
+    Navigator.of(context).pop();
                                     },
                                   ),
                                   TextButton(
@@ -263,10 +259,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                     ),
                                     child: Text('아니오'),
                                     onPressed: () {
+                                      cctScore -= 1;
                                       // 아니오를 누르면 팝업창만 탈출
-                                      if (!isRestart) {
-                                        cctScore -= 5;
-                                      }
                                       Navigator.of(context).pop();
                                     },
                                   )

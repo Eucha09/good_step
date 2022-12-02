@@ -50,37 +50,34 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     InterstitialAd.load(
       adUnitId: interstitialAdUnitId,
       request: AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (InterstitialAd ad){
-            interstitialAd = ad;
-            _setFullScreenContentCallback(ad);
-          },
-          onAdFailedToLoad: (LoadAdError loadAdError){
-            print("Interstitial ad failed to load: $loadAdError");
-          }
-      ),
+      adLoadCallback:
+          InterstitialAdLoadCallback(onAdLoaded: (InterstitialAd ad) {
+        interstitialAd = ad;
+        _setFullScreenContentCallback(ad);
+      }, onAdFailedToLoad: (LoadAdError loadAdError) {
+        print("Interstitial ad failed to load: $loadAdError");
+      }),
     );
   }
-  //광고
-  void _setFullScreenContentCallback(InterstitialAd ad){
 
+  //광고
+  void _setFullScreenContentCallback(InterstitialAd ad) {
     ad.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) => print("$ad onAdShowedFullScreenContent"),
-      onAdDismissedFullScreenContent: (InterstitialAd ad){
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print("$ad onAdShowedFullScreenContent"),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
         print("$ad onAdDismissedFullScreenContent");
         ad.dispose();
       },
-
-      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error){
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
         print("onAdFailedToShowFullScreenContent: $error ");
       },
-
       onAdImpression: (InterstitialAd ad) => print("$ad Impression occured"),
     );
-
   }
+
   //광고
-  void _showInterstitialAd(){
+  void _showInterstitialAd() {
     interstitialAd.show();
   }
 
@@ -124,6 +121,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
       _start();
     }
   }
+
   void _pause() {
     _timer?.cancel();
     isRestart = true;
@@ -140,51 +138,50 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     const oneSec = const Duration(seconds: 1);
 
     var callback = (timer) => {
-      setState(() {
-        if (countTime < total) {
-          countTime++;
-          loLoo = printDuration(Duration(seconds: (total - countTime).toInt()));
-        } else {
-          isAlarm = false;
-          // 포기하지 않으면 집중시간은 total과 동일
-          if (!giveUp) {
-            // 포기하지 않았을 떄, 들어갈 광고
-            cctTime = total.toInt();
-          }
-          // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
-          if (cctScore < 0) {
-            cctScore = 0;
-          }
-          finalScore = cctScore * cctTime;
-          // DB 리스트 전달 관련 내용 들어갈 예정
-          var now = new DateTime.now();
-          String date;
-          String time;
+          setState(() {
+            if (countTime < total) {
+              countTime++;
+              loLoo =
+                  printDuration(Duration(seconds: (total - countTime).toInt()));
+            } else {
+              isAlarm = false;
+              // 포기하지 않으면 집중시간은 total과 동일
+              if (!giveUp) {
+                // 포기하지 않았을 떄, 들어갈 광고
+                cctTime = total.toInt();
+              }
+              // 집중도는 최소한도가 0이기 때문에 음수로 내려가면 안됨
+              if (cctScore < 0) {
+                cctScore = 0;
+              }
+              finalScore = cctScore * cctTime;
+              // DB 리스트 전달 관련 내용 들어갈 예정
+              var now = new DateTime.now();
+              String date;
+              String time;
 
-          date = DateFormat('yyyy-MM-dd').format(now);
-          time = DateFormat('HH:mm').format(now);
-          Concentration data = Concentration(
-            date: date,
-            time: time,
-            cctTime: cctTime,
-            cctScore: finalScore,
-          );
-          _insertData(data);
-          showNotification_res(cctTime, finalScore);
-          Navigator.pop(context, true);
-          if (!giveUp) {
-            _showInterstitialAd();
-          } else {
-            _showInterstitialAd();
-          }
-        }
-      })
-    };
+              date = DateFormat('yyyy-MM-dd').format(now);
+              time = DateFormat('HH:mm').format(now);
+              Concentration data = Concentration(
+                date: date,
+                time: time,
+                cctTime: cctTime,
+                cctScore: finalScore,
+              );
+              _insertData(data);
+              showNotification_res(cctTime, finalScore);
+              Navigator.pop(context, true);
+              if (!giveUp) {
+                _showInterstitialAd();
+              } else {
+                _showInterstitialAd();
+              }
+            }
+          })
+        };
 
     _timer = Timer.periodic(oneSec, callback);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +195,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
       // 화면 전체에 터치 이벤트를 넣기 위해 body 부분을 GestureDetector로 감싼다
       backgroundColor: HexColor("#00000"),
       child: GestureDetector(
-        // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
+          // behavior : 터치 이벤트가 적용되는 부분을 사전에 설정된 범위가 아닌 화면 전 범위로 설정
           behavior: HitTestBehavior.translucent,
           onTap: () {
             // tab하고 팝업창을 띄우기 위한 설정
@@ -209,10 +206,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                   builder: (BuildContext context) {
                     return CupertinoAlertDialog(
                       content: Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.05,
+                        height: MediaQuery.of(context).size.height * 0.05,
                         alignment: Alignment.center,
                         child: Text(
                           '포기하시겠습니까?',
@@ -233,10 +227,10 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                 child: Text('예'),
                                 onPressed: () {
                                   // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-                                    cctTime = (countTime).toInt();
-                                    cctScore -= 50;
-                                    countTime = total;
-                                    giveUp = true;
+                                  cctTime = (countTime).toInt();
+                                  cctScore -= 50;
+                                  countTime = total;
+                                  giveUp = true;
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -246,10 +240,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                 isDefaultAction: true,
                                 child: Text('아니오'),
                                 onPressed: () {
+                                  cctScore -= 1;
                                   // 아니오를 누르면 팝업창만 탈출
-                                  if (!isRestart) {
-                                    cctScore -= 5;
-                                  }
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -258,28 +250,26 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                         ),
                       ],
                     );
-                  }
-              );
-            };
-            },
-            // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-            Center(
-            // 디지털 시계를 출력하는 부분
-            child: Text('$loLoo',
-            style: TextStyle(
-            color: HexColor("#FFFFFF"),
-            fontSize: MediaQuery.of(context).size.width * 0.2,
-            fontWeight: FontWeight.w600,
-            ),
-            ),
-            ),
-            ]
-            )
-      ),
+                  });
+            }
+            ;
+          },
+          // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Center(
+                  // 디지털 시계를 출력하는 부분
+                  child: Text(
+                    '$loLoo',
+                    style: TextStyle(
+                      color: HexColor("#FFFFFF"),
+                      fontSize: MediaQuery.of(context).size.width * 0.2,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ])),
     );
   }
 }
-

@@ -1187,40 +1187,161 @@ class _ChartPageState extends State<ChartPage> {
   String GradeLastMonthCC = '';
   String GradeLastWeekCC = '';
 
-  /*void CCTDialog() {
+  void CCTDialog() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            title: Text('집중시간이란?', style: TextStyle(
-              fontFamily: 'pyeongchang',
-              fontWeight: FontWeight.w600,
-            )),
-            content: Column(
-              children: <Widget>[
-                Row(
+        context: context,
+        builder: (BuildContext context) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.23,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(15.0))),
+              contentPadding: EdgeInsets.only(top: 0),
+              title: Text('집중시간이란?\n', style: TextStyle(
+                //fontFamily: 'pyeongchang',
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              )),
+              content: Padding(
+                padding: EdgeInsets.only(left: 15),
+          child: Column(
                   children: <Widget>[
-                    Container(
-                      width: ,
-                      height: ,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      SizedBox(
-                        width: ,
-                      ),
-                      Text('집중시간은 여러분이 총 집중한 시간을 초 단위로 저장합니다'),
+                    Row(
+                        children: <Widget>[
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: HexColor('#000000'),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '집중시간 : 총 집중한 시간을 초 단위로 저장',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ]
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: HexColor('#000000'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('세로축은 시간, 가로축은 일자',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     )
                   ]
-                ),
-              ]
+              ),
             ),
-        );
-      }
+            ),
+            ),
+            ),
+          );
+        }
     );
-  }*/
+  }
+
+  void CCDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.23,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                  BorderRadius.all(Radius.circular(15.0))),
+              contentPadding: EdgeInsets.only(top: 0),
+              title: Text('집중도란?\n', style: TextStyle(
+                //fontFamily: 'pyeongchang',
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              ),
+              ),
+              content: Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Column(
+                    children: <Widget>[
+                      Row(
+                          children: <Widget>[
+                            Container(
+                              width: 5,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HexColor('#000000'),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text('집중도 : 감소한 수치 * 가중치(집중시간)',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                )),
+                          ]
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            width: 5,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: HexColor('#000000'),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text('세로축 : 집중도, 가로축 : 일자',
+                              style: TextStyle(
+                                fontSize: 12,
+                              )),
+                        ],
+                      )
+                    ]
+                ),
+              ),
+            ),
+          ),
+            ),
+          );
+        }
+    );
+  }
 
   // periods CC처럼 DB값을 불러와 chart에 적용한 내용물을 불러오는 리스트
   late List _periodsCCT = [
@@ -1758,27 +1879,27 @@ class _ChartPageState extends State<ChartPage> {
       GradeWeekCC = '-';
     }
 
-    if (92 <= totalCCW) {
+    if (92 <= last_totalCCW) {
       GradeLastWeekCC = 'A+';
-    } else if (86 <= totalCCW) {
+    } else if (86 <= last_totalCCW) {
       GradeLastWeekCC = 'A';
-    } else if (80 <= totalCCW) {
+    } else if (80 <= last_totalCCW) {
       GradeLastWeekCC = 'A-';
-    } else if (74 <= totalCCW) {
+    } else if (74 <= last_totalCCW) {
       GradeLastWeekCC = 'B+';
-    } else if (68 <= totalCCW) {
+    } else if (68 <= last_totalCCW) {
       GradeLastWeekCC = 'B';
-    } else if (62 <= totalCCW) {
+    } else if (62 <= last_totalCCW) {
       GradeLastWeekCC = 'B-';
-    } else if (56 <= totalCCW) {
+    } else if (56 <= last_totalCCW) {
       GradeLastWeekCC = 'C+';
-    } else if (46 <= totalCCW) {
+    } else if (46 <= last_totalCCW) {
       GradeLastWeekCC = 'C';
-    } else if (36 <= totalCCW) {
+    } else if (36 <= last_totalCCW) {
       GradeLastWeekCC = 'D+';
-    } else if (26 <= totalCCW) {
+    } else if (26 <= last_totalCCW) {
       GradeLastWeekCC = 'D';
-    } else if (0 < totalCCW) {
+    } else if (0 < last_totalCCW) {
       GradeLastWeekCC = 'F';
     } else {
       GradeLastWeekCC = '-';
@@ -2188,6 +2309,15 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                         textAlign: TextAlign.left,
                       ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.03
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          return CCTDialog();
+                        },
+                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                      ),
                       Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
@@ -2281,15 +2411,28 @@ class _ChartPageState extends State<ChartPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  Text(
-                    '  집중도',
-                    style: TextStyle(
-                      color: HexColor('#FFFFFF'),
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
-                      fontFamily: 'pyeongchang',
-                      letterSpacing: 2,
-                    ),
-                    textAlign: TextAlign.left,
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        '  집중도',
+                        style: TextStyle(
+                          color: HexColor('#FFFFFF'),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontFamily: 'pyeongchang',
+                          letterSpacing: 2,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.03
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          return CCDialog();
+                        },
+                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
