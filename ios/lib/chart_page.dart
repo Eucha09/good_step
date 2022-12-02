@@ -1218,7 +1218,7 @@ class _ChartPageState extends State<ChartPage> {
           Navigator.of(context).pop();
         },
             child: CupertinoAlertDialog(
-            title: Text('집중시간이란?', style: TextStyle(
+            title: Text('집중시간이란?\n', style: TextStyle(
               //fontFamily: 'pyeongchang',
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -1284,7 +1284,7 @@ class _ChartPageState extends State<ChartPage> {
               Navigator.of(context).pop();
             },
           child: CupertinoAlertDialog(
-            title: Text('집중도란?', style: TextStyle(
+            title: Text('집중도란?\n', style: TextStyle(
               //fontFamily: 'pyeongchang',
               fontSize: 15,
               fontWeight: FontWeight.w600,
