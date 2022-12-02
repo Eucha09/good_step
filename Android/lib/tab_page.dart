@@ -1,11 +1,13 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:example/test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'chart_page.dart';
 import 'utils.dart';
 import 'home_page.dart';
 import 'package:sqflite/sqflite.dart';
 import 'donate_page.dart';
+import 'history.dart';
 
 // 실제로 우리가 원하는 홈화면을 보여주기 위해 TapPageState를 상태로 올린다
 class TabPage extends StatefulWidget {
@@ -25,6 +27,7 @@ class _TabPageState extends State<TabPage> {
   late List _pages = [
     HomePage(widget.db),
     ChartPage(widget.db),
+    HistoryPage(widget.db),
     DonatePage(),
     //DatabaseTestApp(widget.db),
   ];
@@ -33,7 +36,7 @@ class _TabPageState extends State<TabPage> {
     HexColor('#161A24'),
     HexColor('#161A24'),
     HexColor('#161A24'),
-    //HexColor('#161A24'),
+    HexColor('#161A24'),
   ];
 
   // 위젯은 마테리얼 디자인(Scaffold)으로 구성된 화면을 띄운다
@@ -74,6 +77,10 @@ class _TabPageState extends State<TabPage> {
           ),
           Icon(
             Icons.bar_chart,
+            size: MediaQuery.of(context).size.width * 0.08,
+          ),
+          Icon(
+            Icons.format_list_bulleted_sharp,
             size: MediaQuery.of(context).size.width * 0.08,
           ),
           Icon(
