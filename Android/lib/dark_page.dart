@@ -277,13 +277,15 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                         ),
                       );
                     });
-              }
-              ;
+              };
             },
             // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
                   Center(
                     // 디지털 시계를 출력하는 부분
                     child: Text(
@@ -295,6 +297,11 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
+                  Text('본 화면을 벗어나거나 포기할 시 집중도가 감소합니다',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.013,
+                          color: HexColor('#FFFFFF'),
+                        )),
                 ])),
       ),
     );

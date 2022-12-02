@@ -1175,10 +1175,18 @@ class _ChartPageState extends State<ChartPage> {
   int insertLimitedCCT = 0;
   int insertTotalCCT = 0;
   int insertLastCCT = 0;
-  int insertTotalCC = 0;
-  int insertLastCC = 0;
+  int insertIntTotalCC = 0;
+  int insertIntLastCC = 0;
+  String insertTotalCC = '';
+  String insertLastCC = '';
+  // DB에서 필요한 내용물을 전부 불러왔는지 확인을 위한 future int
   Future<int>? checkDB;
   Future<int>? checkPIC;
+  // 집중도 등급을 저장하기 위한 변수
+  String GradeMonthCC = '';
+  String GradeWeekCC = '';
+  String GradeLastMonthCC = '';
+  String GradeLastWeekCC = '';
 
   late List _periodsCCT = [
     MonthCCTBuilder,
@@ -1199,6 +1207,136 @@ class _ChartPageState extends State<ChartPage> {
     '달',
     '주',
   ];
+
+  void CCTDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+            child: CupertinoAlertDialog(
+            title: Text('집중시간이란?', style: TextStyle(
+              //fontFamily: 'pyeongchang',
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            )),
+            content: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: HexColor('#000000'),
+                      ),
+            ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '집중시간 : 총 집중한 시간을 초 단위로 저장',
+                        style: TextStyle(
+                        fontSize: 12,
+                      ),
+                      ),
+                  ]
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: HexColor('#000000'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('세로축은 시간, 가로축은 일자',
+                      style: TextStyle(
+                      fontSize: 12,
+                      ),
+                    ),
+                  ],
+                )
+              ]
+            ),
+            ),
+        );
+      }
+    );
+  }
+
+  void CCDialog() {
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          child: CupertinoAlertDialog(
+            title: Text('집중도란?', style: TextStyle(
+              //fontFamily: 'pyeongchang',
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+            ),
+            content: Column(
+                children: <Widget>[
+                  Row(
+                      children: <Widget>[
+                        Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: HexColor('#000000'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('집중도 : 감소한 수치 * 가중치(집중시간)',
+                        style: TextStyle(
+                          fontSize: 12,
+                        )),
+                      ]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 5,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: HexColor('#000000'),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text('세로축 : 집중도, 가로축 : 일자',
+                      style: TextStyle(
+                        fontSize: 12,
+                      )),
+                    ],
+                  )
+                ]
+            ),
+          ),
+          );
+        }
+    );
+  }
 
   // image를 사진첩에서 공수해온다
   Future<int> gsImage(bool isGet) async {
@@ -1459,9 +1597,9 @@ class _ChartPageState extends State<ChartPage> {
               color: HexColor('#FFFFFF'),
             ));
       case ConnectionState.done:
-        return Text('${insertTotalCC.toString()} %',
+        return Text('$insertTotalCC',
             style: TextStyle(
-                fontFamily: 'pyeongchang',
+                //fontFamily: 'pyeongchang',
                 fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
@@ -1485,9 +1623,9 @@ class _ChartPageState extends State<ChartPage> {
               color: HexColor('#FFFFFF'),
             ));
       case ConnectionState.done:
-        return Text('${insertLastCC.toString()} %',
+        return Text('$insertLastCC',
             style: TextStyle(
-                fontFamily: 'pyeongchang',
+                //fontFamily: 'pyeongchang',
                 fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
@@ -1607,7 +1745,7 @@ class _ChartPageState extends State<ChartPage> {
           ),
           painter: _PieChart(
             percentage:
-                (((limitedCC - insertTotalCC) / limitedCC) * 100).toInt(),
+                (((limitedCC - insertIntTotalCC) / limitedCC) * 100).toInt(),
             barColor: HexColor('#90EE90'),
             strokelen: (MediaQuery.of(context).size.width * 0.2).toInt(),
           ),
@@ -1654,10 +1792,12 @@ class _ChartPageState extends State<ChartPage> {
     int lastcount = 0;
     for (int i = 1; i <= 31; i++) {
       if (i <= 7) {
-        if (curWeekCC[i] != 0) {
+        if (curWeekCCT[i] != 0 || curWeekCC[i] != 0) {
           curweekcount += 1;
         }
-        if (lastWeekCC[i] != 0) {
+        print('lastweekcount: ${lastweekcount}');
+        print('lastWeekCC[${i}]: ${lastWeekCC[i]}');
+        if (lastWeekCCT[i] != 0 || lastWeekCC[i] != 0) {
           lastweekcount += 1;
         }
         totalCCTW += curWeekCCT[i];
@@ -1665,10 +1805,10 @@ class _ChartPageState extends State<ChartPage> {
         last_totalCCTW += lastWeekCCT[i];
         last_totalCCW += lastWeekCC[i];
       }
-      if (curMonthCC[i] != 0) {
+      if (curMonthCCT[i] != 0 || curMonthCC[i] != 0) {
         curcount += 1;
       }
-      if (lastMonthCC[i] != 0) {
+      if (lastMonthCCT[i] != 0 || lastMonthCC[i] != 0) {
         lastcount += 1;
       }
       totalCCT += curMonthCCT[i];
@@ -1696,12 +1836,119 @@ class _ChartPageState extends State<ChartPage> {
     totalCCT *= 3600;
     last_totalCCTW *= 3600;
     last_totalCCT *= 3600;
+    print('lastweekcount : ${lastweekcount}');
+    print('lastTotalCC : ${last_totalCC}');
+    if (92 <= totalCC) {
+      GradeMonthCC = 'A+';
+    } else if (86 <= totalCC) {
+      GradeMonthCC = 'A';
+    } else if (80 <= totalCC) {
+      GradeMonthCC = 'A-';
+    } else if (74 <= totalCC) {
+      GradeMonthCC = 'B+';
+    } else if (68 <= totalCC) {
+      GradeMonthCC = 'B';
+    } else if (62 <= totalCC) {
+      GradeMonthCC = 'B-';
+    } else if (56 <= totalCC) {
+      GradeMonthCC = 'C+';
+    } else if (46 <= totalCC) {
+      GradeMonthCC = 'C';
+    } else if (36 <= totalCC) {
+      GradeMonthCC = 'D+';
+    } else if (26 <= totalCC) {
+      GradeMonthCC = 'D';
+    } else if (0 < totalCC) {
+      GradeMonthCC = 'F';
+    } else {
+      GradeMonthCC = '-';
+    }
 
-    insertTotalCC = totalCCW;
-    insertLastCC = last_totalCCW;
+    if (92 <= last_totalCC) {
+      GradeLastMonthCC = 'A+';
+    } else if (86 <= last_totalCC) {
+      GradeLastMonthCC = 'A';
+    } else if (80 <= last_totalCC) {
+      GradeLastMonthCC = 'A-';
+    } else if (74 <= last_totalCC) {
+      GradeLastMonthCC = 'B+';
+    } else if (68 <= last_totalCC) {
+      GradeLastMonthCC = 'B';
+    } else if (62 <= last_totalCC) {
+      GradeLastMonthCC = 'B-';
+    } else if (56 <= last_totalCC) {
+      GradeLastMonthCC = 'C+';
+    } else if (46 <= last_totalCC) {
+      GradeLastMonthCC = 'C';
+    } else if (36 <= last_totalCC) {
+      GradeLastMonthCC = 'D+';
+    } else if (26 <= last_totalCC) {
+      GradeLastMonthCC = 'D';
+    } else if (0 < last_totalCC){
+      GradeLastMonthCC = 'F';
+    } else {
+      GradeLastMonthCC = '-';
+    }
+
+    if (92 <= totalCCW) {
+      GradeWeekCC = 'A+';
+    } else if (86 <= totalCCW) {
+      GradeWeekCC = 'A';
+    } else if (80 <= totalCCW) {
+      GradeWeekCC = 'A-';
+    } else if (74 <= totalCCW) {
+      GradeWeekCC = 'B+';
+    } else if (68 <= totalCCW) {
+      GradeWeekCC = 'B';
+    } else if (62 <= totalCCW) {
+      GradeWeekCC = 'B-';
+    } else if (56 <= totalCCW) {
+      GradeWeekCC = 'C+';
+    } else if (46 <= totalCCW) {
+      GradeWeekCC = 'C';
+    } else if (36 <= totalCCW) {
+      GradeWeekCC = 'D+';
+    } else if (26 <= totalCCW) {
+      GradeWeekCC = 'D';
+    } else if (0 < totalCCW){
+      GradeWeekCC = 'F';
+    } else {
+      GradeWeekCC = '-';
+    }
+
+    if (92 <= last_totalCCW) {
+      GradeLastWeekCC = 'A+';
+    } else if (86 <= last_totalCCW) {
+      GradeLastWeekCC = 'A';
+    } else if (80 <= last_totalCCW) {
+      GradeLastWeekCC = 'A-';
+    } else if (74 <= last_totalCCW) {
+      GradeLastWeekCC = 'B+';
+    } else if (68 <= last_totalCCW) {
+      GradeLastWeekCC = 'B';
+    } else if (62 <= last_totalCCW) {
+      GradeLastWeekCC = 'B-';
+    } else if (56 <= last_totalCCW) {
+      GradeLastWeekCC = 'C+';
+    } else if (46 <= last_totalCCW) {
+      GradeLastWeekCC = 'C';
+    } else if (36 <= last_totalCCW) {
+      GradeLastWeekCC = 'D+';
+    } else if (26 <= last_totalCCW) {
+      GradeLastWeekCC = 'D';
+    } else if (0 < last_totalCCW) {
+      GradeLastWeekCC = 'F';
+    } else {
+      GradeLastWeekCC = '-';
+    }
+
+    insertTotalCC = GradeWeekCC;
+    insertLastCC = GradeLastWeekCC;
     insertTotalCCT = totalCCTW;
     insertLastCCT = last_totalCCTW;
     insertLimitedCCT = limitedCCTW;
+    insertIntTotalCC = totalCCW;
+    insertIntLastCC = last_totalCCW;
   }
 
   @override
@@ -1712,11 +1959,13 @@ class _ChartPageState extends State<ChartPage> {
     selectedTabMonths = 0;
     selectedTabWeeks = 1;
     _insertDB();
-    insertTotalCC = totalCCW;
-    insertLastCC = last_totalCCW;
+    insertTotalCC = GradeWeekCC;
+    insertLastCC = GradeLastWeekCC;
     insertTotalCCT = totalCCTW;
     insertLastCCT = last_totalCCTW;
     insertLimitedCCT = limitedCCTW;
+    insertIntTotalCC = totalCCW;
+    insertIntLastCC = last_totalCCW;
   }
 
   @override
@@ -1778,9 +2027,11 @@ class _ChartPageState extends State<ChartPage> {
                             selectedTabMonths = 0;
                             insertLimitedCCT = limitedCCTW;
                             insertTotalCCT = totalCCTW;
-                            insertTotalCC = totalCCW;
+                            insertTotalCC = GradeWeekCC;
                             insertLastCCT = last_totalCCTW;
-                            insertLastCC = last_totalCCW;
+                            insertLastCC = GradeLastWeekCC;
+                            insertIntTotalCC = totalCCW;
+                            insertIntLastCC = last_totalCCW;
                           });
                         },
                         child: Text(
@@ -1818,11 +2069,13 @@ class _ChartPageState extends State<ChartPage> {
                             selectedPeriodCC = 0;
                             selectedTabWeeks = 0;
                             selectedTabMonths = 1;
-                            insertLastCC = last_totalCC;
+                            insertLastCC = GradeLastMonthCC;
                             insertLastCCT = last_totalCCT;
                             insertLimitedCCT = limitedCCT;
-                            insertTotalCC = totalCC;
+                            insertTotalCC = GradeMonthCC;
                             insertTotalCCT = totalCCT;
+                            insertIntTotalCC = totalCC;
+                            insertIntLastCC = last_totalCC;
                           });
                         },
                         child: Text(
@@ -2100,6 +2353,15 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                         textAlign: TextAlign.left,
                       ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.03
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          return CCTDialog();
+                        },
+                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                      ),
                       Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
@@ -2191,15 +2453,28 @@ class _ChartPageState extends State<ChartPage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-                  Text(
-                    '  집중도',
-                    style: TextStyle(
-                      color: HexColor('#FFFFFF'),
-                      fontSize: MediaQuery.of(context).size.width * 0.05,
-                      fontFamily: 'pyeongchang',
-                      letterSpacing: 2,
-                    ),
-                    textAlign: TextAlign.left,
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        '  집중도',
+                        style: TextStyle(
+                          color: HexColor('#FFFFFF'),
+                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          fontFamily: 'pyeongchang',
+                          letterSpacing: 2,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.03
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          return CCDialog();
+                        },
+                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,

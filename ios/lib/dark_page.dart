@@ -111,9 +111,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   앱이 비활성화 되었을 때, 경고 알림창을 띄운다
    */
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     //앱 기능이 정지했을 시, 집중도를 -10점하고 알림창 띄우기, 시간 새는 것 정지 순으로 이어진다
-    if (state == AppLifecycleState.paused && isAlarm) {
+    if (state == AppLifecycleState.inactive && isAlarm) {
       cctScore -= 10;
       showNotification();
       _pause();
@@ -170,7 +170,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
             cctScore: finalScore,
           );
           _insertData(data);
-          showNotification_res();
+          showNotification_res(cctTime, finalScore);
           Navigator.pop(context, true);
           if (!giveUp) {
             _showInterstitialAd();

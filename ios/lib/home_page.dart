@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   int cctScoreDay = 0;
   Future<Concentration>? todayCCT;
   bool isUpdate = false;
+  String GradeCC = '';
   final List<Color> pageColors = [HexColor('#161A24'), HexColor('#161A24')];
 
   @override
@@ -192,11 +193,11 @@ class _HomePageState extends State<HomePage> {
       BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('');
+        return Text('-');
       case ConnectionState.waiting:
-        return Text('');
+        return Text('-');
       case ConnectionState.active:
-        return Text('');
+        return Text('-');
       case ConnectionState.done:
         if (snapshot.hasData) {
           Concentration today = (snapshot.data as Concentration);
@@ -209,7 +210,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return Text('0', style: TextStyle(color: HexColor('#FFFFFF')));
+          return Text('-', style: TextStyle(color: HexColor('#FFFFFF')));
         }
     }
   }
@@ -218,26 +219,51 @@ class _HomePageState extends State<HomePage> {
       BuildContext context, AsyncSnapshot<Concentration> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('');
+        return Text('-');
       case ConnectionState.waiting:
-        return Text('');
+        return Text('-');
       case ConnectionState.active:
-        return Text('');
+        return Text('-');
       case ConnectionState.done:
         if (snapshot.hasData) {
           Concentration today = (snapshot.data as Concentration);
           int? totalCctScore = 0;
           if (today.cctTime! > 0)
             totalCctScore = (today.cctScore! / today.cctTime!).toInt();
+          if (92 <= totalCctScore) {
+            GradeCC = 'A+';
+          } else if (86 <= totalCctScore) {
+            GradeCC = 'A';
+          } else if (80 <= totalCctScore) {
+            GradeCC = 'A-';
+          } else if (74 <= totalCctScore) {
+            GradeCC = 'B+';
+          } else if (68 <= totalCctScore) {
+            GradeCC = 'B';
+          } else if (62 <= totalCctScore) {
+            GradeCC = 'B-';
+          } else if (56 <= totalCctScore) {
+            GradeCC = 'C+';
+          } else if (46 <= totalCctScore) {
+            GradeCC = 'C';
+          } else if (36 <= totalCctScore) {
+            GradeCC = 'D+';
+          } else if (26 <= totalCctScore) {
+            GradeCC = 'D';
+          } else if (0 < totalCctScore) {
+            GradeCC = 'F';
+          } else {
+            GradeCC = '-';
+          }
           return Text(
-            '${totalCctScore!.toString()}',
+            '${GradeCC}',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.03,
               color: HexColor("#FFFFFF"),
             ),
           );
         } else {
-          return Text('0', style: TextStyle(color: HexColor('#FFFFFF')));
+          return Text('-', style: TextStyle(color: HexColor('#FFFFFF')));
         }
     }
   }

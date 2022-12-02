@@ -7,8 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'dart:io';
 
 // 실제로 앱 실행 시 전면부에 나올 홈페이지 및 집중시간 적용 시 이어지는 DarkPage 화면을 위한 다트 파일
 // printDuration : 디지털 시계화면 출력 용도
@@ -56,6 +54,7 @@ class _HomePageState extends State<HomePage> {
   String? loLoo;
   int cctTimeDay = 0;
   int cctScoreDay = 0;
+  String GradeCC = '';
   Future<Concentration>? todayCCT;
   bool isUpdate = false;
   var footcolor = HexColor("#3b444b");
@@ -240,8 +239,33 @@ class _HomePageState extends State<HomePage> {
           int? totalCctScore = 0;
           if (today.cctTime! > 0)
             totalCctScore = (today.cctScore! / today.cctTime!).toInt();
+          if (92 <= totalCctScore) {
+            GradeCC = 'A+';
+          } else if (86 <= totalCctScore) {
+            GradeCC = 'A';
+          } else if (80 <= totalCctScore) {
+            GradeCC = 'A-';
+          } else if (74 <= totalCctScore) {
+            GradeCC = 'B+';
+          } else if (68 <= totalCctScore) {
+            GradeCC = 'B';
+          } else if (62 <= totalCctScore) {
+            GradeCC = 'B-';
+          } else if (56 <= totalCctScore) {
+            GradeCC = 'C+';
+          } else if (46 <= totalCctScore) {
+            GradeCC = 'C';
+          } else if (36 <= totalCctScore) {
+            GradeCC = 'D+';
+          } else if (26 <= totalCctScore) {
+            GradeCC = 'D';
+          } else if (0 < totalCctScore) {
+            GradeCC = 'F';
+          } else {
+            GradeCC = '-';
+          }
           return Text(
-            '${totalCctScore!.toString()}',
+            '${GradeCC}',
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.width * 0.03,
               color: HexColor("#FFFFFF"),

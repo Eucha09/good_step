@@ -1174,11 +1174,53 @@ class _ChartPageState extends State<ChartPage> {
   int insertLimitedCCT = 0;
   int insertTotalCCT = 0;
   int insertLastCCT = 0;
-  int insertTotalCC = 0;
-  int insertLastCC = 0;
+  int insertIntTotalCC = 0;
+  int insertIntLastCC = 0;
+  String insertTotalCC = '';
+  String insertLastCC = '';
   // DB에서 필요한 내용물을 전부 불러왔는지 확인을 위한 future int
   Future<int>? checkDB;
   Future<int>? checkPIC;
+  // 집중도 등급을 저장하기 위한 변수
+  String GradeMonthCC = '';
+  String GradeWeekCC = '';
+  String GradeLastMonthCC = '';
+  String GradeLastWeekCC = '';
+
+  /*void CCTDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            title: Text('집중시간이란?', style: TextStyle(
+              fontFamily: 'pyeongchang',
+              fontWeight: FontWeight.w600,
+            )),
+            content: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: ,
+                      height: ,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      SizedBox(
+                        width: ,
+                      ),
+                      Text('집중시간은 여러분이 총 집중한 시간을 초 단위로 저장합니다'),
+                    )
+                  ]
+                ),
+              ]
+            ),
+        );
+      }
+    );
+  }*/
 
   // periods CC처럼 DB값을 불러와 chart에 적용한 내용물을 불러오는 리스트
   late List _periodsCCT = [
@@ -1261,6 +1303,7 @@ class _ChartPageState extends State<ChartPage> {
       int weekday = day - week_firstday + 1;
       curWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
       curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
+      print('curWeekCC[${weekday}] : ${curWeekCC[weekday]}');
     }
   }
 
@@ -1421,10 +1464,11 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.active:
         return CircularProgressIndicator();
       case ConnectionState.done:
-        return Text('${insertTotalCC.toString()} %',
+        return Text('$insertTotalCC',
             style: TextStyle(
-                fontFamily: 'pyeongchang',
+                //fontFamily: 'harsh',
                 fontSize: MediaQuery.of(context).size.width * 0.04,
+                fontWeight: FontWeight.w400,
                 color: HexColor('#FFFFFF')));
     }
   }
@@ -1438,9 +1482,10 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.active:
         return CircularProgressIndicator();
       case ConnectionState.done:
-        return Text('${insertLastCC.toString()} %',
+        return Text('$insertLastCC',
             style: TextStyle(
-                fontFamily: 'pyeongchang',
+                //fontFamily: 'harsh',
+                fontWeight: FontWeight.w400,
                 fontSize: MediaQuery.of(context).size.width * 0.04,
                 color: HexColor('#FFFFFF')));
     }
@@ -1542,7 +1587,7 @@ class _ChartPageState extends State<ChartPage> {
           ),
           painter: _PieChart(
             percentage:
-                (((limitedCC - insertTotalCC) / limitedCC) * 100).toInt(),
+                (((limitedCC - insertIntTotalCC) / limitedCC) * 100).toInt(),
             barColor: HexColor('#90EE90'),
             strokelen: (MediaQuery.of(context).size.width * 0.2).toInt(),
           ),
@@ -1590,10 +1635,12 @@ class _ChartPageState extends State<ChartPage> {
     int lastcount = 0;
     for (int i = 1; i <= 31; i++) {
       if (i <= 7) {
-        if (curWeekCCT[i] != 0) {
+        if (curWeekCCT[i] != 0 || curWeekCC[i] != 0) {
           curweekcount += 1;
         }
-        if (lastWeekCCT[i] != 0) {
+        print('curweekcount: ${curweekcount}');
+        print('curWeekCC[${i}]: ${curWeekCC[i]}');
+        if (lastWeekCCT[i] != 0 || lastWeekCC[i] != 0) {
           lastweekcount += 1;
         }
         totalCCTW += curWeekCCT[i];
@@ -1601,10 +1648,10 @@ class _ChartPageState extends State<ChartPage> {
         last_totalCCTW += lastWeekCCT[i];
         last_totalCCW += lastWeekCC[i];
       }
-      if (curMonthCCT[i] != 0) {
+      if (curMonthCCT[i] != 0 || curMonthCC[i] != 0) {
         curcount += 1;
       }
-      if (lastMonthCCT[i] != 0) {
+      if (lastMonthCCT[i] != 0 || lastMonthCC[i] != 0) {
         lastcount += 1;
       }
       totalCCT += curMonthCCT[i];
@@ -1632,12 +1679,118 @@ class _ChartPageState extends State<ChartPage> {
     totalCCT *= 3600;
     last_totalCCTW *= 3600;
     last_totalCCT *= 3600;
+    print('curweekcount : ${curweekcount}');
+    if (92 <= totalCC) {
+      GradeMonthCC = 'A+';
+    } else if (86 <= totalCC) {
+      GradeMonthCC = 'A';
+    } else if (80 <= totalCC) {
+      GradeMonthCC = 'A-';
+    } else if (74 <= totalCC) {
+      GradeMonthCC = 'B+';
+    } else if (68 <= totalCC) {
+      GradeMonthCC = 'B';
+    } else if (62 <= totalCC) {
+      GradeMonthCC = 'B-';
+    } else if (56 <= totalCC) {
+      GradeMonthCC = 'C+';
+    } else if (46 <= totalCC) {
+      GradeMonthCC = 'C';
+    } else if (36 <= totalCC) {
+      GradeMonthCC = 'D+';
+    } else if (26 <= totalCC) {
+      GradeMonthCC = 'D';
+    } else if (0 < totalCC) {
+      GradeMonthCC = 'F';
+    } else {
+      GradeMonthCC = '-';
+    }
 
-    insertTotalCC = totalCCW;
-    insertLastCC = last_totalCCW;
+    if (92 <= last_totalCC) {
+      GradeLastMonthCC = 'A+';
+    } else if (86 <= last_totalCC) {
+      GradeLastMonthCC = 'A';
+    } else if (80 <= last_totalCC) {
+      GradeLastMonthCC = 'A-';
+    } else if (74 <= last_totalCC) {
+      GradeLastMonthCC = 'B+';
+    } else if (68 <= last_totalCC) {
+      GradeLastMonthCC = 'B';
+    } else if (62 <= last_totalCC) {
+      GradeLastMonthCC = 'B-';
+    } else if (56 <= last_totalCC) {
+      GradeLastMonthCC = 'C+';
+    } else if (46 <= last_totalCC) {
+      GradeLastMonthCC = 'C';
+    } else if (36 <= last_totalCC) {
+      GradeLastMonthCC = 'D+';
+    } else if (26 <= last_totalCC) {
+      GradeLastMonthCC = 'D';
+    } else if (0 < last_totalCC){
+      GradeLastMonthCC = 'F';
+    } else {
+      GradeLastMonthCC = '-';
+    }
+
+    if (92 <= totalCCW) {
+      GradeWeekCC = 'A+';
+    } else if (86 <= totalCCW) {
+      GradeWeekCC = 'A';
+    } else if (80 <= totalCCW) {
+      GradeWeekCC = 'A-';
+    } else if (74 <= totalCCW) {
+      GradeWeekCC = 'B+';
+    } else if (68 <= totalCCW) {
+      GradeWeekCC = 'B';
+    } else if (62 <= totalCCW) {
+      GradeWeekCC = 'B-';
+    } else if (56 <= totalCCW) {
+      GradeWeekCC = 'C+';
+    } else if (46 <= totalCCW) {
+      GradeWeekCC = 'C';
+    } else if (36 <= totalCCW) {
+      GradeWeekCC = 'D+';
+    } else if (26 <= totalCCW) {
+      GradeWeekCC = 'D';
+    } else if (0 < totalCCW){
+      GradeWeekCC = 'F';
+    } else {
+      GradeWeekCC = '-';
+    }
+
+    if (92 <= totalCCW) {
+      GradeLastWeekCC = 'A+';
+    } else if (86 <= totalCCW) {
+      GradeLastWeekCC = 'A';
+    } else if (80 <= totalCCW) {
+      GradeLastWeekCC = 'A-';
+    } else if (74 <= totalCCW) {
+      GradeLastWeekCC = 'B+';
+    } else if (68 <= totalCCW) {
+      GradeLastWeekCC = 'B';
+    } else if (62 <= totalCCW) {
+      GradeLastWeekCC = 'B-';
+    } else if (56 <= totalCCW) {
+      GradeLastWeekCC = 'C+';
+    } else if (46 <= totalCCW) {
+      GradeLastWeekCC = 'C';
+    } else if (36 <= totalCCW) {
+      GradeLastWeekCC = 'D+';
+    } else if (26 <= totalCCW) {
+      GradeLastWeekCC = 'D';
+    } else if (0 < totalCCW) {
+      GradeLastWeekCC = 'F';
+    } else {
+      GradeLastWeekCC = '-';
+    }
+
+    insertTotalCC = GradeWeekCC;
+    insertLastCC = GradeLastWeekCC;
     insertTotalCCT = totalCCTW;
     insertLastCCT = last_totalCCTW;
     insertLimitedCCT = limitedCCTW;
+    insertIntTotalCC = totalCCW;
+    insertIntLastCC = last_totalCCW;
   }
 
   @override
@@ -1648,11 +1801,13 @@ class _ChartPageState extends State<ChartPage> {
     selectedTabMonths = 0;
     selectedTabWeeks = 1;
     _insertDB();
-    insertTotalCC = totalCCW;
-    insertLastCC = last_totalCCW;
+    insertTotalCC = GradeWeekCC;
+    insertLastCC = GradeLastWeekCC;
     insertTotalCCT = totalCCTW;
     insertLastCCT = last_totalCCTW;
     insertLimitedCCT = limitedCCTW;
+    insertIntTotalCC = totalCCW;
+    insertIntLastCC = last_totalCCW;
   }
 
   @override
@@ -1712,9 +1867,11 @@ class _ChartPageState extends State<ChartPage> {
                             selectedTabMonths = 0;
                             insertLimitedCCT = limitedCCTW;
                             insertTotalCCT = totalCCTW;
-                            insertTotalCC = totalCCW;
+                            insertTotalCC = GradeWeekCC;
                             insertLastCCT = last_totalCCTW;
-                            insertLastCC = last_totalCCW;
+                            insertLastCC = GradeLastWeekCC;
+                            insertIntTotalCC = totalCCW;
+                            insertIntLastCC = last_totalCCW;
                           });
                         },
                         child: Text(
@@ -1748,11 +1905,13 @@ class _ChartPageState extends State<ChartPage> {
                             selectedPeriodCC = 0;
                             selectedTabWeeks = 0;
                             selectedTabMonths = 1;
-                            insertLastCC = last_totalCC;
+                            insertLastCC = GradeLastMonthCC;
                             insertLastCCT = last_totalCCT;
                             insertLimitedCCT = limitedCCT;
-                            insertTotalCC = totalCC;
+                            insertTotalCC = GradeMonthCC;
                             insertTotalCCT = totalCCT;
+                            insertIntTotalCC = totalCC;
+                            insertIntLastCC = last_totalCC;
                           });
                         },
                         child: Text(
