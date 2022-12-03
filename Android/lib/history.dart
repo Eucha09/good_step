@@ -15,6 +15,13 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPage extends State<HistoryPage> {
   Future<List<Concentration>>? list;
+  List<Color> button = [
+    HexColor('#73757B').withOpacity(0.1),
+    HexColor('#161A24'),
+  ];
+  int? switchColorLater;
+  int? switchColorNewest;
+  bool switchList = true;
 
   Future<List<Concentration>> getAllData() async {
     final Database database = await widget.db;
@@ -35,6 +42,9 @@ class _HistoryPage extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
+    switchColorLater = 0;
+    switchColorNewest = 1;
+    switchList = true;
     list = getAllData();
   }
 
@@ -48,6 +58,7 @@ class _HistoryPage extends State<HistoryPage> {
         return Scaffold(
           backgroundColor: HexColor("#161A24"),
           appBar: AppBar(
+            toolbarHeight: 100,
             backgroundColor: HexColor('#161A24'),
             title: Container(
               /*decoration: BoxDecoration(
@@ -60,11 +71,59 @@ class _HistoryPage extends State<HistoryPage> {
                 child: Column(
                     children: <Widget>[
                       Container(
-                        child: Text('',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: 50,
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: HexColor('#73757B').withOpacity(0.5),
                         ),
+                        child: Row(
+                          children: <Widget>[
+                            GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            switchColorLater = 0;
+                            switchColorNewest = 1;
+                            switchList = true;
+            });
+            },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: button[switchColorNewest!],
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.4,
+                                  height: 40,
+                                  child: Center(child: Text('최신순'),),
+                                ),
+                              ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.05,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  switchColorLater = 1;
+                                  switchColorNewest = 0;
+                                  switchList = false;
+                                });
+                              },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: button[switchColorLater!],
+                              ),
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: 40,
+                            child: Center(child: Text('지난순')),
+        ),
+                            ),
+          ],
+        ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Container(
                         width: MediaQuery
@@ -153,7 +212,9 @@ class _HistoryPage extends State<HistoryPage> {
         return CircularProgressIndicator();
       case ConnectionState.done:
         if (snapshot.hasData) {
-          return ListView.builder(
+          return ListView.builder (
+            reverse: switchList,
+              shrinkWrap: switchList,
               itemBuilder: (context, index) {
                 Concentration data = (snapshot.data as List<
                     Concentration>)[index];

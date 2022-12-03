@@ -103,7 +103,7 @@ showNotification_res(int CctTime, int CctScore) async {
       // 제목, 내용
       '굿스텝',
       '집중시간이 완료되었습니다.\n'
-          '집중시간 : ${CctTime}분, 집중도: ${CctScoreGrade}(${CctScore})',
+          '집중시간 : ${CctTime}분, 집중도: ${CctScoreGrade} (${CctScore})',
       NotificationDetails(android: androidDetails, iOS: iosDetails),
       // 부가정보
       payload:'부가정보'

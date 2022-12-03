@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 application
-INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:3:4-36:19
+INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:3:4-37:19
 MERGED from [:image_picker_android] /Users/joo/Desktop/what/android/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-19:19
 MERGED from [:image_picker_android] /Users/joo/Desktop/what/android/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-19:19
 MERGED from [:google_mobile_ads] /Users/joo/Desktop/what/android/build/google_mobile_ads/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-15:19
@@ -44,11 +44,11 @@ MERGED from [androidx.room:room-runtime:2.2.5] /Users/joo/.gradle/caches/transfo
 	android:name
 		INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml
 manifest
-ADDED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-37:12
-MERGED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-37:12
+ADDED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-38:12
+INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-38:12
+MERGED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-38:12
 MERGED from [:shared_preferences_android] /Users/joo/Desktop/what/android/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:image_picker_android] /Users/joo/Desktop/what/android/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-21:12
 MERGED from [:flutter_plugin_android_lifecycle] /Users/joo/Desktop/what/android/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
@@ -108,11 +108,11 @@ INJECTED from /Users/joo/Desktop/what/android/android/app/src/debug/AndroidManif
 		INJECTED from /Users/joo/Desktop/what/android/android/app/src/debug/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-37:12
+		ADDED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-38:12
 		INJECTED from /Users/joo/Desktop/what/android/android/app/src/debug/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-37:12
+		ADDED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:1-38:12
 		INJECTED from /Users/joo/Desktop/what/android/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/joo/Desktop/what/android/android/app/src/main/AndroidManifest.xml:1:11-69
