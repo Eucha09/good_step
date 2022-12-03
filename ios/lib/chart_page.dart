@@ -1210,42 +1210,40 @@ class _ChartPageState extends State<ChartPage> {
 
   void CCTDialog() {
     showCupertinoDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return GestureDetector(
-          behavior: HitTestBehavior.translucent,
-        onTap: () {
-          Navigator.of(context).pop();
-        },
+        context: context,
+        builder: (BuildContext context) {
+          return GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Navigator.of(context).pop();
+            },
             child: CupertinoAlertDialog(
-            title: Text('집중시간이란?\n', style: TextStyle(
-              //fontFamily: 'pyeongchang',
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            )),
-            content: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 5,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: HexColor('#000000'),
-                      ),
-            ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        '집중시간 : 총 집중한 시간을 초 단위로 저장',
-                        style: TextStyle(
-                        fontSize: 12,
-                      ),
-                      ),
-                  ]
-                ),
+              title: Text('집중시간이란?\n',
+                  style: TextStyle(
+                    //fontFamily: 'pyeongchang',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  )),
+              content: Column(children: <Widget>[
+                Row(children: <Widget>[
+                  Container(
+                    width: 5,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: HexColor('#000000'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    '집중시간 : 총 집중한 시간을 초 단위로 저장',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ]),
                 Row(
                   children: <Widget>[
                     Container(
@@ -1259,19 +1257,18 @@ class _ChartPageState extends State<ChartPage> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text('세로축은 시간, 가로축은 일자',
+                    Text(
+                      '세로축은 시간, 가로축은 일자',
                       style: TextStyle(
-                      fontSize: 12,
+                        fontSize: 12,
                       ),
                     ),
                   ],
                 )
-              ]
+              ]),
             ),
-            ),
-        );
-      }
-    );
+          );
+        });
   }
 
   void CCDialog() {
@@ -1283,59 +1280,56 @@ class _ChartPageState extends State<ChartPage> {
             onTap: () {
               Navigator.of(context).pop();
             },
-          child: CupertinoAlertDialog(
-            title: Text('집중도란?\n', style: TextStyle(
-              //fontFamily: 'pyeongchang',
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
-            ),
-            content: Column(
-                children: <Widget>[
-                  Row(
-                      children: <Widget>[
-                        Container(
-                          width: 5,
-                          height: 5,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: HexColor('#000000'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text('집중도 : 감소한 수치 * 가중치(집중시간)',
-                        style: TextStyle(
-                          fontSize: 12,
-                        )),
-                      ]
+            child: CupertinoAlertDialog(
+              title: Text(
+                '집중도란?\n',
+                style: TextStyle(
+                  //fontFamily: 'pyeongchang',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: Column(children: <Widget>[
+                Row(children: <Widget>[
+                  Container(
+                    width: 5,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: HexColor('#000000'),
+                    ),
                   ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 5,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: HexColor('#000000'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text('세로축 : 집중도, 가로축 : 일자',
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text('집중도 : 감소한 수치 * 가중치(집중시간)',
                       style: TextStyle(
                         fontSize: 12,
                       )),
-                    ],
-                  )
-                ]
+                ]),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 5,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: HexColor('#000000'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text('세로축 : 집중도, 가로축 : 일자',
+                        style: TextStyle(
+                          fontSize: 12,
+                        )),
+                  ],
+                )
+              ]),
             ),
-          ),
           );
-        }
-    );
+        });
   }
 
   // image를 사진첩에서 공수해온다
@@ -1884,7 +1878,7 @@ class _ChartPageState extends State<ChartPage> {
       GradeLastMonthCC = 'D+';
     } else if (26 <= last_totalCC) {
       GradeLastMonthCC = 'D';
-    } else if (0 < last_totalCC){
+    } else if (0 < last_totalCC) {
       GradeLastMonthCC = 'F';
     } else {
       GradeLastMonthCC = '-';
@@ -1910,7 +1904,7 @@ class _ChartPageState extends State<ChartPage> {
       GradeWeekCC = 'D+';
     } else if (26 <= totalCCW) {
       GradeWeekCC = 'D';
-    } else if (0 < totalCCW){
+    } else if (0 < totalCCW) {
       GradeWeekCC = 'F';
     } else {
       GradeWeekCC = '-';
@@ -2353,14 +2347,18 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.03
-                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           return CCTDialog();
                         },
-                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                          child: Icon(CupertinoIcons.question_circle,
+                              size: MediaQuery.of(context).size.width * 0.05,
+                              color: HexColor('#FFFFFF')),
+                        ),
                       ),
                       Flexible(
                         flex: 1,
@@ -2465,14 +2463,18 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.03
-                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           return CCDialog();
                         },
-                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                          child: Icon(CupertinoIcons.question_circle,
+                              size: MediaQuery.of(context).size.width * 0.05,
+                              color: HexColor('#FFFFFF')),
+                        ),
                       ),
                     ],
                   ),

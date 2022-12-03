@@ -2313,10 +2313,14 @@ class _ChartPageState extends State<ChartPage> {
                           width: MediaQuery.of(context).size.width * 0.03
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           return CCTDialog();
                         },
-                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                          child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                        ),
                       ),
                       Flexible(
                         flex: 1,
@@ -2427,10 +2431,14 @@ class _ChartPageState extends State<ChartPage> {
                           width: MediaQuery.of(context).size.width * 0.03
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           return CCDialog();
                         },
-                        child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                          child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                        ),
                       ),
                     ],
                   ),

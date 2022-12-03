@@ -15,11 +15,18 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPage extends State<HistoryPage> {
   Future<List<Concentration>>? list;
+  List<Color> button = [
+    HexColor('#73757B').withOpacity(0.1),
+    HexColor('#161A24'),
+  ];
+  int? switchColorLater;
+  int? switchColorNewest;
+  bool switchList = true;
 
   Future<List<Concentration>> getAllData() async {
     final Database database = await widget.db;
-    final List<Map<String, dynamic>> maps = await database.query(
-        'concentration');
+    final List<Map<String, dynamic>> maps =
+        await database.query('concentration');
 
     return List.generate(maps.length, (i) {
       return Concentration(
@@ -27,14 +34,16 @@ class _HistoryPage extends State<HistoryPage> {
           time: maps[i]['time'].toString(),
           cctTime: maps[i]['cctTime'],
           cctScore: maps[i]['cctScore'],
-          id: maps[i]['id']
-      );
+          id: maps[i]['id']);
     });
   }
 
   @override
   void initState() {
     super.initState();
+    switchColorLater = 0;
+    switchColorNewest = 1;
+    switchList = true;
     list = getAllData();
   }
 
@@ -42,72 +51,113 @@ class _HistoryPage extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constrains) {
-        Size _size = MediaQuery
-            .of(context)
-            .size;
+        Size _size = MediaQuery.of(context).size;
         return CupertinoPageScaffold(
           backgroundColor: HexColor("#161A24"),
           navigationBar: CupertinoNavigationBar(
             backgroundColor: HexColor('#161A24'),
             middle: Container(
-              /*decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Colors, Colors.grey],
                         begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
                 ),*/
-                child: Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text('',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                child: Column(children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: 50,
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: HexColor('#73757B').withOpacity(0.5),
+                ),
+                child: Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          switchColorLater = 0;
+                          switchColorNewest = 1;
+                          switchList = true;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: button[switchColorNewest!],
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: 40,
+                        child: Center(
+                          child: Text('최신순'),
                         ),
                       ),
-                      Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.3,
-                              child: Center(child: Text('날짜', style: TextStyle(color: HexColor('#FFFFFF'))),),
-                            ),
-                            Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.3,
-                              child: Center(child: Text('집중시간', style: TextStyle(color: HexColor('#FFFFFF'))),),
-                            ),
-                            Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.3,
-                              child: Center(child: Text('집중도', style: TextStyle(color: HexColor('#FFFFFF'))),),
-                            ),
-                          ],
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          switchColorLater = 1;
+                          switchColorNewest = 0;
+                          switchList = false;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: button[switchColorLater!],
                         ),
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: 40,
+                        child: Center(child: Text('지난순')),
                       ),
-                    ]
-                )
-            ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: Center(
+                        child: Text('날짜',
+                            style: TextStyle(color: HexColor('#FFFFFF'))),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: Center(
+                        child: Text('집중시간',
+                            style: TextStyle(color: HexColor('#FFFFFF'))),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: Center(
+                        child: Text('집중도',
+                            style: TextStyle(color: HexColor('#FFFFFF'))),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ])),
             // pinned: true,
           ),
           child: Container(
               child: FutureBuilder(
-                builder: cctListBuilder,
-                future: list,
-              )
-          ),
+            builder: cctListBuilder,
+            future: list,
+          )),
         );
       },
     );
@@ -141,8 +191,8 @@ class _HistoryPage extends State<HistoryPage> {
     }
   }
 
-  Widget cctListBuilder(BuildContext context,
-      AsyncSnapshot<List<Concentration>> snapshot) {
+  Widget cctListBuilder(
+      BuildContext context, AsyncSnapshot<List<Concentration>> snapshot) {
     switch (snapshot.connectionState) {
       case ConnectionState.none:
         return CircularProgressIndicator();
@@ -153,9 +203,11 @@ class _HistoryPage extends State<HistoryPage> {
       case ConnectionState.done:
         if (snapshot.hasData) {
           return ListView.builder(
+            reverse: switchList,
+            shrinkWrap: switchList,
             itemBuilder: (context, index) {
-              Concentration data = (snapshot.data as List<
-                  Concentration>)[index];
+              Concentration data =
+                  (snapshot.data as List<Concentration>)[index];
               return Card(
                   color: HexColor('#D9DDDC'),
                   //Colors.teal[100 * (index % 9)],
@@ -171,25 +223,25 @@ class _HistoryPage extends State<HistoryPage> {
                                   Text('${data.date}'),
                                   Text('${data.time}'),
                                 ],
-                              )
+                              )),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: Center(
+                                child: Text(
+                                    '${printDuration_timer(Duration(seconds: (data.cctTime!).toInt()))}')),
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.3,
-                            child: Center(child: Text('${printDuration_timer(Duration(seconds: (data.cctTime!).toInt()))}')),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: Center(child: Text('${toGrade((data.cctScore!/data.cctTime!).toInt())} (${(data.cctScore!/data.cctTime!).toInt()})')),
+                            child: Center(
+                                child: Text(
+                                    '${toGrade((data.cctScore! / data.cctTime!).toInt())} (${(data.cctScore! / data.cctTime!).toInt()})')),
                           ),
                         ],
-                      )
-                  )
-              );
+                      )));
             },
             itemCount: (snapshot.data as List<Concentration>).length,
           );
-        }
-        else {
+        } else {
           return Text('No data');
         }
     }

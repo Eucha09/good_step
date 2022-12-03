@@ -19,14 +19,18 @@ class _HistoryPage extends State<HistoryPage> {
     HexColor('#73757B').withOpacity(0.1),
     HexColor('#161A24'),
   ];
-  int? switchColorLater;
-  int? switchColorNewest;
-  bool switchList = true;
+  int? switchColorTotal;
+  int? switchColorTen;
+  int? switchColorHundread;
+  int? LimitedList;
 
   Future<List<Concentration>> getAllData() async {
     final Database database = await widget.db;
-    final List<Map<String, dynamic>> maps = await database.query(
-        'concentration');
+    List<Map<String, dynamic>> maps = await database.rawQuery(
+        "SELECT * "
+            "FROM concentration "
+            "ORDER BY date DESC, time DESC"
+    );
 
     return List.generate(maps.length, (i) {
       return Concentration(
@@ -42,9 +46,10 @@ class _HistoryPage extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
-    switchColorLater = 0;
-    switchColorNewest = 1;
-    switchList = true;
+    switchColorTen = 1;
+    switchColorHundread = 0;
+    switchColorTotal = 0;
+    LimitedList = 10;
     list = getAllData();
   }
 
@@ -83,19 +88,20 @@ class _HistoryPage extends State<HistoryPage> {
                             GestureDetector(
                         onTap: () {
                           setState(() {
-                            switchColorLater = 0;
-                            switchColorNewest = 1;
-                            switchList = true;
+                            switchColorTotal = 1;
+                            switchColorHundread = 0;
+                            switchColorTen = 0;
+                            LimitedList = 2147483647;
             });
             },
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
-                                  color: button[switchColorNewest!],
+                                  color: button[switchColorTotal!],
                                 ),
-                                width: MediaQuery.of(context).size.width * 0.4,
+                                width: MediaQuery.of(context).size.width * 0.25,
                                   height: 40,
-                                  child: Center(child: Text('최신순'),),
+                                  child: Center(child: Text('전부'),),
                                 ),
                               ),
                             SizedBox(
@@ -104,20 +110,43 @@ class _HistoryPage extends State<HistoryPage> {
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  switchColorLater = 1;
-                                  switchColorNewest = 0;
-                                  switchList = false;
+                                  switchColorTotal = 0;
+                                  switchColorHundread = 1;
+                                  switchColorTen = 0;
+                                  LimitedList = 100;
                                 });
                               },
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                color: button[switchColorLater!],
+                                color: button[switchColorHundread!],
                               ),
-                              width: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.25,
                               height: 40,
-                            child: Center(child: Text('지난순')),
+                            child: Center(child: Text('100')),
         ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.05,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  switchColorTotal = 0;
+                                  switchColorHundread = 0;
+                                  switchColorTen = 1;
+                                  LimitedList = 10;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: button[switchColorTen!],
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                height: 40,
+                                child: Center(child: Text('10')),
+                              ),
                             ),
           ],
         ),
@@ -213,8 +242,6 @@ class _HistoryPage extends State<HistoryPage> {
       case ConnectionState.done:
         if (snapshot.hasData) {
           return ListView.builder (
-            reverse: switchList,
-              shrinkWrap: switchList,
               itemBuilder: (context, index) {
                 Concentration data = (snapshot.data as List<
                     Concentration>)[index];
@@ -248,7 +275,9 @@ class _HistoryPage extends State<HistoryPage> {
                     )
                 );
               },
-            itemCount: (snapshot.data as List<Concentration>).length,
+            itemCount: (snapshot.data as List<Concentration>).length > LimitedList!
+                ? LimitedList
+                : (snapshot.data as List<Concentration>).length
           );
         }
         else {
