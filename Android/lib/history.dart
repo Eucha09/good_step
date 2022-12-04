@@ -15,14 +15,6 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPage extends State<HistoryPage> {
   Future<List<Concentration>>? list;
-  List<Color> button = [
-    HexColor('#73757B').withOpacity(0.1),
-    HexColor('#161A24'),
-  ];
-  int? switchColorTotal;
-  int? switchColorTen;
-  int? switchColorHundread;
-  int? LimitedList;
 
   Future<List<Concentration>> getAllData() async {
     final Database database = await widget.db;
@@ -46,10 +38,6 @@ class _HistoryPage extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
-    switchColorTen = 1;
-    switchColorHundread = 0;
-    switchColorTotal = 0;
-    LimitedList = 10;
     list = getAllData();
   }
 
@@ -63,98 +51,10 @@ class _HistoryPage extends State<HistoryPage> {
         return Scaffold(
           backgroundColor: HexColor("#161A24"),
           appBar: AppBar(
-            toolbarHeight: 100,
+            toolbarHeight: 50,
             backgroundColor: HexColor('#161A24'),
             title: Container(
-              /*decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors, Colors.grey],
-                        begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),*/
-                child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 50,
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: HexColor('#73757B').withOpacity(0.5),
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            switchColorTotal = 1;
-                            switchColorHundread = 0;
-                            switchColorTen = 0;
-                            LimitedList = 2147483647;
-            });
-            },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: button[switchColorTotal!],
-                                ),
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                  height: 40,
-                                  child: Center(child: Text('전부'),),
-                                ),
-                              ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.05,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  switchColorTotal = 0;
-                                  switchColorHundread = 1;
-                                  switchColorTen = 0;
-                                  LimitedList = 100;
-                                });
-                              },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: button[switchColorHundread!],
-                              ),
-                              width: MediaQuery.of(context).size.width * 0.25,
-                              height: 40,
-                            child: Center(child: Text('100')),
-        ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.05,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  switchColorTotal = 0;
-                                  switchColorHundread = 0;
-                                  switchColorTen = 1;
-                                  LimitedList = 10;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: button[switchColorTen!],
-                                ),
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height: 40,
-                                child: Center(child: Text('10')),
-                              ),
-                            ),
-          ],
-        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
+                        child: Container(
                         width: MediaQuery
                             .of(context)
                             .size
@@ -186,9 +86,7 @@ class _HistoryPage extends State<HistoryPage> {
                           ],
                         ),
                       ),
-                    ]
-                )
-            ),
+                      ),
             // pinned: true,
           ),
           body: Container(
@@ -275,9 +173,7 @@ class _HistoryPage extends State<HistoryPage> {
                     )
                 );
               },
-            itemCount: (snapshot.data as List<Concentration>).length > LimitedList!
-                ? LimitedList
-                : (snapshot.data as List<Concentration>).length
+            itemCount: (snapshot.data as List<Concentration>).length,
           );
         }
         else {
