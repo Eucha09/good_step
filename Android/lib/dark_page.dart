@@ -224,8 +224,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                       return Center(
                         child: Container(
                           // 팝업창 크기 적용
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.height * 0.25,
+                          width: 314, //MediaQuery.of(context).size.width * 0.8,
+                          height:
+                              195, //MediaQuery.of(context).size.height * 0.25,
                           // 팝업창 모양, 들어갈 문장 등 적용
                           child: AlertDialog(
                             shape: RoundedRectangleBorder(

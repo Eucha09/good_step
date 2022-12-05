@@ -5,6 +5,7 @@ import 'dark_page.dart';
 import 'concentration.dart';
 import 'question_page.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,9 +63,24 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    getLastTime(true);
     myValue = 0;
     todayCCT = getTotalDay();
     loLoo = "00:00";
+  }
+
+  Future<int> getLastTime(bool isGet) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (isGet) {
+      setState(() {
+        myValue = prefs.getInt('setValue')!.toDouble();
+        loLoo = printDuration(Duration(seconds: myValue.toInt()));
+      });
+      print('${myValue}');
+    } else {
+      prefs.setInt('setValue', myValue.toInt());
+    }
+    return 1;
   }
 
   Future<Concentration> getTotalDay() async {
@@ -299,7 +315,7 @@ class _HomePageState extends State<HomePage> {
          */
         min: 0,
         max: 7500,
-        initialValue: 0,
+        initialValue: myValue,
         /* innerWidget : 슬라이더 내부에 뭐를 넣을지 결정. 여기서는 슬라이더 내부에 들어간 버튼을 의미
            double value : 슬라이더를 돌려서 멈춘 지점의 값
          */
@@ -314,6 +330,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () async {
                         // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
                         if (value >= 300) {
+                          getLastTime(false);
                           isUpdate = await Navigator.push(
                             context,
                             CupertinoPageRoute(
