@@ -1238,7 +1238,7 @@ class _ChartPageState extends State<ChartPage> {
                     width: 5,
                   ),
                   Text(
-                    '집중시간 : 총 집중한 시간을 초 단위로 저장',
+                    '집중시간 : 총 집중한 시간을 시 단위로 저장',
                     style: TextStyle(
                       fontSize: 12,
                     ),

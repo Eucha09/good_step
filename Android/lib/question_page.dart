@@ -16,6 +16,7 @@ class _question_pageState extends State<question_page> {
     'assets/ex4.png',
     'assets/ex5.png',
     'assets/ex6.png',
+    'assets/ex7.png',
   ];
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'home_page.dart';
 import 'utils.dart';
 import 'notification.dart';
@@ -32,6 +33,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   */
   Timer? _timer;
   String? loLoo;
+  String Warning = '본 화면을 벗어나거나 포기할 시 집중도가 감소합니다';
   bool trigger = true;
   bool giveUp = false;
   bool isRestart = false;
@@ -92,6 +94,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     // 본 클래스가 앱 상태에서 벗어날 시, timer도 종료
     WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
   }
 
@@ -101,6 +104,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
        loLoo는 myValue를 디지털 시계로 변환한 값 저장, countTime은 시간을 세어주기 위해 0으로 초기화
        또한, 앱 상태 전환을 인지하기 위한 WidgetBinding 추가 */
     super.initState();
+    SystemChrome.setPreferredOrientations([]);
     _loadInterstitialAd();
     WidgetsBinding.instance.addObserver(this);
     initNotification();
@@ -145,6 +149,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
 
     var callback = (timer) => {
           setState(() {
+            if (countTime >= 30) {
+              Warning = '';
+            }
             if (countTime < total) {
               countTime++;
               loLoo =
@@ -226,11 +233,10 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                     BorderRadius.all(Radius.circular(15.0))),
                             contentPadding: EdgeInsets.only(top: 0),
                             content: Center(
-                                child:
-                                    Text('포기하시겠습니까?',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                        ))),
+                                child: Text('포기하시겠습니까?',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ))),
                             // 팝업창에서 실제 이벤트가 벌어지는 부분
                             actions: [
                               Row(
@@ -244,12 +250,12 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                                     ),
                                     child: Text('예'),
                                     onPressed: () {
-    // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
-    cctTime = (countTime).toInt();
-    cctScore -= 50;
-    countTime = total;
-    giveUp = true;
-    Navigator.of(context).pop();
+                                      // 예를 누르면 팝업창 빠져나오고 동시에 countTime = total이 되면서 검은 화면도 탈출
+                                      cctTime = (countTime).toInt();
+                                      cctScore -= 50;
+                                      countTime = total;
+                                      giveUp = true;
+                                      Navigator.of(context).pop();
                                     },
                                   ),
                                   TextButton(
@@ -271,7 +277,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                         ),
                       );
                     });
-              };
+              }
+              ;
             },
             // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
             child: Column(
@@ -291,11 +298,11 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
-                  Text('본 화면을 벗어나거나 포기할 시 집중도가 감소합니다',
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height * 0.013,
-                          color: HexColor('#FFFFFF'),
-                        )),
+                  Text(Warning,
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.height * 0.013,
+                        color: HexColor('#FFFFFF'),
+                      )),
                 ])),
       ),
     );

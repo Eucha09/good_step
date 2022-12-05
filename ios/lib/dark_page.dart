@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'home_page.dart';
 import 'utils.dart';
 import 'notification.dart';
@@ -41,6 +42,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   int cctTime = 0;
   int cctScore = 100;
   int finalScore = 0;
+  String Warning = '본 화면을 벗어나거나 포기할 시 집중도가 감소합니다';
   late final InterstitialAd interstitialAd;
   final String interstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
   late final RewardedAd rewardedAd;
@@ -86,6 +88,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
     // 본 클래스가 앱 상태에서 벗어날 시, timer도 종료
     WidgetsBinding.instance.removeObserver(this);
     _timer?.cancel();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
   }
 
@@ -95,6 +98,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
        loLoo는 myValue를 디지털 시계로 변환한 값 저장, countTime은 시간을 세어주기 위해 0으로 초기화
        또한, 앱 상태 전환을 인지하기 위한 WidgetBinding 추가 */
     super.initState();
+    SystemChrome.setPreferredOrientations([]);
     _loadInterstitialAd();
     WidgetsBinding.instance.addObserver(this);
     initNotification();
@@ -139,6 +143,9 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
 
     var callback = (timer) => {
           setState(() {
+            if (countTime >= 30) {
+              Warning = '';
+            }
             if (countTime < total) {
               countTime++;
               loLoo =
@@ -272,7 +279,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                     ),
                   ),
                 ),
-                Text('본 화면을 벗어나거나 포기할 시 집중도가 감소합니다',
+                Text(Warning,
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.height * 0.013,
                       color: HexColor('#FFFFFF'),
