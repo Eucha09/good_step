@@ -121,6 +121,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     //앱 기능이 정지했을 시, 집중도를 -10점하고 알림창 띄우기, 시간 새는 것 정지 순으로 이어진다
     if (state == AppLifecycleState.inactive && isAlarm) {
+      print('inactive');
       cctScore -= 10;
       showNotification();
       _pause();
