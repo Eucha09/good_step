@@ -284,10 +284,10 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
             },
             // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.2,
                   ),
                   Center(
                     // 디지털 시계를 출력하는 부분
@@ -300,11 +300,14 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                       ),
                     ),
                   ),
-                  Text(Warning,
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height * 0.013,
-                        color: HexColor('#FFFFFF'),
-                      )),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: Text(Warning,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.013,
+                          color: HexColor('#FFFFFF'),
+                        )),
+                  )
                 ])),
       ),
     );

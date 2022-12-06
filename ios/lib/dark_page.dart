@@ -114,7 +114,7 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     //앱 기능이 정지했을 시, 집중도를 -10점하고 알림창 띄우기, 시간 새는 것 정지 순으로 이어진다
-    if (state == AppLifecycleState.inactive && isAlarm) {
+    if (state == AppLifecycleState.paused && isAlarm) {
       cctScore -= 10;
       showNotification();
       _pause();
@@ -263,10 +263,10 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
           },
           // 터치 이벤트가 없을 시, 아래 내용이 기본적으로 화면에 출력됨
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
                 Center(
                   // 디지털 시계를 출력하는 부분
@@ -279,11 +279,14 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                     ),
                   ),
                 ),
-                Text(Warning,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                child: Text(Warning,
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.height * 0.013,
                       color: HexColor('#FFFFFF'),
                     )),
+                ),
               ])),
     );
   }
