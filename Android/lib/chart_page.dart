@@ -231,7 +231,8 @@ class _LineChartWeekCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -253,7 +254,8 @@ class _LineChartWeekCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -429,7 +431,8 @@ class _LineChartMonthCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -475,7 +478,8 @@ class _LineChartMonthCC extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -524,8 +528,12 @@ class _LineChartMonthCC extends StatelessWidget {
 class _LineChartWeek extends StatelessWidget {
   final List<int> Factor;
   final List<int> last_Factor;
+  final int LimitedTime;
 
-  _LineChartWeek({required this.Factor, required this.last_Factor});
+  _LineChartWeek(
+      {required this.Factor,
+      required this.last_Factor,
+      required this.LimitedTime});
 
   @override
   Widget build(BuildContext context) {
@@ -543,7 +551,7 @@ class _LineChartWeek extends StatelessWidget {
         lineBarsData: lineBarsData1,
         minX: 0,
         maxX: 7,
-        maxY: 15,
+        maxY: LimitedTime * 60,
         minY: 0,
       );
 
@@ -581,24 +589,163 @@ class _LineChartWeek extends StatelessWidget {
       fontSize: 8,
     );
     String text;
-    switch (value.toInt()) {
-      case 3:
-        text = '3';
-        break;
-      case 6:
-        text = '6';
-        break;
-      case 9:
-        text = '9';
-        break;
-      case 12:
-        text = '12';
-        break;
-      case 15:
-        text = '15';
-        break;
-      default:
-        return Container();
+    if (LimitedTime <= 3) {
+      switch (value.toInt()) {
+        case 1 * 60:
+          text = '1';
+          break;
+        case 2 * 60:
+          text = '2';
+          break;
+        case 3 * 60:
+          text = '3';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 6) {
+      switch (value.toInt()) {
+        case 2 * 60:
+          text = '2';
+          break;
+        case 4 * 60:
+          text = '4';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 9) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 12) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 15) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 18) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        case 18 * 60:
+          text = '18';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 21) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        case 18 * 60:
+          text = '18';
+          break;
+        case 21 * 60:
+          text = '21';
+          break;
+        default:
+          return Container();
+      }
+    } else {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        case 18 * 60:
+          text = '18';
+          break;
+        case 21 * 60:
+          text = '21';
+          break;
+        case 24 * 60:
+          text = '24';
+          break;
+        default:
+          return Container();
+      }
     }
 
     return Text(text, style: style, textAlign: TextAlign.center);
@@ -672,7 +819,8 @@ class _LineChartWeek extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -694,7 +842,8 @@ class _LineChartWeek extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -719,8 +868,12 @@ class _LineChartWeek extends StatelessWidget {
 class _LineChartMonth extends StatelessWidget {
   final List<int> Factor;
   final List<int> last_Factor;
+  final int LimitedTime;
 
-  _LineChartMonth({required this.Factor, required this.last_Factor});
+  _LineChartMonth(
+      {required this.Factor,
+      required this.last_Factor,
+      required this.LimitedTime});
 
   @override
   Widget build(BuildContext context) {
@@ -738,7 +891,7 @@ class _LineChartMonth extends StatelessWidget {
         lineBarsData: lineBarsData1,
         minX: 0,
         maxX: 31,
-        maxY: 15,
+        maxY: LimitedTime*60,
         minY: 0,
       );
 
@@ -776,24 +929,163 @@ class _LineChartMonth extends StatelessWidget {
       fontSize: 8,
     );
     String text;
-    switch (value.toInt()) {
-      case 3:
-        text = '3';
-        break;
-      case 6:
-        text = '6';
-        break;
-      case 9:
-        text = '9';
-        break;
-      case 12:
-        text = '12';
-        break;
-      case 15:
-        text = '15';
-        break;
-      default:
-        return Container();
+    if (LimitedTime <= 3) {
+      switch (value.toInt()) {
+        case 1 * 60:
+          text = '1';
+          break;
+        case 2 * 60:
+          text = '2';
+          break;
+        case 3 * 60:
+          text = '3';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 6) {
+      switch (value.toInt()) {
+        case 2 * 60:
+          text = '2';
+          break;
+        case 4 * 60:
+          text = '4';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 9) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 12) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 15) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 18) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        case 18 * 60:
+          text = '18';
+          break;
+        default:
+          return Container();
+      }
+    } else if (LimitedTime <= 21) {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        case 18 * 60:
+          text = '18';
+          break;
+        case 21 * 60:
+          text = '21';
+          break;
+        default:
+          return Container();
+      }
+    } else {
+      switch (value.toInt()) {
+        case 3 * 60:
+          text = '3';
+          break;
+        case 6 * 60:
+          text = '6';
+          break;
+        case 9 * 60:
+          text = '9';
+          break;
+        case 12 * 60:
+          text = '12';
+          break;
+        case 15 * 60:
+          text = '15';
+          break;
+        case 18 * 60:
+          text = '18';
+          break;
+        case 21 * 60:
+          text = '21';
+          break;
+        case 24 * 60:
+          text = '24';
+          break;
+        default:
+          return Container();
+      }
     }
 
     return Text(text, style: style, textAlign: TextAlign.center);
@@ -870,7 +1162,8 @@ class _LineChartMonth extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: const Color(0xFF4AF699),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -916,7 +1209,8 @@ class _LineChartMonth extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        preventCurveOverShooting: true,
         color: Color(0xFFAA4CFC),
         barWidth: 1,
         isStrokeCapRound: true,
@@ -1158,8 +1452,8 @@ class _ChartPageState extends State<ChartPage> {
   int selectedPeriodCCT = 0;
   int selectedPeriodCC = 0;
   // 집중시간, 집중도 최대값
-  int limitedCCT = 1620000;
-  int limitedCCTW = 405000;
+  int limitedCCT = 0;
+  int limitedCCTW = 0;
   int limitedCC = 100;
   // 지난주(월), 이번주(월) 집중시간 및 집중도 총합
   int totalCCT = 0;
@@ -1170,6 +1464,9 @@ class _ChartPageState extends State<ChartPage> {
   int totalCCW = 0;
   int last_totalCC = 0;
   int last_totalCCW = 0;
+  // 주, 달 집중시간 최대값을 정하기 위한 변수
+  int maxTimeWeek = 0;
+  int maxTimeMon = 0;
   // 스위치 전환에 따른 총합값 변환을 위한 변수
   int insertLimitedCCT = 0;
   int insertTotalCCT = 0;
@@ -1200,21 +1497,39 @@ class _ChartPageState extends State<ChartPage> {
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: MediaQuery.of(context).size.height * 0.23,
-            child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(15.0))),
-              contentPadding: EdgeInsets.only(top: 0),
-              title: Text('집중시간이란?\n', style: TextStyle(
-                //fontFamily: 'pyeongchang',
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              )),
-              content: Padding(
-                padding: EdgeInsets.only(left: 15),
-          child: Column(
-                  children: <Widget>[
-                    Row(
+                child: AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  contentPadding: EdgeInsets.only(top: 0),
+                  title: Text('집중시간이란?\n',
+                      style: TextStyle(
+                        //fontFamily: 'pyeongchang',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      )),
+                  content: Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Column(children: <Widget>[
+                      Row(children: <Widget>[
+                        Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: HexColor('#000000'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '집중시간 : 총 집중한 시간을 시 단위로 저장',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ]),
+                      Row(
                         children: <Widget>[
                           Container(
                             width: 5,
@@ -1228,42 +1543,20 @@ class _ChartPageState extends State<ChartPage> {
                             width: 5,
                           ),
                           Text(
-                            '집중시간 : 총 집중한 시간을 시 단위로 저장',
+                            '세로축은 시간, 가로축은 일자',
                             style: TextStyle(
                               fontSize: 12,
                             ),
                           ),
-                        ]
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: 5,
-                          height: 5,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: HexColor('#000000'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text('세로축은 시간, 가로축은 일자',
-                          style: TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    )
-                  ]
+                        ],
+                      )
+                    ]),
+                  ),
+                ),
               ),
             ),
-            ),
-            ),
-            ),
           );
-        }
-    );
+        });
   }
 
   void CCDialog() {
@@ -1279,40 +1572,38 @@ class _ChartPageState extends State<ChartPage> {
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: MediaQuery.of(context).size.height * 0.23,
-            child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.all(Radius.circular(15.0))),
-              contentPadding: EdgeInsets.only(top: 0),
-              title: Text('집중도란?\n', style: TextStyle(
-                //fontFamily: 'pyeongchang',
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-              ),
-              content: Padding(
-                padding: EdgeInsets.only(left: 15),
-                child: Column(
-                    children: <Widget>[
-                      Row(
-                          children: <Widget>[
-                            Container(
-                              width: 5,
-                              height: 5,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: HexColor('#000000'),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text('집중도 : 감소한 수치 * 가중치(집중시간)',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                )),
-                          ]
-                      ),
+                child: AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  contentPadding: EdgeInsets.only(top: 0),
+                  title: Text(
+                    '집중도란?\n',
+                    style: TextStyle(
+                      //fontFamily: 'pyeongchang',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  content: Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Column(children: <Widget>[
+                      Row(children: <Widget>[
+                        Container(
+                          width: 5,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: HexColor('#000000'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text('집중도 : 감소한 수치 * 가중치(집중시간)',
+                            style: TextStyle(
+                              fontSize: 12,
+                            )),
+                      ]),
                       Row(
                         children: <Widget>[
                           Container(
@@ -1332,15 +1623,13 @@ class _ChartPageState extends State<ChartPage> {
                               )),
                         ],
                       )
-                    ]
+                    ]),
+                  ),
                 ),
               ),
             ),
-          ),
-            ),
           );
-        }
-    );
+        });
   }
 
   // periods CC처럼 DB값을 불러와 chart에 적용한 내용물을 불러오는 리스트
@@ -1393,7 +1682,7 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       // 2022-10-02
       int day = int.parse(list[i].date!.substring(8, 10));
-      curMonthCCT[day] = (list[i].cctTime! / 3600).toInt();
+      curMonthCCT[day] = (list[i].cctTime! / 60).toInt();
       curMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
@@ -1402,7 +1691,7 @@ class _ChartPageState extends State<ChartPage> {
     for (int i = 0; i < list.length; i++) {
       // 2022-10-02
       int day = int.parse(list[i].date!.substring(8, 10));
-      lastMonthCCT[day] = (list[i].cctTime! / 3600).toInt();
+      lastMonthCCT[day] = (list[i].cctTime! / 60).toInt();
       lastMonthCC[day] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
@@ -1422,7 +1711,7 @@ class _ChartPageState extends State<ChartPage> {
         week_firstday = week_firstday - lastday_month;
       }
       int weekday = day - week_firstday + 1;
-      curWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
+      curWeekCCT[weekday] = (list[i].cctTime! / 60).toInt();
       curWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
       print('curWeekCC[${weekday}] : ${curWeekCC[weekday]}');
     }
@@ -1443,7 +1732,7 @@ class _ChartPageState extends State<ChartPage> {
         week_firstday = week_firstday - lastday_month;
       }
       int weekday = day - week_firstday + 1;
-      lastWeekCCT[weekday] = (list[i].cctTime! / 3600).toInt();
+      lastWeekCCT[weekday] = (list[i].cctTime! / 60).toInt();
       lastWeekCC[weekday] = (list[i].cctScore! / list[i].cctTime!).toInt();
     }
   }
@@ -1533,7 +1822,7 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.active:
         return CircularProgressIndicator();
       case ConnectionState.done:
-        return _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT);
+        return _LineChartMonth(Factor: curMonthCCT, last_Factor: lastMonthCCT, LimitedTime: maxTimeMon);
     }
   }
 
@@ -1546,7 +1835,7 @@ class _ChartPageState extends State<ChartPage> {
       case ConnectionState.active:
         return CircularProgressIndicator();
       case ConnectionState.done:
-        return _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT);
+        return _LineChartWeek(Factor: curWeekCCT, last_Factor: lastWeekCCT, LimitedTime: maxTimeWeek,);
     }
   }
 
@@ -1756,13 +2045,23 @@ class _ChartPageState extends State<ChartPage> {
     int lastcount = 0;
     for (int i = 1; i <= 31; i++) {
       if (i <= 7) {
+        if (curWeekCCT[i] > maxTimeWeek) {
+          maxTimeWeek = curWeekCCT[i];
+        }
+        if (lastWeekCCT[i] > maxTimeWeek) {
+          maxTimeWeek = lastWeekCCT[i];
+        }
         if (curWeekCCT[i] != 0 || curWeekCC[i] != 0) {
           curweekcount += 1;
         }
-        print('curweekcount: ${curweekcount}');
-        print('curWeekCC[${i}]: ${curWeekCC[i]}');
         if (lastWeekCCT[i] != 0 || lastWeekCC[i] != 0) {
           lastweekcount += 1;
+        }
+        if (curMonthCCT[i] > maxTimeMon) {
+          maxTimeMon = curMonthCCT[i];
+        }
+        if (lastMonthCCT[i] > maxTimeMon) {
+          maxTimeMon = lastMonthCCT[i];
         }
         totalCCTW += curWeekCCT[i];
         totalCCW += curWeekCC[i];
@@ -1780,6 +2079,12 @@ class _ChartPageState extends State<ChartPage> {
       last_totalCCT += lastMonthCCT[i];
       last_totalCC += lastMonthCC[i];
     }
+    maxTimeMon = maxTimeMon % 60 == 0
+        ? (maxTimeMon / 60).toInt()
+        : (maxTimeMon / 60).toInt() + 1;
+    maxTimeWeek = maxTimeWeek % 60 == 0
+        ? (maxTimeWeek / 60).toInt()
+        : (maxTimeWeek / 60).toInt() + 1;
     if (curcount == 0) {
       curcount = 1;
     }
@@ -1796,11 +2101,10 @@ class _ChartPageState extends State<ChartPage> {
     last_totalCCW = (last_totalCCW / lastweekcount).toInt();
     totalCC = (totalCC / curcount).toInt();
     totalCCW = (totalCCW / curweekcount).toInt();
-    totalCCTW *= 3600;
-    totalCCT *= 3600;
-    last_totalCCTW *= 3600;
-    last_totalCCT *= 3600;
-    print('curweekcount : ${curweekcount}');
+    totalCCTW *= 60;
+    totalCCT *= 60;
+    last_totalCCTW *= 60;
+    last_totalCCT *= 60;
     if (92 <= totalCC) {
       GradeMonthCC = 'A+';
     } else if (86 <= totalCC) {
@@ -1847,7 +2151,7 @@ class _ChartPageState extends State<ChartPage> {
       GradeLastMonthCC = 'D+';
     } else if (26 <= last_totalCC) {
       GradeLastMonthCC = 'D';
-    } else if (0 < last_totalCC){
+    } else if (0 < last_totalCC) {
       GradeLastMonthCC = 'F';
     } else {
       GradeLastMonthCC = '-';
@@ -1873,7 +2177,7 @@ class _ChartPageState extends State<ChartPage> {
       GradeWeekCC = 'D+';
     } else if (26 <= totalCCW) {
       GradeWeekCC = 'D';
-    } else if (0 < totalCCW){
+    } else if (0 < totalCCW) {
       GradeWeekCC = 'F';
     } else {
       GradeWeekCC = '-';
@@ -1905,6 +2209,44 @@ class _ChartPageState extends State<ChartPage> {
       GradeLastWeekCC = '-';
     }
 
+    if (maxTimeMon <= 3) {
+      maxTimeMon = 3;
+    } else if (maxTimeMon <= 6) {
+      maxTimeMon = 6;
+    } else if (maxTimeMon <= 9) {
+      maxTimeMon = 9;
+    } else if (maxTimeMon <= 12) {
+      maxTimeMon = 12;
+    } else if (maxTimeMon <= 15) {
+      maxTimeMon = 15;
+    } else if (maxTimeMon <= 18) {
+      maxTimeMon = 18;
+    } else if (maxTimeMon <= 21) {
+      maxTimeMon = 21;
+    } else {
+      maxTimeMon = 24;
+    }
+
+    if (maxTimeWeek <= 3) {
+      maxTimeWeek = 3;
+    } else if (maxTimeWeek <= 6) {
+      maxTimeWeek = 6;
+    } else if (maxTimeWeek <= 9) {
+      maxTimeWeek = 9;
+    } else if (maxTimeWeek <= 12) {
+      maxTimeWeek = 12;
+    } else if (maxTimeWeek <= 15) {
+      maxTimeWeek = 15;
+    } else if (maxTimeWeek <= 18) {
+      maxTimeWeek = 18;
+    } else if (maxTimeWeek <= 21) {
+      maxTimeWeek = 21;
+    } else {
+      maxTimeWeek = 24;
+    }
+
+    limitedCCT = maxTimeMon == 0 ? 1 : (maxTimeMon * 3600 * 31);
+    limitedCCTW = maxTimeWeek == 0 ? 1 : (maxTimeWeek * 3600 * 7);
     insertTotalCC = GradeWeekCC;
     insertLastCC = GradeLastWeekCC;
     insertTotalCCT = totalCCTW;
@@ -2309,9 +2651,7 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.03
-                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
@@ -2319,7 +2659,9 @@ class _ChartPageState extends State<ChartPage> {
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.05,
-                          child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                          child: Icon(CupertinoIcons.question_circle,
+                              size: MediaQuery.of(context).size.width * 0.05,
+                              color: HexColor('#FFFFFF')),
                         ),
                       ),
                       Flexible(
@@ -2427,9 +2769,7 @@ class _ChartPageState extends State<ChartPage> {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.03
-                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.03),
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
@@ -2437,7 +2777,9 @@ class _ChartPageState extends State<ChartPage> {
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.05,
-                          child: Icon(CupertinoIcons.question_circle, size: MediaQuery.of(context).size.width * 0.05, color: HexColor('#FFFFFF')),
+                          child: Icon(CupertinoIcons.question_circle,
+                              size: MediaQuery.of(context).size.width * 0.05,
+                              color: HexColor('#FFFFFF')),
                         ),
                       ),
                     ],

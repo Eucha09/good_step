@@ -295,7 +295,8 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
                       '$loLoo',
                       style: TextStyle(
                         color: HexColor("#FFFFFF"),
-                        fontSize: MediaQuery.of(context).size.width * 0.2,
+                        fontFamily: 'monofonto',
+                        fontSize: MediaQuery.of(context).size.width * 0.25,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
