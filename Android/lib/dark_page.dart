@@ -66,7 +66,6 @@ class DarkPageState extends State<DarkPage> with WidgetsBindingObserver {
       }),
     );
   }
-
   //광고
   void _setFullScreenContentCallback(InterstitialAd ad) {
     ad.fullScreenContentCallback = FullScreenContentCallback(

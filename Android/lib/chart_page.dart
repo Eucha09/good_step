@@ -89,15 +89,15 @@ class _LineChartWeekCC extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      sampleData1,
+      chartData,
       swapAnimationDuration: const Duration(milliseconds: 250),
     );
   }
 
-  LineChartData get sampleData1 => LineChartData(
-        lineTouchData: lineTouchData1,
+  LineChartData get chartData => LineChartData(
+        lineTouchData: lineTouchData,
         gridData: gridData,
-        titlesData: titlesData1,
+        titlesData: titlesData,
         borderData: borderData,
         lineBarsData: lineBarsData1,
         minX: 0,
@@ -106,14 +106,14 @@ class _LineChartWeekCC extends StatelessWidget {
         minY: 0,
       );
 
-  LineTouchData get lineTouchData1 => LineTouchData(
+  LineTouchData get lineTouchData => LineTouchData(
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
         ),
       );
 
-  FlTitlesData get titlesData1 => FlTitlesData(
+  FlTitlesData get titlesData => FlTitlesData(
         bottomTitles: AxisTitles(
           sideTitles: bottomTitles,
         ),
@@ -129,8 +129,8 @@ class _LineChartWeekCC extends StatelessWidget {
       );
 
   List<LineChartBarData> get lineBarsData1 => [
-        lineChartBarData1_1,
-        lineChartBarData1_2,
+        curWeekBarData,
+        lastWeekBarData,
       ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -230,7 +230,7 @@ class _LineChartWeekCC extends StatelessWidget {
         ),
       );
 
-  LineChartBarData get lineChartBarData1_1 => LineChartBarData(
+  LineChartBarData get curWeekBarData => LineChartBarData(
         isCurved: true,
         preventCurveOverShooting: true,
         color: const Color(0xFF4AF699),
@@ -253,7 +253,7 @@ class _LineChartWeekCC extends StatelessWidget {
         ],
       );
 
-  LineChartBarData get lineChartBarData1_2 => LineChartBarData(
+  LineChartBarData get lastWeekBarData => LineChartBarData(
         isCurved: true,
         preventCurveOverShooting: true,
         color: Color(0xFFAA4CFC),
@@ -286,31 +286,31 @@ class _LineChartMonthCC extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      sampleData1,
+      chartData,
       swapAnimationDuration: const Duration(milliseconds: 250),
     );
   }
 
-  LineChartData get sampleData1 => LineChartData(
-        lineTouchData: lineTouchData1,
+  LineChartData get chartData => LineChartData(
+        lineTouchData: lineTouchData,
         gridData: gridData,
-        titlesData: titlesData1,
+        titlesData: titlesData,
         borderData: borderData,
-        lineBarsData: lineBarsData1,
+        lineBarsData: lineBarsData,
         minX: 0,
         maxX: 31,
         maxY: 100,
         minY: 0,
       );
 
-  LineTouchData get lineTouchData1 => LineTouchData(
+  LineTouchData get lineTouchData => LineTouchData(
         handleBuiltInTouches: true,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
         ),
       );
 
-  FlTitlesData get titlesData1 => FlTitlesData(
+  FlTitlesData get titlesData => FlTitlesData(
         bottomTitles: AxisTitles(
           sideTitles: bottomTitles,
         ),
@@ -325,9 +325,9 @@ class _LineChartMonthCC extends StatelessWidget {
         ),
       );
 
-  List<LineChartBarData> get lineBarsData1 => [
-        lineChartBarData1_1,
-        lineChartBarData1_2,
+  List<LineChartBarData> get lineBarsData => [
+        curMonBarData,
+        lastMonBarData,
       ];
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -430,7 +430,7 @@ class _LineChartMonthCC extends StatelessWidget {
         ),
       );
 
-  LineChartBarData get lineChartBarData1_1 => LineChartBarData(
+  LineChartBarData get curMonBarData => LineChartBarData(
         isCurved: true,
         preventCurveOverShooting: true,
         color: const Color(0xFF4AF699),
@@ -477,7 +477,7 @@ class _LineChartMonthCC extends StatelessWidget {
         ],
       );
 
-  LineChartBarData get lineChartBarData1_2 => LineChartBarData(
+  LineChartBarData get lastMonBarData => LineChartBarData(
         isCurved: true,
         preventCurveOverShooting: true,
         color: Color(0xFFAA4CFC),

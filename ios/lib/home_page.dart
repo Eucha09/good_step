@@ -329,7 +329,7 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: HexColor("#3b444b"),
                       onPressed: () async {
                         // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
-                        if (value >= 300) {
+                        if (value >= 300 && myValue >= 1) {
                           getLastTime(false);
                           isUpdate = await Navigator.push(
                             context,

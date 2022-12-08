@@ -337,14 +337,14 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: footcolor,
                       onPressed: () async {
                         // 버튼을 누르면 building context로 위젯 띄우고 그 위젯에 myValue 값 전달
-                        if (value >= 300) {
+                        if (value >= 300 && myValue >= 1) {
                           getLastTime(false);
-                          isUpdate = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DarkPage(myValue, widget.db)),
-                          );
+                            isUpdate = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DarkPage(myValue, widget.db)),
+                            );
                         }
                         if (isUpdate) {
                           setState(() {
