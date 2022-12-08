@@ -105,9 +105,6 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
 
   fonts:
-    - family: monofonto
-      fonts:
-        - asset: fonts/monofonto_rg.otf
     - family: pyeongchang
       fonts:
         - asset: fonts/PyeongChangPeace-light.otf

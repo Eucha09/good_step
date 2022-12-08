@@ -108,9 +108,10 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
 
   fonts:
-    - family: monofonto
+    - family: nanum
       fonts:
-        - asset: fonts/monofonto_rg.otf
+        - asset: fonts/NanumGothic.otf
+        - asset: fonts/NanumGothicBold.otf
     - family: pyeongchang
       fonts:
         - asset: fonts/PyeongChangPeace-light.otf
